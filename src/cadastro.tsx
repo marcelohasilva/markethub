@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Painel from './components/painel'
-import Login from './components/login'
+import Cadastro from './components/cadastro'
 import Header from './components/header'
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
   <Header />
   <div className="flex h-full pt-20">
     <Painel />
-   <Login />
+   <Cadastro />
   </div>
   
 </div>
