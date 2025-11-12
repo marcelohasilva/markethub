@@ -2,6 +2,10 @@ import React from "react";
 
 
 export default function Login() {
+
+    
+
+
   return (
     <div className=' bg-[#EBEBEB] flex flex-col w-[60%] h-full '>
       <div className='flex flex-col items-center pt-[30px]'>
