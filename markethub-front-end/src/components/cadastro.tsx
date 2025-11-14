@@ -1,35 +1,38 @@
-import React from "react"; 
 import { useState } from "react"; 
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 
 
 export default function Cadastro() {
     
     const [email, setEmail] = useState ('')
-    const [senha, setSenha] = useState ('')
+    const [nome, setNome] = useState ('')
 
     async function click(e :FormEvent){
       e.preventDefault();
    
-      if(!email || !senha){
+      if(!email || !nome){
         alert("preencha todos os campos")
         return;
       }
-      if(senha.length < 6){
-        alert('senha tem que ter pelo menos 6 digitos')
+      if(nome.length < 6){
+        alert('nome tem que ter pelo menos 6 digitos')
       return;
       }
 
 
       try{
 
-        const resposta = await fetch('https://jsonplaceholder.typicode.com/users', {
-          method : 'POST',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({email, senha})
-        })
+                const resposta = await fetch('http://127.0.0.1:8000/users', {
+            method : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email.trim(),
+                name: nome.trim()   // <-- alterado aqui
+            })
+        });
+
         
         const lerResposta = await resposta.json();
 
@@ -42,7 +45,7 @@ export default function Cadastro() {
         console.log('cadastro realizado', lerResposta);
         alert('cadstro realizado')
         setEmail ('');
-        setSenha ('');
+        setNome ('');
 
         
 
@@ -73,10 +76,10 @@ export default function Cadastro() {
         />
 
         <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-           onChange={e => setSenha(e.target.value)}
+          type="text"
+          placeholder="nome"
+          value={nome}
+           onChange={e => setNome(e.target.value)}
           className="bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]"
         />
 
