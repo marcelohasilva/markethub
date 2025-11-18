@@ -1,11 +1,8 @@
 import { useState } from 'react'
+// import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <></>
-  )
+   <></>
+  );
 }
-
-export default App

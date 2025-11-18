@@ -2,7 +2,7 @@
 
 export default function Painel() {
   return (
-    <div className="flex flex-col justify-center items-center text-center text-white min-h-screen w-[80%] bg-gradient-to-r from-[#186BC4] to-[#6D44C5] p-6 sm:p-8">
+    <div className="hidden md:flex flex-col justify-center items-center text-center text-white min-h-screen w-[80%] bg-gradient-to-r from-[#186BC4] to-[#6D44C5] p-6 sm:p-8">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
         Bem-vindo!
       </h1>

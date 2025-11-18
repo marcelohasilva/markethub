@@ -1,18 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import Cadastro from './components/cadastro.tsx'
-import Header from './components/header.tsx'
-import Painel from './components/painel.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import Cadastro from "./Tela-Cadastro.tsx";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div className='overflow-hidden h-screen'>
-    <Header />  
-   <div className="flex flex-col md:flex-row justify-center items-start w-full ">
-    <Painel />
     <Cadastro />
-        </div>
-      </div>
-  </StrictMode>,
-)
+  </StrictMode>
+);
+
