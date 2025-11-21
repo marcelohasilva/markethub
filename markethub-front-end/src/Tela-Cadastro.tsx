@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { StrictMode } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Header from "./components/header";
 import Cadastro from "./components/cadastro";
