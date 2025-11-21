@@ -9,7 +9,7 @@ export default function SearchBar() {
    </div>
    <div className="flex items-center w-[650px] ml-11">
     <input type="text" placeholder="pesquise" className="w-full h-11 px-4 rounded-l-xl border border-gray-300 focus:outline-none" />
-    <button className="h-11 w-[100px] px-4 rounded-r-xl bg-gradient-to-r from-[#186BC4] to-[#6D44C5] text-white flex items-center justify-center">
+    <button className="h-11 w-[100px] px-4 rounded-r-xl bg-gradient-to-r from-[#186BC4] to-[#6D44C5] text-white flex items-center justify-center cursor-pointer">
         <Search className="w-5 h-5"/>
     </button>
    </div>

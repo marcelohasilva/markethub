@@ -86,13 +86,13 @@ export default function Cadastro() {
         <button
           type="button"
           onClick={() => setMostrar(!mostrar)}
-          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 mb-4 text-sm text-[#186BC4] font-semibold"
+          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 mb-4 text-sm text-[#186BC4] font-semibold cursor-pointer"
         >
           {mostrar ? <EyeSlashIcon className="w-5 h-5 sm:w-6 sm:h-6" /> : <EyeIcon className="w-5 h-5 sm:w-6 sm:h-6" />}
         </button>    
     </div>    
 
-    <a href="#" className="text-sm-[11px]  text-[#707274] mb-3 underline w-full sm:text-right-align ml-[10px]">
+    <a href="#" className="text-sm-[11px]  text-[#707274] mb-3 underline w-full sm:text-right-align ml-[10px] cursor-pointer">
       ESQUECI MINHA SENHA
     </a>
 
