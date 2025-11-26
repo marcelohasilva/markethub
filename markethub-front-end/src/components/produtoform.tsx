@@ -1,55 +1,59 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 
-interface Produto {
-  id: number;
-  nome: string;
-  preco: number;
-  quantidade: number;
-  descricao?: string;
-}
+
 
 export default function CadastroProduto() {
-  const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState<number | "">("");
-  const [quantidade, setQuantidade] = useState<number | "">("");
-  const [descricao, setDescricao] = useState("");
-  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState<number | "">("");
 
-  async function handleSubmit(e: React.FormEvent) {
+  const [description, setDescription] = useState("");
+ 
+
+  async function handleSubmit(e:FormEvent) {
     e.preventDefault();
 
-    const novoProduto = {
-      nome,
-      preco: Number(preco),
-      quantidade: Number(quantidade),
-      descricao,
-    };
+    if(!name || price === "" || !description){
+      alert('preencha todos os campos')
+      return;
+    }
+    if(price <= 0 ){
+      alert("preço e quantidade deve ser maires que 0");
+      return;
+
+    }
 
   
     try {
-      const response = await fetch("http://127.0.0.1:8000/produtos", {
+      const resposta = await fetch("http://localhost:8000/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(novoProduto),
+        body: JSON.stringify({
+          name: name.trim(),
+          price: Number(price),
+          description: description.trim(),
+        })
       });
 
-      const data = await response.json();
+       const lerresposta = await resposta.json();
+
+        if(!resposta.ok){
+            alert(`Erro: ${lerresposta.message || "Falha no cadastro"}`);
+            return;
+        }
+
+     
+
+      const data = await resposta.json();
       console.log("Produto salvo no backend:", data);
 
-      setProdutos((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          ...novoProduto,
-        },
-      ]);
+      
 
-      setNome("");
-      setPreco("");
-      setQuantidade("");
-      setDescricao("");
+      setName("");
+      setPrice("");
+      setDescription("");
 
     } catch (error) {
       console.error("Erro ao cadastrar produto:", error);
@@ -57,51 +61,43 @@ export default function CadastroProduto() {
   }
 
   return (
-    <div>
-      <h2>Cadastro de Produto</h2>
+    <div className='flex flex-col justify-center items-center'>
+      <h2 className='font-bold'>
+        Cadastro de Produto
+        </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className = 'flex flex-col w-full max-w-sm p-6 rounded-xl'>
         <input
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="text"
-          placeholder="Nome do produto"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
+          placeholder="nome do produto"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="number"
           placeholder="Preço"
-          value={preco}
-          onChange={(e) => setPreco(Number(e.target.value))}
-          required
+          value={price}
+          onChange={(e) => setPrice(Number(e.target.value))}
         />
 
         <input
-          type="number"
-          placeholder="Quantidade"
-          value={quantidade}
-          onChange={(e) => setQuantidade(Number(e.target.value))}
-          required
-        />
-
-        <textarea
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
+          type="text"
           placeholder="Descrição"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit" className=' font-bold text-white bg-gradient-to-r from-[#186BC4] to-[#6D44C5] rounded-lg py-2 transition mt-[30px] h-[60px]'>
+          Salvar Produto
+        </button>
       </form>
 
-      <h3>Produtos cadastrados:</h3>
-      <ul>
-        {produtos.map((p) => (
-          <li key={p.id}>
-            {p.nome} — R${p.preco} — Quantidade: {p.quantidade}
-          </li>
-        ))}
-      </ul>
+    
+      
     </div>
   );
 }

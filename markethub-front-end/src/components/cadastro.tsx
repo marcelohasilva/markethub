@@ -38,13 +38,13 @@ export default function Cadastro() {
         const lerResposta = await resposta.json();
 
         if(!resposta.ok){
-            alert(`Erro: ${lerResposta.message || "Falha no cadastro"}`);
+            alert(`Erro: ${lerResposta.message || "Falha no cadastro do produto"}`);
             return;
         }
         
        
         console.log('cadastro realizado', lerResposta);
-        alert('cadstro realizado')
+        alert('cadastro realizado')
         setEmail ('');
         setSenha ('');
 
