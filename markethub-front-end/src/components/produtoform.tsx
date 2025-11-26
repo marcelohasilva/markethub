@@ -61,12 +61,14 @@ export default function CadastroProduto() {
   }
 
   return (
-    <div className='flex flex-col justify-center items-center'>
-      <h2 className='font-bold'>
-        Cadastro de Produto
+    <div className='flex flex-col justify-center items-center mt-[90px] border m-180'>
+      <h2 className='font-bold text-[30px] border'>
+        Cadastrar Produto
         </h2>
 
       <form onSubmit={handleSubmit} className = 'flex flex-col w-full max-w-sm p-6 rounded-xl'>
+        <p className='mt-[40px] mb-[8px]'
+        >Produto</p>
         <input
         className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="text"
@@ -74,7 +76,8 @@ export default function CadastroProduto() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-
+        <p className='mt-[40px] mb-[8px]'
+        >preço</p>
         <input
         className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="number"
@@ -82,7 +85,8 @@ export default function CadastroProduto() {
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
         />
-
+        <p className='mt-[40px] mb-[8px]'
+        >Descrição</p>
         <input
         className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="text"
