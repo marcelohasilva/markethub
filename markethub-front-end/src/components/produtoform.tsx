@@ -61,16 +61,20 @@ export default function CadastroProduto() {
   }
 
   return (
-    <div className='flex flex-col justify-center items-center mt-[90px] border m-180'>
-      <h2 className='font-bold text-[30px] border'>
+    
+    <div className='flex flex-col justify-center items-center  '>
+     <div className="bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0]  h-[120px] w-full mb-[104px]">
+
+     </div>
+      <h2 className='font-bold text-[30px]  mr-[80px]'> 
         Cadastrar Produto
         </h2>
 
       <form onSubmit={handleSubmit} className = 'flex flex-col w-full max-w-sm p-6 rounded-xl'>
-        <p className='mt-[40px] mb-[8px]'
+        <p className=' mb-[8px]'
         >Produto</p>
         <input
-        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-[422px] focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="text"
           placeholder="nome do produto"
           value={name}
@@ -79,7 +83,7 @@ export default function CadastroProduto() {
         <p className='mt-[40px] mb-[8px]'
         >preço</p>
         <input
-        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-[422px] focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="number"
           placeholder="Preço"
           value={price}
@@ -88,14 +92,24 @@ export default function CadastroProduto() {
         <p className='mt-[40px] mb-[8px]'
         >Descrição</p>
         <input
-        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-[422px] focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
           type="text"
           placeholder="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+         <p className='mt-[40px] mb-[8px]'
+        >Link do Produto</p>
+        <input
+        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-[422px] focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
+          type="text"
+          placeholder="Link do Produto"
+          value={description}
+          onChange={(e) => (e.target.value)}
+        />
 
-        <button type="submit" className=' font-bold text-white bg-gradient-to-r from-[#186BC4] to-[#6D44C5] rounded-lg py-2 transition mt-[30px] h-[60px]'>
+
+        <button type="submit" className=' font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-2 transition mt-[30px] h-[60px] w-[422px]'>
           Salvar Produto
         </button>
       </form>
