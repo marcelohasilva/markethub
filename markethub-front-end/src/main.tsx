@@ -9,7 +9,7 @@ import CadastroProduto from "./Cadastro-produto.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <CadastroProduto />
+      <App />
     </BrowserRouter>
   </StrictMode>
 );

@@ -5,55 +5,71 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 export default function Cadastro() {
     
     const [email, setEmail] = useState ('')
-    const [senha, setSenha] = useState ('')
+    const [password, setPassword] = useState ('')
+    const [name, setName] = useState ('')
     const [mostrar, setMostrar] = useState (false)
 
     async function click(e :FormEvent){
       e.preventDefault();
    
-      if(!email || !senha){
+      if(!email || !password){
         alert("preencha todos os campos")
         return;
       }
-      if(senha.length < 6){
-        alert('senha tem que ter pelo menos 6 digitos')
+      if(password.length < 6){
+        alert('password tem que ter pelo menos 6 digitos')
       return;
       }
 
 
-      try{
+      try {
+        const payload = {
+          email: email.trim(),
+          password: password.trim(),
+          name: name.trim(),
+        };
 
-                const resposta = await fetch('http://127.0.0.1:8000/users', {
-            method : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email.trim(),
-                password: senha.trim()   // <-- alterado aqui
-            })
+        console.debug('Enviando payload de cadastro:', payload);
+
+        const resposta = await fetch('http://localhost:8000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         });
 
-        
-        const lerResposta = await resposta.json();
+        // Log básico do response
+        console.debug('Response status:', resposta.status, 'ok:', resposta.ok);
 
-        if(!resposta.ok){
-            alert(`Erro: ${lerResposta.message || "Falha no cadastro do produto"}`);
-            return;
+        // Tentar ler texto primeiro para garantir que obtenhamos qualquer corpo mesmo em erro 500
+        const textBody = await resposta.text();
+        let lerResposta: any = null;
+        try {
+          lerResposta = textBody ? JSON.parse(textBody) : null;
+        } catch (e) {
+          // corpo não é JSON
+          lerResposta = { raw: textBody };
         }
-        
-       
+
+        console.debug('Response body parsed:', lerResposta);
+
+        if (!resposta.ok) {
+          const msg = lerResposta?.message || lerResposta?.error || lerResposta?.raw || `Erro HTTP ${resposta.status}`;
+          console.error('Erro no cadastro:', msg);
+          alert(`Erro no cadastro: ${msg}`);
+          return;
+        }
+
         console.log('cadastro realizado', lerResposta);
-        alert('cadastro realizado')
-        setEmail ('');
-        setSenha ('');
-
-        
-
-          }catch (erro){
-            console.error('erro ao conectar ao servidor')
-            alert('erro ao conectar ao servidor')
-          }
+        alert('cadastro realizado');
+        setEmail('');
+        setPassword('');
+        setName('');
+      } catch (erro) {
+        console.error('erro ao conectar ao servidor', erro);
+        alert('erro ao conectar ao servidor: ver console para detalhes');
+      }
 
 
         }
@@ -61,8 +77,8 @@ export default function Cadastro() {
   
   return (
     <div className="bg-[#EBEBEB] flex flex-col items-center justify-center w-full md:w-full min-h-screen px-4 py-8">
-      <h1 className="bg-clip-text bg-gradient-to-r from-[#186BC4] to-[#6D44C5] text-transparent font-bold text-3xl sm:text-4xl mb-6">
-        Entrar
+      <h1 className="bg-clip-text bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-transparent font-bold text-3xl sm:text-4xl mb-6">
+        Cadastrar
       </h1>
 
    
@@ -79,10 +95,11 @@ export default function Cadastro() {
         <input
           type={mostrar ? "text" : "password"}
           placeholder="Password"
-          value={senha}
-           onChange={e => setSenha(e.target.value)}
-          className="bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 mb-4 pr-10 sm:pr-12 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]"
+          value={password}
+           onChange={e => setPassword(e.target.value)}
+          className="bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 mb-3 pr-10 sm:pr-12 w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]"
         />
+       
         <button
           type="button"
           onClick={() => setMostrar(!mostrar)}
@@ -90,18 +107,23 @@ export default function Cadastro() {
         >
           {mostrar ? <EyeSlashIcon className="w-5 h-5 sm:w-6 sm:h-6" /> : <EyeIcon className="w-5 h-5 sm:w-6 sm:h-6" />}
         </button>    
-    </div>    
+    </div>  
+     <input
+          type = "text"
+          id = "name"
+          placeholder = "Name"
+          value={name}
+          onChange ={e => setName(e.target.value)}
+          className="bg-white border border-gray-300 rounded-lg px-3 py-2  w-full focus:outline-none focus:ring-2 focus:ring-[#186BC4]"
+        />  
 
-    <a href="#" className="text-sm-[11px]  text-[#707274] mb-3 underline w-full sm:text-right-align ml-[10px] cursor-pointer">
-      ESQUECI MINHA SENHA
-    </a>
-
+ 
         <button
           type="submit"
 
-          className={`cursor-pointer font-bold text-white bg-gradient-to-r from-[#186BC4] to-[#6D44C5] rounded-lg py-2 transition `}
+          className={`cursor-pointer font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-2 transition mt-[10px]`}
         >
-        ACESSAR MINHA CONTA
+        Criar Conta
         </button>
 
         <div className="border border-gray-300 mt-8"></div>
