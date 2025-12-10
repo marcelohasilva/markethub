@@ -21,7 +21,7 @@ export default function Actions() {
                 Entrar
             </button>
             <button onClick={() => navigate("/cadastro")}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#186BC4] to-[#6D44C5] text-white font-bold hover:opacity-90 cursor-pointer">
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer">
                 Cadastrar
             </button>
             </div>
