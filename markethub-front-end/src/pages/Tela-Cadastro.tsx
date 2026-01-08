@@ -1,8 +1,8 @@
-import { StrictMode } from "react";
-import Header from "./components/header";
-import Cadastro from "./components/cadastro";
-import Painel from "./components/painel";
-import Home from "./App.tsx";
+
+import Header from "../components/header.tsx";
+import Cadastro from "../components/cadastro.tsx";
+import Painel from "../components/painel.tsx";
+import Home from "../App.tsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 export default function App() {
@@ -17,10 +17,7 @@ export default function App() {
         <Cadastro />
       </div>
     </div>
-    <Routes>
-        <Route path="/cadastro" element={<Home />} />
-        <Route path="/" element={<></>} />
-      </Routes>
+    
     </>
   );
 }
