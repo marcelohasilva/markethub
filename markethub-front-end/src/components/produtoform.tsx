@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 
 
 
-export default function CadastroProduto() {
+export default function ProdutoForm() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | "">("");
 
