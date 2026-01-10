@@ -7,11 +7,11 @@ export default function Actions() {
 
     return (
         <div className="flex items-center gap-10 mt-[-31px] mr-47">
-            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold cursor-pointer">
+            <button onClick={() => navigate("/favoritos")} className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold cursor-pointer">
                 <Heart className="w-5 h-5"/>
                 Favoritos
             </button>
-            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold cursor-pointer">
+            <button onClick={() => navigate("/carrinho")} className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold cursor-pointer">
                 <ShoppingCart className="w-5 h-5"/>
                 Carrinho
             </button>

@@ -5,6 +5,7 @@ import CadastrarLoja from "./pages/CadastrarLoja";
 import Carrinho from "./pages/Carrinho";
 import App from "./App";
 import CadastroProduto from "./pages/CadastroProduto";
+import Favoritos from "./pages/Favoritos";
 
 export const MainRoutes = () => {
      const location = useLocation();
@@ -18,6 +19,7 @@ export const MainRoutes = () => {
         <Route path="/cadastrarloja" element={<CadastrarLoja />} />
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path='/cadastrarproduto' element= {<CadastroProduto />} />
+        <Route path='/favoritos' element= {<Favoritos />} />
         
       </Routes>
     )
