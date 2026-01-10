@@ -3,9 +3,9 @@ import ftProduto from '../assets/baixados.webp';
 const CardCarrinho = () => {
     return (
        <>
-        <div className= 'flex'>
+        <div className= 'flex ml-[95px] h-full'>
             
-            <div className="flex gap-6 w-1/2 bg-white ml-[95px] mt-[30px] shadow-xl shadow-gray-200/50 rounded-[1rem] border border-gray-100 p-10">
+            <div className="flex gap-6 w-full h-[200px] bg-white mt-[30px] shadow-lg rounded-[1rem] border border-gray-100 p-10">
              
                 <img className= 'h-30' src={ftProduto} alt="foto do produto"></img>
             
@@ -22,7 +22,7 @@ const CardCarrinho = () => {
                  <h2 className= 'font-semibold text-[25px] ml-auto'>
                     R$ 50,00 
                 </h2>
-                  <div className= 'mt-10 bg-red-600 text-center text-white rounded-sm py-1 font-medium cursor-pointer hover:bg-red-700'>
+                  <div className= 'mt-10 bg-red-600 text-center text-white rounded-sm py-1 font-medium cursor-pointer hover:bg-red-700 shadow-xl'>
                     Remover
                   </div>
                 
