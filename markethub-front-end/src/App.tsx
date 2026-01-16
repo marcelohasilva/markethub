@@ -14,7 +14,7 @@ export default function App() {
   return (
     <>
 
-    <div className= 'bg-[#EBEBEB] min-h-screen w-full'>
+    <div className= 'bg-[#EBEBEB] min-h-screen w-full '>
       <MainRoutes />
       </div>
     </>
