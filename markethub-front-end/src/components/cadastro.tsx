@@ -76,13 +76,13 @@ export default function Cadastro() {
 
   
   return (
-    <div className="bg-[#EBEBEB] flex flex-col items-center justify-center w-full md:w-full min-h-screen px-4 py-8">
-      <h1 className="bg-clip-text bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-transparent font-bold text-3xl sm:text-4xl mb-6">
-        Cadastrar
-      </h1>
+  <div className="bg-[#EBEBEB] flex items-center justify-center w-full md:w-1/2 min-h-screen px-4">
+  <div className="w-full max-w-sm">
+    <h1 className="bg-clip-text bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-transparent font-bold text-3xl sm:text-4xl mb-6 text-center">
+      Cadastrar
+    </h1>
 
-   
-      <form onSubmit={click} className="flex flex-col w-full max-w-sm p-6 rounded-xl">
+    <form onSubmit={click} className="flex flex-col">
         <input
           type="email"
           id="email"
@@ -127,7 +127,8 @@ export default function Cadastro() {
         </button>
 
         <div className="border border-gray-300 mt-8"></div>
-      </form>
-    </div>
+     </form>
+  </div>
+</div>
   );
 }
