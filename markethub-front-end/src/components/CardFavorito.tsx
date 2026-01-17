@@ -1,27 +1,40 @@
-import { FaHeart, FaTrash, FaStar, FaRegStar, FaStarHalfAlt} from "react-icons/fa";
-import { TrashIcon } from "@heroicons/react/24/outline";
-
+import { FaHeart, FaTrash, FaStar, FaRegStar } from "react-icons/fa";
+import img from "../assets/image.png";
 
 export default function CardFavorito() {
   return (
-    <div className="h-[212px] w-[188px] bg-[#ffffff] rounded-xl drop-shadow mt-[25px] ml-[96px] pt-[0.1px]">
-        <div className="bg-[#D9D9D9] h-[132px] w-[172px] m-[8px]">
-          <div className="absolute top-[14px] right-[12px] flex flex-col gap-[8px]">
-            <FaHeart className="w-[25px] h-[23px] text-red-500 text-xl cursor-pointer hover:scale-110"/>
-            <FaTrash className="w-[25px] h-[23px] text-gray-500 text-xl cursor-pointer hover:scale-110"/>
-          </div>
+    <div className="w-[220px] bg-white rounded-2xl shadow-lg p-3 ml-[95px] mt-[25px]">
+      <div className="relative bg-[#E0E0E0] rounded-xl h-[180px] flex items-center justify-center">
+        <img src={img} alt="Produto" className="h-[140px] object-contain hover:scale-150 transition"/>
+
+        <div className="absolute top-3 right-3 flex flex-col gap-3">
+          <FaHeart className="text-red-500 text-xl cursor-pointer hover:scale-110 transition" />
+          <FaTrash className="text-gray-500 text-xl cursor-pointer hover:scale-110 transition" />
         </div>
-        <h3 className="text-[8.79px] font-medium ml-[9px] mt-[-9px] text-[#1A1C27]">Sapato</h3>
-        <div className="flex ml-[9px] mt-[1px] gap-[2px] text-indigo-500">
-          <FaStar className="w-[10px] h-[10px]" />
-          <FaStar className="w-[10px] h-[10px]" />
-          <FaStar className="w-[10px] h-[10px]" />
-          <FaStar className="w-[10px] h-[10px]" />
-          <FaRegStar className="w-[10px] h-[10px]" />
-        </div>
-        <h1 className="text-[7.89px] font-bold ml-[9px] text-[#1A1C27]">R$ 50,00 no Pix</h1>  
-        <p className="text-[5.57px] font-light ml-[9px] mt-[-3px] text-[#1A1C27]">ou 2x de R$ 20,00</p>
-          <button className="ml-[9px] mr-[9px] rounded-sm bg-indigo-500 text-white text-[10px] h-[26px] w-[171px] font-semibold hover:bg-indigo-600 transition">Adicionar ao Carrinho</button> 
+      </div>
+
+      <h3 className="text-sm font-medium text-[#1A1C27] mt-3">
+        Sapatos
+      </h3>
+
+      <div className="flex gap-1 text-indigo-500 my-1">
+        <FaStar />
+        <FaStar />
+        <FaStar />
+        <FaStar />
+        <FaRegStar />
+      </div>
+
+      <p className="text-sm font-bold text-[#1A1C27]">
+        R$ 50,00 no Pix
+      </p>
+      <p className="text-xs text-gray-600">
+        ou 2x de R$ 20,00
+      </p>
+
+      <button className="mt-3 w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-semibold py-2 rounded-lg hover:opacity-90 transition">
+        Adicionar ao Carrinho
+      </button>
     </div>
   );
 }

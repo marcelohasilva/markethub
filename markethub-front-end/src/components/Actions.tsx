@@ -6,7 +6,7 @@ export default function Actions() {
     const navigate = useNavigate();
 
     return (
-        <div className="flex items-center gap-10 mt-[-31px] mr-47">
+        <div className="flex items-center ml-[26px] mr-[95px] gap-[35px] mt-[-31px] mr-47">
             <button onClick={() => navigate("/favoritos")} className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold cursor-pointer">
                 <Heart className="w-5 h-5"/>
                 Favoritos
@@ -15,13 +15,13 @@ export default function Actions() {
                 <ShoppingCart className="w-5 h-5"/>
                 Carrinho
             </button>
-            <div className="flex items-center gap-14 ml-14">
+            <div className="flex items-center ml-[140px]">
             <button onClick={() => navigate("/cadastro")}
              className="text-gray-700 hover:text-blue-600 font-bold cursor-pointer">
                 Entrar
             </button>
             <button onClick={() => navigate("/cadastro")}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer">
+            className="ml-[49px] px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer">
                 Cadastrar
             </button>
             </div>
