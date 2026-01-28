@@ -31,13 +31,13 @@ export const FormCadLoja = () => {
                          </span>
                 </label>
 
-                <button className="w-full bg-indigo-600 py-4 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4">
+                <button className="w-full cursor-pointer bg-indigo-600 py-4 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4">
                      Criar Minha Loja
                 </button>
 
                 <div className= 'border-t border-gray-200 text-center pt-4'>
                     <p className= 'text-sm text-gray-500'>
-                        Já tem uma loja? <a href="#" className="text-indigo-700 font-bold hover:underline">Entrar</a>
+                        Já tem uma loja? <a href="#" className="cursor-pointer text-indigo-700 font-bold hover:underline">Entrar</a>
                     </p>
                 </div>
             </form>

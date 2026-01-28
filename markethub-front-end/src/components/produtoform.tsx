@@ -10,55 +10,73 @@ export default function ProdutoForm() {
   const [description, setDescription] = useState("");
  
 
-  async function handleSubmit(e:FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(e: FormEvent) {
+  e.preventDefault();
 
-    if(!name || price === "" || !description){
-      alert('preencha todos os campos')
-      return;
-    }
-    if(price <= 0 ){
-      alert("preço e quantidade deve ser maires que 0");
-      return;
-
-    }
-
-  
-    try {
-      const resposta = await fetch("http://localhost:8000/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          price: Number(price),
-          description: description.trim(),
-        })
-      });
-
-       const lerresposta = await resposta.json();
-
-        if(!resposta.ok){
-            alert(`Erro: ${lerresposta.message || "Falha no cadastro"}`);
-            return;
-        }
-
-     
-
-      const data = await resposta.json();
-      console.log("Produto salvo no backend:", data);
-
-      
-
-      setName("");
-      setPrice("");
-      setDescription("");
-
-    } catch (error) {
-      console.error("Erro ao cadastrar produto:", error);
-    }
+  if (!name || price === "" || !description) {
+    alert("preencha todos os campos");
+    return;
   }
+
+  if (price <= 0) {
+    alert("preço deve ser maior que 0");
+    return;
+  }
+
+  try {
+    const payload = {
+      name: name.trim(),
+      price: Number(price),
+      description: description.trim(),
+    };
+
+    console.debug("Enviando payload do produto:", payload);
+
+    const resposta = await fetch("http://localhost:8000/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    console.debug("Response status:", resposta.status, "ok:", resposta.ok);
+
+    // 🔑 ler o body UMA vez (igual ao cadastro)
+    const textBody = await resposta.text();
+    let data: any = null;
+
+    try {
+      data = textBody ? JSON.parse(textBody) : null;
+    } catch {
+      data = { raw: textBody };
+    }
+
+    console.debug("Response body parsed:", data);
+
+    if (!resposta.ok) {
+      const msg =
+        data?.message ||
+        data?.error ||
+        data?.raw ||
+        `Erro HTTP ${resposta.status}`;
+
+      alert(`Erro ao cadastrar produto: ${msg}`);
+      return;
+    }
+
+    console.log("Produto salvo no backend:", data);
+    alert("Produto cadastrado com sucesso");
+
+    setName("");
+    setPrice("");
+    setDescription("");
+
+  } catch (error) {
+    console.error("Erro ao cadastrar produto:", error);
+    alert("Erro ao conectar ao servidor");
+  }
+}
 
   return (
     
@@ -87,7 +105,7 @@ export default function ProdutoForm() {
           type="number"
           placeholder="Preço"
           value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
+         onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))}
         />
         <p className='mt-[40px] mb-[8px]'
         >Descrição</p>
@@ -98,18 +116,10 @@ export default function ProdutoForm() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-         <p className='mt-[40px] mb-[8px]'
-        >Link do Produto</p>
-        <input
-        className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-3 w-[422px] focus:outline-none focus:ring-2 focus:ring-[#186BC4]'
-          type="text"
-          placeholder="Link do Produto"
-          value={description}
-          onChange={(e) => (e.target.value)}
-        />
+        
 
 
-        <button type="submit" className=' font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-2 transition mt-[30px] h-[60px] w-[422px]'>
+        <button type="submit" className='cursor-pointer font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-2 transition mt-[30px] h-[60px] w-[422px]'>
           Salvar Produto
         </button>
       </form>
