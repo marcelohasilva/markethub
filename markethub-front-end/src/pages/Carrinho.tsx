@@ -17,12 +17,8 @@ const Carrinho = () => {
     <div className='flex flex-col w-[60%]'>
         <CardCarrinho />
             <CardCarrinho />
-            <CardCarrinho />
-            <CardCarrinho />
-            <CardCarrinho />
-            <CardCarrinho />
-            <CardCarrinho />
-            <CardCarrinho />
+            
+            
             
             </div>
       

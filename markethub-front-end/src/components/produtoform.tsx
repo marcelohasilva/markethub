@@ -80,10 +80,10 @@ export default function ProdutoForm() {
 
   return (
     
-    <div className='flex flex-col justify-center items-center  '>
-     <div className="bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0]  h-[120px] w-full mb-[104px]">
+    <div className='flex flex-col justify-center items-center  mt-20'>
+     
 
-     </div>
+    
       <h2 className='font-bold text-[30px]  mr-[80px]'> 
         Cadastrar Produto
         </h2>
