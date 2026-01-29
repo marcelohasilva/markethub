@@ -14,7 +14,7 @@ const CardCarrinho = () => {
                     Sapato da Nike Airforce XYZ 
                 </h2>
                 <h2 className= 'font-semibold text-[25px]'>
-                    R$ 50,00 
+                  
                 </h2>
               </div>
                 
