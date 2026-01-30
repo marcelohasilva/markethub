@@ -23,8 +23,12 @@ const InfoProduct = () => {
             >R$ 250,00
             </div>
             <div className="flex flex-col items-center">
-               <button type="submit" className=" cursor-pointer bg-indigo-600 py-4 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4">
+               <button type="submit" className=" cursor-pointer bg-indigo-600 py-4 px-12 rounded-[6px] text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4">
                     Comprar Agora
+                </button>
+
+                 <button type="submit" className=" cursor-pointer bg-indigo-600 py-4 px-6 rounded-[6px] text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4">
+                    Adicionar ao Carrinho
                 </button>
             </div>
         </>

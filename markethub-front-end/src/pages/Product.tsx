@@ -1,3 +1,4 @@
+import DescribeProduct from "../components/DescribeProduct";
 import { FormCadLoja } from "../components/FormCadLoja";
 import HeaderMain from "../components/HeaderMain";
 import InfoProduct from "../components/InfoProduct";
@@ -17,6 +18,8 @@ const Product = () => {
             </div>
                 
         </div>
+
+        <DescribeProduct />
        
         </>
         
