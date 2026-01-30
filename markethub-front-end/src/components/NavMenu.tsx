@@ -9,7 +9,6 @@ export default function NavMenu() {
     { label: "Coleções", to: "/colecoes" },
     { label: "Minha loja", to: "/cadastrarloja" },
   ];
-
   return (
     <nav className="w-full bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white">
       <ul className="flex gap-14 py-3 px-[97px]">
