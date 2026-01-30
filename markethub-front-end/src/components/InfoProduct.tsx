@@ -1,7 +1,7 @@
 const InfoProduct = () => {
     return(
         <>
-           <div className="flex flex-col font-bold text-[#282729] text-center mt-20 text-3xl gap-2 border">
+           <div className="flex flex-col font-bold text-[#282729] text-center mt-20 text-3xl gap-2 ">
             <div className= ''
             >SAPATOS NIKE
             </div>
