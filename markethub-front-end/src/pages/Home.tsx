@@ -1,5 +1,6 @@
 import CardProduto from "../components/CardProduto";
 import HeaderMain from "../components/HeaderMain";
+import CardMain from "../components/CardMain";
 
 const Home = () => {
     return(
