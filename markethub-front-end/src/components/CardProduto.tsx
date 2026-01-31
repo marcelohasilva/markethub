@@ -1,9 +1,25 @@
 import { FaHeart, FaTrash, FaStar, FaRegStar } from "react-icons/fa";
 import img from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function CardProduto() {
+    const [nameProduto, setNameProduto] = useState<string>('')
+    const [priceProduct, setPriceProduct] = useState<number>(0)
+    
     const navigate = useNavigate()
+
+    useEffect(() => {
+            fetch('http://localhost:8000/products')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.data && data.data.length > 0) {
+                        const product = data.data[0]; // pega o primeiro produto
+                        setNameProduto(product.name);
+                        setPriceProduct(product.price);
+                    }
+                });
+    }, []);
 
   return (
     <div 
@@ -23,7 +39,7 @@ export default function CardProduto() {
       </div>
 
       <h3 className="text-sm font-medium text-[#1A1C27] mt-3">
-        Sapatos
+        {nameProduto}
       </h3>
 
       <div className="flex gap-1 text-indigo-500 my-1">
@@ -35,7 +51,7 @@ export default function CardProduto() {
       </div>
 
       <p className="text-sm font-bold text-[#1A1C27]">
-        R$ 50,00 no Pix
+       {priceProduct} no Pix
       </p>
       <p className="text-xs text-gray-600">
         ou 2x de R$ 20,00
