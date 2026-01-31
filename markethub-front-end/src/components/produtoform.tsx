@@ -24,9 +24,12 @@ export default function ProdutoForm() {
   }
 
   try {
+    const sellerId = 1; 
+
     const payload = {
       name: name.trim(),
       price: Number(price),
+       seller_id: sellerId,
       description: description.trim(),
     };
 
