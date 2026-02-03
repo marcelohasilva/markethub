@@ -8,6 +8,8 @@ import CadastroProduto from "./pages/CadastroProduto";
 import Favoritos from "./pages/Favoritos";
 import Loja from "./pages/Loja";
 import Product from "./pages/Product";
+import TelaLogin from "./pages/Tela-Login";
+import DashbordUser from "./pages/DashbordUser";
 
 export const MainRoutes = () => {
      const location = useLocation();
@@ -24,6 +26,8 @@ export const MainRoutes = () => {
         <Route path='/favoritos' element= {<Favoritos />} />
         <Route path='/loja' element= {<Loja />} />
         <Route path='/produto' element= {<Product />} />
+        <Route path='/login' element= {<TelaLogin />} />
+         <Route path='/users' element= {<DashbordUser />} />
 
       </Routes>
     )

@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Painel() {
+  const navigate = useNavigate();
   return (
     <div className="
       hidden md:flex
@@ -17,7 +20,7 @@ export default function Painel() {
         por favor, logue com suas informações pessoais
       </p>
 
-      <button className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-indigo-600 transition">
+      <button onClick={() => navigate("/login")} className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-indigo-600 transition">
         ENTRAR
       </button>
     </div>

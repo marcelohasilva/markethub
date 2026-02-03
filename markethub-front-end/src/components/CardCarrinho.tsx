@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import ftProduto from '../assets/baixados.webp';
 
-const CardCarrinho = () => {
+const CardCarrinho = ({product}: any) => {
+ 
+
+
     return (
        <>
         <div className= 'flex ml-[95px] h-full'>
@@ -11,7 +15,7 @@ const CardCarrinho = () => {
             
               <div>
                 <h2 className= 'font-medium text-[20px]'>
-                    Sapato da Nike Airforce XYZ 
+                    {}
                 </h2>
                 <h2 className= 'font-semibold text-[25px]'>
                   
@@ -20,7 +24,7 @@ const CardCarrinho = () => {
                 
               <div className="ml-auto">
                  <h2 className= 'font-semibold text-[25px] ml-auto'>
-                    R$ 50,00 
+                    {}
                 </h2>
                   <div className= 'mt-10 bg-red-600 text-center text-white rounded-sm py-1 font-medium cursor-pointer hover:bg-red-700 shadow-xl'>
                     Remover
