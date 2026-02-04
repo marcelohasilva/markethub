@@ -7,7 +7,9 @@ import ftProduto from '../assets/baixados.webp';
 const Product = () => {
     return(
         <>
-        <HeaderMain />
+        
+         <HeaderMain />
+         <div className='mt-20'>
         <div className='flex w-full  '>
             
             <div className="flex items-center justify-center w-1/2 mt-14">
@@ -26,6 +28,8 @@ const Product = () => {
         </div>
 
         <DescribeProduct />
+       
+        </div>
        
         </>
         

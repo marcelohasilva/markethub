@@ -42,9 +42,7 @@ export default function CardProduto({product}: any) {
       <p className="text-sm font-bold text-[#1A1C27]">
        {product.price} no Pix
       </p>
-      <p className="text-xs text-gray-600">
-        ou 2x de R$ 20,00
-      </p>
+      
 
     </div>
     </div>
