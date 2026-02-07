@@ -11,14 +11,15 @@ interface Product {
 const Home = () => {
     const[products, setProducts] = useState<Product[]>([])
 
-   useEffect(() => {
-     fetch('http://localhost:8000/products')
-         .then(response => response.json()) 
-        .then(data => {
-          setProducts(data.data);
-         })
-        .catch(err => console.error("Erro ao buscar dados:", err)); 
-    }, []);
+     useEffect(() => {
+         fetch('http://localhost:8000/products')
+                 .then(response => response.json()) 
+                .then(data => {
+                    const list = Array.isArray(data) ? data : (data?.data ?? []);
+                    setProducts(list);
+                 })
+                .catch(err => console.error("Erro ao buscar dados:", err)); 
+        }, []);
     return(
         <>
          <HeaderMain />

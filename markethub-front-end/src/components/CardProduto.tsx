@@ -1,9 +1,16 @@
 import { FaHeart, FaTrash, FaStar, FaRegStar } from "react-icons/fa";
 import img from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 
-export default function CardProduto({product}: any) {
+interface CardProdutoProps {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+  };
+}
+
+export default function CardProduto({product}: CardProdutoProps) {
     
     
     const navigate = useNavigate()
@@ -11,15 +18,12 @@ export default function CardProduto({product}: any) {
    
 
   return (
-    <div 
-    onClick={() =>navigate('/produto')}
-     
+    <div
+    onClick={() => navigate(`/produto/${product.id}`)}
     >
         <div className="w-[220px] bg-white rounded-2xl shadow-lg p-3 ml-[95px] mt-[25px]">
       <div className="relative bg-[#E0E0E0] rounded-xl h-[180px] flex items-center justify-center">
         <img src={img} 
-       
-       onClick={()=> navigate('/produto')}
         alt="Produto"
          className="h-[140px] object-contain hover:scale-150 transition"/>
 
