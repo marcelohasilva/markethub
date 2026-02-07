@@ -1,4 +1,5 @@
 import HeaderB from "../components/HeaderB";
+import NavLoja from "../components/NavLoja";
 import PhotoPerfil from "../components/PhotoPefil";
 
 const Loja = () => {
@@ -6,6 +7,7 @@ const Loja = () => {
         <>
         <HeaderB />
         <PhotoPerfil /> 
+        <NavLoja />
         </>
     )
 }

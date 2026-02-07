@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import CardProduto from "../components/CardProduto";
 import HeaderMain from "../components/HeaderMain";
-import CardMain from "../components/CardMain";
 
 interface Product {
     id: number;

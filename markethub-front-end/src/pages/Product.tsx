@@ -1,6 +1,5 @@
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import DescribeProduct from "../components/DescribeProduct";
-import { FormCadLoja } from "../components/FormCadLoja";
 import HeaderMain from "../components/HeaderMain";
 import InfoProduct from "../components/InfoProduct";
 import ftProduto from '../assets/baixados.webp';
