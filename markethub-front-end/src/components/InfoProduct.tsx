@@ -1,39 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import ButtonCart from "./ButtonCart";
+import type { FavoriteProduct } from "../Functions/Storage";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
+interface InfoProductProps {
+  product: FavoriteProduct;
 }
 
-const InfoProduct = () => {
-  const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-
-  useEffect(() => {
-    if (!id) return;
-
-    fetch(`http://localhost:8000/products/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        // Ajuste conforme a estrutura do seu JSON de retorno
-        if (data?.data) {
-          setProduct({
-            id: Number(data.data.id),
-            name: data.data.name,
-            price: Number(data.data.price),
-          });
-        }
-      })
-      .catch(err => console.error("Erro ao buscar produto:", err));
-  }, [id]);
-
-  if (!product) {
-    return <p className="text-center mt-20">Carregando produto...</p>;
-  }
-
+const InfoProduct = ({ product }: InfoProductProps) => {
   return (
     <div className="flex flex-col items-center">
       <div className="font-bold text-[#282729] text-center mt-20 text-3xl">
@@ -56,12 +28,11 @@ const InfoProduct = () => {
         <button className="bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] py-4 px-12 rounded text-white font-semibold shadow-xl">
           Comprar Agora
         </button>
-        
-        {/* Passando os dados reais do produto buscado para o componente de Carrinho */}
-        <ButtonCart 
-          productId={product.id} 
-          userId={1}   // Exemplo: ID do usuário logado
-          storeId={1}  // Exemplo: ID da loja
+
+        <ButtonCart
+          productId={product.id}
+          userId={1}
+          storeId={1}
         />
       </div>
     </div>
