@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProdutoForm() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -57,7 +59,7 @@ export default function ProdutoForm() {
         throw new Error(data.message || "Erro ao salvar produto");
       }
 
-      alert("Produto cadastrado com sucesso!");
+      navigate("/loja");
       setName("");
       setPrice("");
       setDescription("");

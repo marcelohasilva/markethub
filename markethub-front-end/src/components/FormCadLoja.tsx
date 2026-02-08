@@ -21,7 +21,7 @@ export const FormCadLoja = () => {
 
         // 1. Validar campos locais
         if (!nameStore) {
-            alert("O nome da loja é obrigatório.");
+          
             return;
         }
 
@@ -56,7 +56,7 @@ export const FormCadLoja = () => {
                 throw new Error(data.message || "Erro ao criar loja");
             }
 
-            alert("Loja criada com sucesso!");
+        
             setNameStore("");
             setDescribeStore("");
             navigate("/loja");

@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -44,11 +46,12 @@ const Login = () => {
       }
 
       // SUCESSO: Armazenar o token no localStorage
-      if (lerResposta.token) {
-        localStorage.setItem('api_token', lerResposta.token);
+      if (lerResposta.success && lerResposta.token && lerResposta.user) {
+        localStorage.setItem("api_token", lerResposta.token);
+        localStorage.setItem("user", JSON.stringify(lerResposta.user));
       }
 
-      alert('Login realizado com sucesso!');
+      navigate("/");
       setEmail('');
       setPassword('');
       
