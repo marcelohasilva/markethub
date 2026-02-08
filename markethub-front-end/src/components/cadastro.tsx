@@ -1,9 +1,10 @@
 import { useState } from "react"; 
 import type { FormEvent } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
-    
+    const navigate = useNavigate();
     const [email, setEmail] = useState ('')
     const [password, setPassword] = useState ('')
     const [name, setName] = useState ('')
@@ -62,7 +63,7 @@ export default function Cadastro() {
         }
 
         console.log('cadastro realizado', lerResposta);
-        alert('cadastro realizado');
+        navigate("/");
         setEmail('');
         setPassword('');
         setName('');
