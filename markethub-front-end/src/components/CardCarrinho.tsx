@@ -1,43 +1,97 @@
-import { useState } from 'react';
-import ftProduto from '../assets/baixados.webp';
+import { useEffect, useState } from "react";
+import CardCartDelet from "./CardCartDelet";
 
-const CardCarrinho = ({product}: any) => {
- 
-
-
-    return (
-       <>
-        <div className= 'flex ml-[95px] h-full'>
-            
-            <div className="flex gap-6 w-full h-[200px] bg-white mt-[30px] shadow-lg rounded-[1rem] border border-gray-100 p-10">
-             
-                <img className= 'h-30' src={ftProduto} alt="foto do produto"></img>
-            
-              <div>
-                <h2 className= 'font-medium text-[20px]'>
-                    {}
-                </h2>
-                <h2 className= 'font-semibold text-[25px]'>
-                  
-                </h2>
-              </div>
-                
-              <div className="ml-auto">
-                 <h2 className= 'font-semibold text-[25px] ml-auto'>
-                    {}
-                </h2>
-                  <div className= 'mt-10 bg-red-600 text-center text-white rounded-sm py-1 font-medium cursor-pointer hover:bg-red-700 shadow-xl'>
-                    Remover
-                  </div>
-                
-                </div>  
-                
-             
-            </div>
-      
-        </div>
-       </>
-      
-    )
+interface CartItem {
+  cart_id: number;
+  name: string;
+  price: string;
+  quantity: number;
+  image_url: string | null;
 }
+
+interface CardCarrinhoProps {
+  userId: number;
+}
+
+const CardCarrinho = ({ userId }: CardCarrinhoProps) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ FUNÇÃO DISPONÍVEL PARA O BOTÃO
+  const loadCart = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/cart/${userId}`
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setCartItems(result.data);
+      } else {
+        setError(result.message || "Erro ao carregar carrinho");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Erro ao conectar com o servidor");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCart();
+  }, [userId]);
+
+  if (loading) {
+    return <p className="ml-[95px]">Carregando carrinho...</p>;
+  }
+
+  if (error) {
+    return <p className="ml-[95px] text-red-500">{error}</p>;
+  }
+
+  return (
+    <div className="ml-[95px] flex flex-col gap-4">
+      {cartItems.length > 0 ? (
+        cartItems.map((item) => (
+          <div
+            key={item.cart_id}
+            className="flex p-4 rounded-lg shadow-sm bg-white items-center"
+          >
+            <img
+              src={item.image_url ?? "/placeholder.png"}
+              alt={item.name}
+              className="w-24 h-24 object-cover rounded"
+            />
+
+            <div className="ml-4 flex-1">
+              <h3 className="text-lg font-bold text-gray-800">
+                {item.name}
+              </h3>
+
+              <p className="text-gray-500">
+                Quantidade: {item.quantity}
+              </p>
+
+              <span className="text-blue-600 font-semibold">
+                R$ {(Number(item.price) * item.quantity).toFixed(2)}
+              </span>
+
+              {/* ✅ BOTÃO DE REMOVER FUNCIONANDO */}
+              <CardCartDelet
+                cartId={item.cart_id}
+                loadCart={loadCart}
+              />
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500">O carrinho está vazio 💨</p>
+      )}
+    </div>
+  );
+};
+
 export default CardCarrinho;
