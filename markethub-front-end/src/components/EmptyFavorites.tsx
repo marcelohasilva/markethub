@@ -8,4 +8,4 @@ export default function EmptyFavorites() {
           <h2 className="text-md sm:text-lg lg:text-xl text-center mt-4 text-gray-600 text-[#767A87]">Adicione itens aos seus favoritos para vê-los aqui!</h2>
         </div>
   );
-}
+}   
