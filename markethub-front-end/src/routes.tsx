@@ -25,7 +25,7 @@ export const MainRoutes = () => {
         <Route path='/cadastrarproduto' element= {<CadastroProduto />} />
         <Route path='/favoritos' element= {<Favoritos />} />
         <Route path='/loja' element= {<Loja />} />
-        <Route path='/produto' element= {<Product />} />
+        <Route path='/produto/:id' element= {<Product />} />
         <Route path='/login' element= {<TelaLogin />} />
          <Route path='/users' element= {<DashbordUser />} />
 
