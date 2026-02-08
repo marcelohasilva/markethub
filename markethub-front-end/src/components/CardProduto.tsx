@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export interface Product {
   id: number;
   name: string;
-  price: string;
+  price: number;
   description?: string;
 }
 
