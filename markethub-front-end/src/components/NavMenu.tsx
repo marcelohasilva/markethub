@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 export default function NavMenu() {
   const links = [
     { label: "Home", to: "/" },
-    { label: "Categorias", to: "/categorias" },
-    { label: "Novidades", to: "/novidades" },
-    { label: "Ofertas do Dia", to: "/ofertas" },
+    { label: "Categorias", to: "/" },
+    { label: "Novidades", to: "/" },
+    { label: "Ofertas do Dia", to: "/" },
     { label: "Minha loja", to: "/cadastrarloja" },
   ];
   return (

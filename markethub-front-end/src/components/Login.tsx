@@ -1,11 +1,9 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -46,12 +44,11 @@ const Login = () => {
       }
 
       // SUCESSO: Armazenar o token no localStorage
-      if (lerResposta.success && lerResposta.token && lerResposta.user) {
-        localStorage.setItem("api_token", lerResposta.token);
-        localStorage.setItem("user", JSON.stringify(lerResposta.user));
+      if (lerResposta.token) {
+        localStorage.setItem('api_token', lerResposta.token);
       }
 
-      navigate("/");
+      alert('Login realizado com sucesso!');
       setEmail('');
       setPassword('');
       
@@ -69,7 +66,7 @@ const Login = () => {
   return (
     <div className="bg-[#EBEBEB] flex items-center justify-center w-full min-h-screen px-4">
       <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Acessar Conta</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Acesso à Conta</h2>
         
         <form onSubmit={handleLogin} className="flex flex-col">
           <label className="text-sm font-medium text-gray-700">Email</label>
@@ -95,11 +92,11 @@ const Login = () => {
             disabled={isLoading}
             className={`cursor-pointer font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-2 transition hover:opacity-90 active:scale-95 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {isLoading ? 'A autenticar...' : 'Entrar'}
+            {isLoading ? 'Carregando...' : 'Entrar'}
           </button>
 
           <div className="border-t border-gray-200 mt-8 pt-4 text-center">
-            <span className="text-sm text-gray-500">Ainda não tem conta?</span>
+            <span className="text-sm text-gray-500">Não possui uma conta?</span>
             <button type="button" className="ml-2 text-sm text-[#186BC4] font-bold hover:underline">
               Registre-se
             </button>
