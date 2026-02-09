@@ -1,10 +1,11 @@
-import HeaderB from "../components/HeaderB";
+import HeaderA from "../components/HeaderA";
+
 import ProdutoForm from "../components/produtoform";
 
 const CadastroProduto = () => {
     return (
         <>
-        <HeaderB />
+        <HeaderA />
        <ProdutoForm/> 
        </>
     )

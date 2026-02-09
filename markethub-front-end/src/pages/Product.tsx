@@ -2,7 +2,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import DescribeProduct from "../components/DescribeProduct";
 import HeaderMain from "../components/HeaderMain";
 import InfoProduct from "../components/InfoProduct";
-import ftProduto from '../assets/baixados.webp';
+import ftProduto from "../assets/baixados.webp";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { isFavorite, toggleFavorite } from "../Functions/Storage";

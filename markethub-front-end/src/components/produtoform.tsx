@@ -71,7 +71,7 @@ export default function ProdutoForm() {
   }
 
   return (
-    <div className='flex flex-col justify-center items-center mt-20'>
+    <div className='flex flex-col justify-center items-center mt-20 pb-20'>
        <div className="flex flex-col items-center w-full max-w-xl bg-white p-8 rounded-xl shadow-md">
         <h2 className='font-bold text-[30px]'>Cadastrar Produto</h2>
 

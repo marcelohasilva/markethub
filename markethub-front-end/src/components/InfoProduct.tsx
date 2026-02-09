@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import ButtonCart from "./ButtonCart";
+import type { FavoriteProduct } from "../Functions/Storage";
 
 interface Product {
   id: number;
