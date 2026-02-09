@@ -6,7 +6,6 @@ export default function NavMenu() {
     { label: "Categorias", to: "/categorias" },
     { label: "Novidades", to: "/novidades" },
     { label: "Ofertas do Dia", to: "/ofertas" },
-    { label: "Coleções", to: "/colecoes" },
     { label: "Minha loja", to: "/cadastrarloja" },
   ];
   return (

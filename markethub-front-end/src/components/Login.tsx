@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <div className="bg-[#EBEBEB] flex items-center justify-center w-full min-h-screen px-4">
       <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Aceder à Conta</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Acessar Conta</h2>
         
         <form onSubmit={handleLogin} className="flex flex-col">
           <label className="text-sm font-medium text-gray-700">Email</label>
@@ -101,7 +101,7 @@ const Login = () => {
           <div className="border-t border-gray-200 mt-8 pt-4 text-center">
             <span className="text-sm text-gray-500">Ainda não tem conta?</span>
             <button type="button" className="ml-2 text-sm text-[#186BC4] font-bold hover:underline">
-              Registe-se
+              Registre-se
             </button>
           </div>
         </form>

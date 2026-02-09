@@ -72,7 +72,8 @@ export default function ProdutoForm() {
 
   return (
     <div className='flex flex-col justify-center items-center mt-20'>
-      <h2 className='font-bold text-[30px]'>Cadastrar Produto</h2>
+       <div className="flex flex-col items-center w-full max-w-xl bg-white p-8 rounded-xl shadow-md">
+        <h2 className='font-bold text-[30px]'>Cadastrar Produto</h2>
 
       <form onSubmit={handleSubmit} className='flex flex-col w-full max-w-sm p-6'>
         <label className="mt-4">Nome do Produto</label>
@@ -106,5 +107,7 @@ export default function ProdutoForm() {
         </button>
       </form>
     </div>
+       </div>
+      
   );
 }
