@@ -23,7 +23,7 @@ const PhotoPerfil = () => {
 
     return (
         <>
-         <img className= ' h-30 rounded-full mx-auto -mt-15 relative shadow-xl' 
+         <img className= ' h-35 rounded-full mx-auto -mt-15 relative shadow-xl' 
            src={ftProduto} 
            alt="foto do produto"></img>
            

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 
 interface ButtonCartProps {
   productId: number;
@@ -7,7 +7,6 @@ interface ButtonCartProps {
 }
 
 const ButtonCart = ({ productId, userId, storeId }: ButtonCartProps) => {
-  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     try {
@@ -26,7 +25,7 @@ const ButtonCart = ({ productId, userId, storeId }: ButtonCartProps) => {
 
       if (result.success) {
       
-        navigate('/carrinho');
+      
       } else {
         alert("Erro do servidor: " + result.message);
       }

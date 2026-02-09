@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
-    { label: "Produtos", to: "/." },
-    { label: "Sobre", to: "/." },
-    { label: "Avaliações", to: "/." },
-    { label: "Contato", to: "/." },
+	 { label: "Home", to: "/." },
+    { label: "Produtos", to: "" },
+    { label: "Sobre", to: "" },
+    { label: "Avaliações", to: "" },
+    { label: "Contato", to: "" },
     { label: "Cadastrar Produto", to: "/cadastrarproduto" }
 ];
 
@@ -15,8 +16,8 @@ const NavLoja = () => {
 
 	return (
 		<div className="w-full flex justify-center mt-8 px-4">
-			<nav className="w-full max-w-[920px] bg-white rounded-full shadow-sm">
-				<ul className="flex flex-wrap items-center gap-6 px-8 py-3">
+			<nav className="w-full max-w-[920px] bg-gray-100 rounded-2xl shadow-sm">
+				<ul className="flex flex-wrap items-center gap-6 px-9 py-3">
 					{NAV_ITEMS.map((item) => (
 						<li key={item.label}>
 							<button

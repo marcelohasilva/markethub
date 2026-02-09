@@ -25,14 +25,18 @@ const Loja = () => {
         <HeaderB />
         <PhotoPerfil /> 
         <NavLoja />
-         <div className='flex flex-wrap gap-4 mt-6 mb-10 ml-24'>
-                    {products.map(product => (
-                        <CardProduto 
-                        key={product.id}
-                        product={product}
-                        />
-                    ))}
+         <div className="min-h-screen">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="flex flex-wrap gap-6 mt-6 pb-10">
+                {products.map(product => (
+                    <CardProduto 
+                    key={product.id}
+                    product={product}
+                    />
+                ))}
                 </div>
+            </div>
+            </div>
         </>
     )
 }
