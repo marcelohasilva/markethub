@@ -11,37 +11,57 @@ import type { FavoriteProduct } from "../Functions/Storage";
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<FavoriteProduct | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-    fetch(`http://localhost:8000/products/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data?.data) return;
+        const response = await fetch('http://localhost:8000/products');
+        const data = await response.json();
+
+        const list = Array.isArray(data) ? data : (data?.data ?? []);
+        const selected = id ? list.find((item: any) => String(item.id) === String(id)) : list[0];
+
+        if (!selected) {
+          setError("Produto não encontrado");
+          return;
+        }
 
         const normalized: FavoriteProduct = {
-          id: Number(data.data.id),
-          name: String(data.data.name),
-          price: Number(data.data.price),
+          id: Number(selected.id),
+          name: String(selected.name ?? ""),
+          price: Number(selected.price ?? 0),
           image: ftProduto,
+          description: String(selected.description ?? ""),
         };
 
         setProduct(normalized);
         setFavorite(isFavorite(normalized.id));
-      })
-      .catch(err => console.error("Erro ao buscar produto:", err));
+      } catch (err) {
+        console.error("Erro ao buscar dados:", err);
+        setError("Erro ao carregar o produto");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
   }, [id]);
 
   const handleToggleFavorite = () => {
     if (!product) return;
-    setFavorite(toggleFavorite(product));
+    const next = toggleFavorite(product);
+    setFavorite(next);
   };
 
-  if (!product) {
-    return <p className="text-center mt-20">Carregando produto...</p>;
-  }
+  if (loading) return <p className="text-center mt-20">Carregando produto...</p>;
+  if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
+  if (!product) return null;
 
   return (
     <>
@@ -49,20 +69,23 @@ const Product = () => {
 
       <div className="mt-20">
         <div className="flex w-full">
+          {/* Imagem do Produto */}
           <div className="flex items-center justify-center w-1/2 mt-14">
             <img
-              className="sm:w-56 md:w-72 lg:w-96"
+              className='sm:w-56 md:w-72 lg:w-96'
               src={product.image}
-              alt="foto do produto"
+              alt={`Foto do produto ${product.name}`}
             />
           </div>
 
+          {/* Info do Produto e Botão Favorite */}
           <div className="w-1/2">
             <div className="flex items-start justify-end mr-10">
               <button
                 type="button"
                 onClick={handleToggleFavorite}
                 className="p-2 rounded-full hover:scale-110 transition"
+                aria-label="Adicionar aos favoritos"
               >
                 {favorite ? (
                   <FaHeart className="text-red-500 text-2xl" />
@@ -72,11 +95,12 @@ const Product = () => {
               </button>
             </div>
 
-            <InfoProduct product={product} />
+            <InfoProduct/>
           </div>
         </div>
 
-        <DescribeProduct />
+        {/* Descrição do Produto */}
+        <DescribeProduct description={product.description || ""} />
       </div>
     </>
   );
