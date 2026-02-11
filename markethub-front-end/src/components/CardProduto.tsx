@@ -46,7 +46,7 @@ export default function CardProduto({ product }: { product: Product }) {
         </p>
 
         <p className="text-xs text-gray-600">
-          ou 2x de R$ 20,00
+          ou 2x de R$ {product.price / 2} 
         </p>
       </div>
     </div>
