@@ -154,8 +154,8 @@ Feche o processo anterior do Vite ou reinicie o terminal.
 
 ## 👨‍💻 Autor
 
-Marcelo Henrique
-Ricardo João 
-Gabriel Lopez 
-Gabriel Ramos
+Marcelo Henrique,
+Ricardo João, 
+Gabriel Lopez, 
+Gabriel Ramos,
 Thiago Ruan
