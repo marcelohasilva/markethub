@@ -152,10 +152,10 @@ Feche o processo anterior do Vite ou reinicie o terminal.
 
 ------------------------------------------------------------------------
 
-## 👨‍💻 Autor
+## 👥 Autores
 
-Marcelo Henrique,
-Ricardo João, 
-Gabriel Lopez,
-Gabriel Ramos,
-Thiago Ruan
+- [Marcelo Henrique](https://github.com/marcelohasilva)
+- [Ricardo João]
+- [Gabriel Lopez]
+- [Gabriel Ramos]
+- [Thiago Ruan]
