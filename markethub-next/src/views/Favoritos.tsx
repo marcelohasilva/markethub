@@ -4,20 +4,84 @@ import { useRouter } from "next/navigation";
 import HeaderMain from "../components/HeaderMain";
 import EmptyFavorites from "../components/EmptyFavorites";
 import CardFavorito from "../components/CardFavorito";
-import { getFavorites, removeFavorite } from "../Functions/Storage";
 import type { FavoriteProduct } from "../Functions/Storage";
 
 export default function Favoritos() {
   const router = useRouter();
   const [items, setItems] = useState<FavoriteProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    setItems(getFavorites());
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    setUserId(user?.id ?? null);
   }, []);
 
-  const handleRemove = (id: number) => {
-    const next = removeFavorite(id);
-    setItems(next);
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!userId) {
+        setItems([]);
+        setLoading(false);
+        setError("Faça login para ver seus favoritos.");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`http://localhost:8000/favorites/${userId}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || "Erro ao carregar favoritos");
+        }
+
+        const list = Array.isArray(result?.data) ? result.data : [];
+        const normalized = list.map((item: any) => ({
+          id: Number(item.product_id ?? item.id),
+          name: String(item.name ?? ""),
+          price: Number(item.price ?? 0),
+          image: item.image_url ? String(item.image_url) : "/assets/baixados.webp",
+        }));
+
+        setItems(normalized);
+      } catch (err: any) {
+        console.error("Erro ao buscar favoritos:", err);
+        setItems([]);
+        setError(err?.message || "Erro ao carregar favoritos");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFavorites();
+  }, [userId]);
+
+  const handleRemove = async (id: number) => {
+    if (!userId) return;
+
+    try {
+      const response = await fetch("http://localhost:8000/favorites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          product_id: id,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result?.message || "Erro ao remover favorito");
+      }
+
+      setItems((prev) => prev.filter((item) => item.id !== id));
+    } catch (err: any) {
+      console.error("Erro ao remover favorito:", err);
+      setError(err?.message || "Erro ao remover favorito");
+    }
   };
 
   return (
@@ -31,7 +95,11 @@ export default function Favoritos() {
       <div className="flex justify-center mt-4">
         <div className="h-px w-full max-w-[calc(100%-190px)] ml-[95px] mr-[95px] bg-gray-300" />
       </div>
-      {items.length > 0 ? (
+      {loading ? (
+        <p className="text-center mt-10">Carregando favoritos...</p>
+      ) : error ? (
+        <p className="text-center mt-10 text-red-500">{error}</p>
+      ) : items.length > 0 ? (
         <div className="flex flex-wrap gap-4">
           {items.map((item) => (
             <CardFavorito key={item.id} product={item} onRemove={handleRemove} />

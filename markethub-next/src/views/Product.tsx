@@ -5,7 +5,6 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import DescribeProduct from "../components/DescribeProduct";
 import HeaderMain from "../components/HeaderMain";
 import InfoProduct from "../components/InfoProduct";
-import { isFavorite, toggleFavorite } from "../Functions/Storage";
 import type { FavoriteProduct } from "../Functions/Storage";
 
 const Product = () => {
@@ -17,6 +16,12 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favorite, setFavorite] = useState(false);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    setUserId(user?.id ?? null);
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -43,7 +48,6 @@ const Product = () => {
         };
 
         setProduct(normalized);
-        setFavorite(isFavorite(normalized.id));
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
         setError("Erro ao carregar o produto");
@@ -55,10 +59,62 @@ const Product = () => {
     fetchProduct();
   }, [id]);
 
-  const handleToggleFavorite = () => {
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!userId || !product) {
+        setFavorite(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8000/favorites/${userId}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || "Erro ao carregar favoritos");
+        }
+
+        const list = Array.isArray(result?.data) ? result.data : [];
+        const exists = list.some((item: any) =>
+          String(item.product_id ?? item.id) === String(product.id)
+        );
+        setFavorite(exists);
+      } catch (err) {
+        console.error("Erro ao verificar favorito:", err);
+        setFavorite(false);
+      }
+    };
+
+    checkFavorite();
+  }, [userId, product?.id]);
+
+  const handleToggleFavorite = async () => {
     if (!product) return;
-    const next = toggleFavorite(product);
-    setFavorite(next);
+    if (!userId) {
+      alert("Faça login para adicionar aos favoritos.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/favorites", {
+        method: favorite ? "DELETE" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          product_id: product.id,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result?.message || "Erro ao atualizar favorito");
+      }
+
+      setFavorite(!favorite);
+    } catch (err) {
+      console.error("Erro ao atualizar favorito:", err);
+      alert("Erro ao atualizar favorito");
+    }
   };
 
   if (loading) return <p className="text-center mt-20">Carregando produto...</p>;

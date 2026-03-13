@@ -48,6 +48,10 @@ const Login = () => {
         localStorage.setItem('api_token', lerResposta.token);
       }
 
+      if (lerResposta.user) {
+        localStorage.setItem("user", JSON.stringify(lerResposta.user));
+      }
+
       alert('Login realizado com sucesso!');
       setEmail('');
       setPassword('');
