@@ -21,7 +21,7 @@ export default function Painel() {
         por favor, logue com suas informações pessoais
       </p>
 
-      <button onClick={() => router.push("/login")} className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-indigo-600 transition">
+      <button onClick={() => router.push("/login")} className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-indigo-600 transition cursor-pointer">
         ENTRAR
       </button>
     </div>

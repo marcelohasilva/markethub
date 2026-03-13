@@ -16,7 +16,7 @@ const CadastrarLoja = () => {
            <img src="/assets/art.png" alt="Imagem de cadastro de loja" className="mx-auto w-155 h-auto" />
           </div>
             
-
+ 
              </div>
     </>
     )

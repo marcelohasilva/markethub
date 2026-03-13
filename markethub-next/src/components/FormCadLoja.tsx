@@ -119,10 +119,10 @@ export const FormCadLoja = () => {
                     />
                 </div>
 
-                <label className="flex items-center gap-3 cursor-pointer group">
-                    <input type="checkbox" required className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <label className="flex items-center gap-3 group">
+                    <input type="checkbox" required className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
                     <span className="text-sm text-gray-600">
-                        Eu concordo com os <span className="text-indigo-600 font-medium group-hover:underline">termos de uso</span>
+                        Eu concordo com os <span className="text-indigo-600 font-medium group-hover:underline cursor-pointer">termos de uso</span>
                     </span>
                 </label>
 

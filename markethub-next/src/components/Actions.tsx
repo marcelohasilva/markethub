@@ -11,28 +11,28 @@ export default function Actions() {
         onClick={() => router.push("/favoritos")}
         className="flex items-center gap-2 text-gray-700 font-semibold"
       >
-        <Heart className="w-5 h-5" />
-        <span className="hidden sm:inline">Favoritos</span>
+        <Heart className="w-5 h-5 cursor-pointer hover:text-gray-900 transition" />
+        <span className="hidden sm:inline cursor-pointer hover:text-gray-900 transition">Favoritos</span>
       </button>
 
       <button
         onClick={() => router.push("/carrinho")}
         className="flex items-center gap-2 text-gray-700 font-semibold"
       >
-        <ShoppingCart className="w-5 h-5" />
-        <span className="hidden sm:inline">Carrinho</span>
+        <ShoppingCart className="w-5 h-5 cursor-pointer hover:text-gray-900 transition" />
+        <span className="hidden sm:inline cursor-pointer hover:text-gray-900 transition">Carrinho</span>
       </button>
 
       <button
         onClick={() => router.push("/cadastro")}
-        className="text-gray-700 font-bold"
+        className="text-gray-700 font-bold cursor-pointer hover:text-gray-900 transition"
       >
         Entrar
       </button>
 
       <button
         onClick={() => router.push("/cadastro")}
-        className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold"
+        className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer"
       >
         Cadastrar
       </button>
