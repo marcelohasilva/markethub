@@ -1,6 +1,8 @@
 "use client";
+"use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import ButtonCart from "./ButtonCart";
 
 interface Product {
@@ -14,6 +16,7 @@ const InfoProduct = () => {
   const params = useParams();
   const idParam = params?.id;
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
+  const router = useRouter();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,14 +28,11 @@ const InfoProduct = () => {
         setLoading(true);
         setError(null);
 
-        const url = id
-          ? `http://localhost:8000/products/${id}`
-          : "http://localhost:8000/products";
-
-        const response = await fetch(url);
+        const response = await fetch("/api/products", { cache: "no-store" });
         const json = await response.json();
 
-        const source = id ? json?.data : (Array.isArray(json) ? json[0] : json?.data?.[0]);
+        const list = Array.isArray(json) ? json : (json?.data ?? []);
+        const source = id ? list.find((item: any) => String(item.id) === String(id)) : list[0];
         if (!source) throw new Error("Produto não encontrado");
 
         setProduct({
@@ -75,7 +75,10 @@ const InfoProduct = () => {
       </div>
 
       <div className="flex flex-col items-center mt-8 gap-4">
-        <button className="bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] py-4 px-12 rounded text-white font-semibold shadow-xl">
+        <button
+          onClick={() => router.push("/carrinho")}
+          className="bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] py-4 px-12 rounded text-white font-semibold shadow-xl"
+        >
           Comprar Agora
         </button>
 

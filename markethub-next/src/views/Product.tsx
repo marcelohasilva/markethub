@@ -29,7 +29,7 @@ const Product = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("http://localhost:8000/products");
+        const response = await fetch("/api/products", { cache: "no-store" });
         const data = await response.json();
 
         const list = Array.isArray(data) ? data : (data?.data ?? []);

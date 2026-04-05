@@ -11,7 +11,7 @@ const Loja = () => {
       const[products, setProducts] = useState<Product[]>([])
     
          useEffect(() => {
-             fetch('http://localhost:8000/products')
+             fetch("/api/products", { cache: "no-store" })
                      .then(response => response.json()) 
                     .then(data => {
                         const list = Array.isArray(data) ? data : (data?.data ?? []);
