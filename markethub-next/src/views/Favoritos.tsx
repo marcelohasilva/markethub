@@ -87,34 +87,35 @@ export default function Favoritos() {
   return (
     <>
       <HeaderMain />
-      <div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-left ml-6 sm:ml-12 lg:ml-24 mt-12 sm:mt-16 ml-[95px] mt-[98px]">
+      <div className="w-full px-4 md:px-8 lg:px-[97px]">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-left mt-12 sm:mt-16">
           Meus Favoritos
         </h1>
-      </div>
-      <div className="flex justify-center mt-4">
-        <div className="h-px w-full max-w-[calc(100%-190px)] ml-[95px] mr-[95px] bg-gray-300" />
-      </div>
-      {loading ? (
-        <p className="text-center mt-10">Carregando favoritos...</p>
-      ) : error ? (
-        <p className="text-center mt-10 text-red-500">{error}</p>
-      ) : items.length > 0 ? (
-        <div className="flex flex-wrap gap-4">
-          {items.map((item) => (
-            <CardFavorito key={item.id} product={item} onRemove={handleRemove} />
-          ))}
+
+        <div className="h-px w-full bg-gray-300 mt-4" />
+
+        {loading ? (
+          <p className="text-center mt-10">Carregando favoritos...</p>
+        ) : error ? (
+          <p className="text-center mt-10 text-red-500">{error}</p>
+        ) : items.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            {items.map((item) => (
+              <CardFavorito key={item.id} product={item} onRemove={handleRemove} />
+            ))}
+          </div>
+        ) : (
+          <EmptyFavorites />
+        )}
+
+        <div className="flex justify-center mt-10 pb-20">
+          <button
+            onClick={() => router.push("/")}
+            className="px-5 py-2.5 rounded-xl text-xl w-[300px] h-[65px] bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer"
+          >
+            Voltar as compras
+          </button>
         </div>
-      ) : (
-        <EmptyFavorites />
-      )}
-      <div className="flex justify-center mt-[59px] pb-[83px]">
-        <button
-          onClick={() => router.push("/")}
-          className="px-5 py-2.5 rounded-xl text-xl w-[300px] h-[65px] bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white font-bold hover:opacity-90 cursor-pointer"
-        >
-          Voltar às compras
-        </button>
       </div>
     </>
   );
