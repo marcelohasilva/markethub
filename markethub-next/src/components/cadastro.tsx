@@ -129,6 +129,16 @@ export default function Cadastro() {
         </button>
 
         <div className="border border-gray-300 mt-8"></div>
+        <div className="text-center mt-4">
+          <span className="text-sm text-gray-500">Ja tem conta?</span>
+          <button
+            type="button"
+            onClick={() => router.push("/login")}
+            className="ml-2 text-sm text-[#186BC4] font-bold hover:underline"
+          >
+            Entrar
+          </button>
+        </div>
      </form>
   </div>
 </div>

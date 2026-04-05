@@ -1,6 +1,9 @@
+"use client";
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -55,9 +58,7 @@ const Login = () => {
       alert('Login realizado com sucesso!');
       setEmail('');
       setPassword('');
-      
-      // Aqui você normalmente redirecionaria o usuário:
-      // window.location.href = '/dashboard';
+      router.push("/");
 
     } catch (erro: any) {
       console.error('Erro na autenticação:', erro);
@@ -101,7 +102,11 @@ const Login = () => {
 
           <div className="border-t border-gray-200 mt-8 pt-4 text-center">
             <span className="text-sm text-gray-500">Não possui uma conta?</span>
-            <button type="button" className="ml-2 text-sm text-[#186BC4] font-bold hover:underline">
+            <button
+              type="button"
+              onClick={() => router.push("/cadastro")}
+              className="ml-2 text-sm text-[#186BC4] font-bold hover:underline"
+            >
               Registre-se
             </button>
           </div>
