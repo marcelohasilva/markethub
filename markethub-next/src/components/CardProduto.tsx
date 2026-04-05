@@ -19,7 +19,7 @@ export default function CardProduto({ product }: { product: Product }) {
 
   return (
     <div onClick={handleNavigate} className="cursor-pointer">
-      <div className="w-[220px] bg-white rounded-2xl shadow-lg p-3 ml-[95px] mt-[25px]">
+      <div className="w-[220px] bg-white rounded-2xl shadow-lg p-3">
         
         <div className="relative bg-[#E0E0E0] rounded-xl h-[180px] flex items-center justify-center">
           <img
