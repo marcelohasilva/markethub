@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 
 const NAV_ITEMS = [
 	 { label: "Home", to: "/" },
-    { label: "Produtos", to: "" },
-    { label: "Sobre", to: "" },
-    { label: "Avaliações", to: "" },
-    { label: "Contato", to: "" },
-    { label: "Cadastrar Produto", to: "/cadastrarproduto" }
+	{ label: "Produtos", to: "/loja" },
+	{ label: "Sobre", to: "/loja" },
+	{ label: "Avaliações", to: "/loja" },
+	{ label: "Contato", to: "/loja" },
+	{ label: "Cadastrar Produto", to: "/cadastrarproduto" }
 ];
 
 const NavLoja = () => {

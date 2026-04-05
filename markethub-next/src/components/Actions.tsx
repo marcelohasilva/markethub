@@ -24,7 +24,7 @@ export default function Actions() {
       </button>
 
       <button
-        onClick={() => router.push("/cadastro")}
+        onClick={() => router.push("/login")}
         className="text-gray-700 font-bold cursor-pointer hover:text-gray-900 transition"
       >
         Entrar

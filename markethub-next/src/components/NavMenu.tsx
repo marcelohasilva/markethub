@@ -6,9 +6,9 @@ export default function NavMenu() {
   const pathname = usePathname();
   const links = [
     { label: "Home", to: "/" },
-    { label: "Categorias", to: "/" },
-    { label: "Novidades", to: "/" },
-    { label: "Ofertas do Dia", to: "/" },
+    { label: "Loja", to: "/loja" },
+    { label: "Favoritos", to: "/favoritos" },
+    { label: "Carrinho", to: "/carrinho" },
     { label: "Minha loja", to: "/cadastrarloja" },
   ];
   return (
