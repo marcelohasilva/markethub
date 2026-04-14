@@ -4,6 +4,7 @@ import CardProduto from "../components/CardProduto";
 import HeaderMain from "../components/HeaderMain";
 import HomeCarousel from "../components/HomeCarousel";
 import HomeMarketplaces from "../components/HomeMarketplaces";
+import HomeCategories from "../components/HomeCategories";
 
 interface Product {
     id: number;
@@ -45,6 +46,7 @@ const Home = () => {
                                 ))}
                             </div>
                             <HomeMarketplaces />
+                            <HomeCategories />
                         </div>
                     </div>
         </>
