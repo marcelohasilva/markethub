@@ -53,6 +53,11 @@ const HomeFooter = () => {
             </ul>
           </div>
         </div>
+        <div className="border-t border-gray-200 py-6">
+          <p className="text-center text-sm text-[#6B7280]">
+            &copy; 2026 MarketHub. Todos os direitos reservados.
+          </p>
+        </div>
       </div>
     </footer>
   );
