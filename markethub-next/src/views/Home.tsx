@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import CardProduto from "../components/CardProduto";
 import HeaderMain from "../components/HeaderMain";
+import HomeCarousel from "../components/HomeCarousel";
 
 interface Product {
     id: number;
@@ -30,7 +31,8 @@ const Home = () => {
                  <HeaderMain />
                  <div className="min-h-screen">
                         <div className="w-full px-4 md:px-8 lg:px-[97px]">
-                            <h1 className="text-[#282729] mt-5 text-3xl font-bold">
+                            <HomeCarousel />
+                            <h1 className="text-[#282729] mt-8 text-3xl font-bold">
                                 Destaques
                             </h1>
                             <div className="flex flex-wrap gap-6 mt-6 pb-10">
