@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import CardProduto from "../components/CardProduto";
 import HeaderMain from "../components/HeaderMain";
 import HomeCarousel from "../components/HomeCarousel";
+import HomeMarketplaces from "../components/HomeMarketplaces";
 
 interface Product {
     id: number;
@@ -43,6 +44,7 @@ const Home = () => {
                                     />
                                 ))}
                             </div>
+                            <HomeMarketplaces />
                         </div>
                     </div>
         </>
