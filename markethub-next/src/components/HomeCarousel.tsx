@@ -25,6 +25,15 @@ const HomeCarousel = () => {
         bgFrom: "#7A4CFF",
         bgTo: "#2A7CF0",
       },
+      {
+        id: 3,
+        title: "NOVIDADES\nQUENTINHAS",
+        subtitle: "CONFIRA OS LANÇAMENTOS",
+        cta: "CONFIRA AGORA",
+        image: "/assets/iconlogo.png",
+        bgFrom: "#6F5AF5",
+        bgTo: "#1A7FF0",
+      },
     ],
     []
   );
