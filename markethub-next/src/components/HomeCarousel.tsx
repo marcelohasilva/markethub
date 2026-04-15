@@ -34,6 +34,15 @@ const HomeCarousel = () => {
         bgFrom: "#6F5AF5",
         bgTo: "#1A7FF0",
       },
+      {
+        id: 4,
+        title: "OFERTAS\nEXCLUSIVAS",
+        subtitle: "SÓ PARA VOCÊ",
+        cta: "APROVEITE AGORA",
+        image: "/assets/image.png",
+        bgFrom: "#8F5CFF",
+        bgTo: "#1A7FF0",
+      },
     ],
     []
   );

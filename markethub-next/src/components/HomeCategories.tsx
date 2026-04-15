@@ -2,22 +2,26 @@ const categories = [
   {
     id: 1,
     title: "CORRIDA",
-    gradient: "linear-gradient(135deg, #8F5CFF, #1A7FF0)",
+    image: "/assets/corrida.png",
+    gradient: "linear-gradient(135deg, rgba(143, 92, 255, 0.35), rgba(26, 127, 240, 0.35))",
   },
   {
     id: 2,
     title: "FUTEBOL",
-    gradient: "linear-gradient(135deg, #8F5CFF, #1A7FF0)",
+    image: "/assets/futebol.png",
+    gradient: "linear-gradient(135deg, rgba(143, 92, 255, 0.35), rgba(26, 127, 240, 0.35))",
   },
   {
     id: 3,
     title: "TREINO",
-    gradient: "linear-gradient(135deg, #8F5CFF, #1A7FF0)",
+    image: "/assets/treino.png",
+    gradient: "linear-gradient(135deg, rgba(143, 92, 255, 0.35), rgba(26, 127, 240, 0.35))",
   },
   {
     id: 4,
     title: "PETS",
-    gradient: "linear-gradient(135deg, #8F5CFF, #1A7FF0)",
+    image: "/assets/pets.png",
+    gradient: "linear-gradient(135deg, rgba(143, 92, 255, 0.35), rgba(26, 127, 240, 0.35))",
   },
 ];
 
@@ -29,15 +33,19 @@ const HomeCategories = () => {
         {categories.map((category) => (
           <div
             key={category.id}
-            className="relative flex h-64 flex-col items-center justify-between overflow-hidden rounded-2xl p-6 text-white shadow-lg"
-            style={{ backgroundImage: category.gradient }}
+            className="relative flex h-64 flex-col items-center justify-between overflow-hidden rounded-2xl p-6 text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+            style={{
+              backgroundImage: `${category.gradient}, url(${category.image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
           >
             <span className="text-lg font-semibold tracking-widest">
               {category.title}
             </span>
             <button
               type="button"
-              className="rounded-full bg-white px-6 py-2 text-xs font-semibold uppercase text-[#6F5AF5] shadow-sm"
+              className="cursor-pointer rounded-full bg-white px-6 py-2 text-xs font-semibold uppercase text-[#6F5AF5] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               Ver Produtos
             </button>
