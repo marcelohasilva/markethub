@@ -33,7 +33,7 @@ export default function Cadastro() {
 
         console.debug('Enviando payload de cadastro:', payload);
 
-        const resposta = await fetch('http://localhost:8000/users', {
+        const resposta = await fetch('/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
