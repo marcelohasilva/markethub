@@ -25,7 +25,11 @@ const Home = () => {
             })
             .then(data => {
                 const list = Array.isArray(data) ? data : (data?.data ?? []);
-                setProducts(list);
+                const filtered = list.filter((item: Product) => {
+                    const name = String(item?.name ?? "").toLowerCase();
+                    return name && !name.includes("adicionar produto");
+                });
+                setProducts(filtered);
             })
             .catch(err => console.error("Erro ao buscar dados:", err));
         }, []);
@@ -35,10 +39,18 @@ const Home = () => {
                  <div className="min-h-screen">
                         <div className="w-full px-4 md:px-8 lg:px-[97px]">
                             <HomeCarousel />
-                            <h1 className="text-[#282729] mt-8 text-3xl font-bold">
-                                Destaques
-                            </h1>
-                            <div className="flex flex-wrap gap-6 mt-6 pb-10">
+                            <div className="mt-8 flex items-center justify-between">
+                                <h1 className="text-[#282729] text-xl md:text-3xl font-bold">
+                                    Destaques
+                                </h1>
+                                <button
+                                    type="button"
+                                    className="text-sm font-semibold text-[#6B3DF2] hover:opacity-80"
+                                >
+                                    Ver todos
+                                </button>
+                            </div>
+                            <div className="mt-4 grid grid-cols-2 gap-4 pb-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                 {products.map(product => (
                                     <CardProduto 
                                         key={product.id}

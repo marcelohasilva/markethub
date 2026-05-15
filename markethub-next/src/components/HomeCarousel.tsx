@@ -72,24 +72,24 @@ const HomeCarousel = () => {
   const activeSlide = slides[activeIndex];
 
   return (
-    <section className="w-full mt-6">
+    <section className="w-full mt-4 md:mt-6">
       <div
         className="relative w-full rounded-2xl shadow-md overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(90deg, ${activeSlide.bgFrom}, ${activeSlide.bgTo})`,
         }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 px-8 py-10 lg:px-14 lg:py-14">
+        <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 px-5 py-7 md:px-10 md:py-10 lg:px-14 lg:py-14">
           <div className="text-white">
-            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight whitespace-pre-line">
+            <h2 className="text-3xl md:text-5xl font-extrabold leading-tight whitespace-pre-line">
               {activeSlide.title}
             </h2>
-            <p className="mt-3 text-lg md:text-xl tracking-wide text-white/90">
+            <p className="mt-2 text-sm md:text-xl tracking-wide text-white/90">
               {activeSlide.subtitle}
             </p>
             <button
               type="button"
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase text-[#6F5AF5] shadow-sm hover:opacity-90"
+              className="mt-4 inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase text-[#6F5AF5] shadow-sm hover:opacity-90"
             >
               {activeSlide.cta}
             </button>
@@ -99,7 +99,7 @@ const HomeCarousel = () => {
             <img
               src={activeSlide.image}
               alt="Banner"
-              className="h-[220px] w-auto object-contain drop-shadow-xl"
+              className="h-[170px] md:h-[220px] w-auto object-contain drop-shadow-xl"
             />
           </div>
         </div>
