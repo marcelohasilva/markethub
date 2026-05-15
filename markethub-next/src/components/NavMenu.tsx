@@ -2,17 +2,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { FiGrid, FiHome, FiStar, FiTag, FiLayers } from "react-icons/fi";
 
-export default function NavMenu() {
+interface NavMenuProps {
+  onNavigate?: () => void;
+}
+
+export default function NavMenu({ onNavigate }: NavMenuProps) {
   const pathname = usePathname();
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const links = [
-    { label: "Home", to: "/" },
-    { label: "Categorias", to: "#" },
-    { label: "Novidades", to: "#" },
-    { label: "Ofertas do Dia", to: "#" },
-    { label: "Colecoes", to: "#" },
-    { label: "Minha Loja", to: "/cadastrarloja" },
+    { label: "Home", to: "/", icon: FiHome },
+    { label: "Categorias", to: "#", icon: FiGrid },
+    { label: "Ofertas do Dia", to: "#", icon: FiTag },
+    { label: "Colecoes", to: "#", icon: FiLayers },
+    { label: "Mais Vendidos", to: "#", icon: FiStar },
   ];
   const categories = [
     {
@@ -218,10 +222,11 @@ export default function NavMenu() {
   const activeCategory = categories.find((category) => category.id === activeCategoryId) ?? categories[0];
   return (
     <nav className="relative w-full bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white">
-      <ul className="flex gap-14 py-3 px-[97px]">
+      <ul className="flex items-center gap-6 overflow-x-auto py-3 px-4 md:px-6 lg:px-[97px]">
         {links.map((link) => {
           const isActive = pathname === link.to && link.to !== "#";
           const isCategorias = link.label === "Categorias";
+          const Icon = link.icon;
 
           return (
             <li key={link.label}>
@@ -229,20 +234,22 @@ export default function NavMenu() {
                 <button
                   type="button"
                   onClick={() => setIsCategoriesOpen((open) => !open)}
-                  className="cursor-pointer hover:opacity-80"
+                  className="flex items-center gap-2 cursor-pointer hover:opacity-80"
                   aria-expanded={isCategoriesOpen}
                   aria-controls="categories-menu"
                 >
+                  <Icon className="h-4 w-4" />
                   {link.label}
                 </button>
               ) : (
                 <Link
                   href={link.to}
-                  className={[
-                    "cursor-pointer hover:opacity-80",
-                    isActive ? "font-semibold underline underline-offset-4" : "",
-                  ].join(" ")}
+                  onClick={onNavigate}
+                  className={`flex items-center gap-2 cursor-pointer hover:opacity-80 ${
+                    isActive ? "font-semibold underline underline-offset-4" : ""
+                  }`}
                 >
+                  <Icon className="h-4 w-4" />
                   {link.label}
                 </Link>
               )}
