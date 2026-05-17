@@ -4,12 +4,15 @@ import { useRouter } from "next/navigation";
 export default function Header() {
   const router = useRouter();
   return (
-    <header className="fixed top-0 left-0 w-full h-16 md:h-20 bg-white flex items-center justify-start md:justify-start px-4 md:px-0 shadow-sm z-50">
-      <img onClick={() => router.push("/")}
-        className="h-40 md:h-15 pl-5 w-auto object-contain cursor-pointer"
-        src="/assets/logo.png"
-        alt="Logo"
-      />
+    <header className="w-full bg-white">
+      <div className="flex h-[82px] items-center justify-center px-4 md:h-20 md:justify-start md:px-6 lg:px-[97px]">
+        <img
+          onClick={() => router.push("/")}
+          className="h-9 w-auto cursor-pointer object-contain md:h-10"
+          src="/assets/logo.png"
+          alt="Logo"
+        />
+      </div>
     </header>
   );
 }
