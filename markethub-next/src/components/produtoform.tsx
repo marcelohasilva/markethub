@@ -1,13 +1,71 @@
 "use client";
-import { useState } from "react";
+
+import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import {
+  FiBarChart2,
+  FiBell,
+  FiBriefcase,
+  FiChevronDown,
+  FiChevronLeft,
+  FiChevronRight,
+  FiGrid,
+  FiHelpCircle,
+  FiHeart,
+  FiInfo,
+  FiLink,
+  FiMenu,
+  FiRefreshCw,
+  FiSearch,
+  FiSend,
+  FiSettings,
+  FiShoppingBag,
+  FiShoppingCart,
+  FiStar,
+  FiTag,
+  FiUsers,
+  FiVolume2,
+  FiX,
+} from "react-icons/fi";
+import type { IconType } from "react-icons";
+
+type SidebarItem = {
+  label: string;
+  Icon: IconType;
+  active?: boolean;
+};
+
+const sidebarItems: SidebarItem[] = [
+  { label: "Dashboard", Icon: FiGrid },
+  { label: "Produtos", Icon: FiTag, active: true },
+  { label: "Pedidos", Icon: FiShoppingBag },
+  { label: "Clientes", Icon: FiUsers },
+  { label: "Financeiro", Icon: FiBriefcase },
+  { label: "Marketing", Icon: FiSend },
+  { label: "Relatórios", Icon: FiBarChart2 },
+  { label: "Configurações", Icon: FiSettings },
+];
+
+const productTabs = ["Todos os Produtos", "Cadastrar Produto", "Importados", "Coleções"] as const;
 
 export default function ProdutoForm() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<number | "">("");
-  const [description, setDescription] = useState("");
   const router = useRouter();
+
+  // layout state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // form state
+  const [productUrl, setProductUrl] = useState(
+    "https://shopee.com.br/Fone-de-Ouvido-Bluetooth-SoundMax-H30-i.123456789.987654321",
+  );
+  const [name, setName] = useState("Fone de Ouvido Bluetooth SoundMax H30");
+  const [price, setPrice] = useState<number | "">(199.9);
+  const [description, setDescription] = useState(
+    "Desfrute de um som potente e envolvente com o SoundMax H30.\nConforto, bateria de longa duração e conectividade bluetooth para o seu dia a dia.\nCompatível com smartphones, tablets e notebooks.",
+  );
+  const [category, setCategory] = useState("Eletrônicos  >  Áudio  >  Fones de Ouvido");
+  const [featured, setFeatured] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -22,34 +80,24 @@ export default function ProdutoForm() {
       return;
     }
 
-    // 1. PEGAR O TOKEN DO LOCALSTORAGE
-    // O ID do utilizador está codificado dentro deste token.
-    const token = localStorage.getItem('api_token');
-
+    const token = localStorage.getItem("api_token");
     if (!token) {
       alert("Você precisa estar logado para cadastrar produtos!");
       return;
     }
 
     try {
-      // O payload contém apenas os dados do produto. 
-      // Não enviamos o seller_id aqui para evitar que um utilizador malintencionado 
-      // tente enviar um ID de outra pessoa.
       const payload = {
         name: name.trim(),
         price: Number(price),
         description: description.trim(),
       };
 
-      console.debug("Enviando produto com token...");
-
       const resposta = await fetch("http://localhost:8000/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // 2. ENVIAR O TOKEN NO HEADER
-          // A API vai ler este cabeçalho, validar o token e extrair o ID do utilizador (o "sub").
-          "Authorization": `Bearer ${token}` 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -64,51 +112,412 @@ export default function ProdutoForm() {
       setName("");
       setPrice("");
       setDescription("");
-
-    } catch (error: any) {
-      console.error("Erro:", error);
-      alert(error.message || "Erro ao conectar ao servidor");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : undefined;
+      alert(message || "Erro ao conectar ao servidor");
     }
   }
 
+  const compactDescription = useMemo(
+    () => description.split("\n").filter(Boolean).slice(0, 2).join(" "),
+    [description],
+  );
+
   return (
-    <div className='flex flex-col justify-center items-center mt-20 pb-20'>
-       <div className="flex flex-col items-center w-full max-w-xl bg-white p-8 rounded-xl shadow-md">
-        <h2 className='font-bold text-[30px]'>Cadastrar Produto</h2>
+    <div className="min-h-screen bg-[#F7F8FC] text-[#121A33]">
+      <header className="sticky top-0 z-40 border-b border-[#E4E8F3] bg-white/95 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur">
+        <div className="flex h-20 items-center gap-5 px-5 md:px-8">
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-[#17213D] transition hover:bg-[#F1EEFF]"
+            aria-label="Abrir menu"
+          >
+            <FiMenu className="h-6 w-6" />
+          </button>
 
-      <form onSubmit={handleSubmit} className='flex flex-col w-full max-w-sm p-6'>
-        <label className="mt-4">Nome do Produto</label>
-        <input
-          className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-1 focus:ring-2 focus:ring-[#186BC4] outline-none'
-          type="text"
-          placeholder="Ex: Teclado Mecânico"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+          <img
+            onClick={() => router.push("/")}
+            src="/assets/logo.png"
+            alt="MarketHub"
+            className="h-11 w-auto cursor-pointer object-contain"
+          />
 
-        <label className="mt-4">Preço</label>
-        <input
-          className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-1 focus:ring-2 focus:ring-[#186BC4] outline-none'
-          type="number"
-          placeholder="0.00"
-          value={price}
-          onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))}
-        />
+          <div className="mx-auto hidden w-full max-w-[620px] items-center md:flex">
+            <input
+              type="text"
+              placeholder="Pesquisar produtos..."
+              className="h-12 w-full rounded-l-lg border border-[#DDE3F0] bg-[#F8FAFE] px-5 text-sm text-[#68748F] outline-none transition focus:border-[#6B3DF2]"
+            />
+            <button
+              type="button"
+              className="flex h-12 w-14 cursor-pointer items-center justify-center rounded-r-lg bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-white shadow-[0_12px_22px_rgba(80,70,230,0.24)]"
+              aria-label="Pesquisar"
+            >
+              <FiSearch className="h-5 w-5" />
+            </button>
+          </div>
 
-        <label className="mt-4">Descrição</label>
-        <textarea
-          className='bg-white border border-gray-300 rounded-lg px-3 py-2 mt-1 focus:ring-2 focus:ring-[#186BC4] outline-none min-h-[100px]'
-          placeholder="Detalhes do produto..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+          <div className="ml-auto flex items-center gap-4 md:gap-8">
+            <button
+              type="button"
+              onClick={() => router.push("/favoritos")}
+              className="hidden cursor-pointer flex-col items-center gap-1 text-xs font-semibold text-[#17213D] transition hover:text-[#5F2CF2] sm:flex"
+            >
+              <FiHeart className="h-6 w-6" />
+              Favoritos
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push("/carrinho")}
+              className="relative hidden cursor-pointer flex-col items-center gap-1 text-xs font-semibold text-[#17213D] transition hover:text-[#5F2CF2] sm:flex"
+            >
+              <span className="relative">
+                <FiShoppingCart className="h-6 w-6" />
+                <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#5F2CF2] text-[11px] text-white">
+                  2
+                </span>
+              </span>
+              Carrinho
+            </button>
+            <button
+              type="button"
+              className="flex h-12 cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] px-5 text-sm font-bold text-white shadow-[0_12px_22px_rgba(80,70,230,0.24)]"
+            >
+              Minha Conta
+              <FiChevronDown className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
 
-        <button type="submit" className='cursor-pointer font-bold text-white bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] rounded-lg py-3 transition mt-8 hover:opacity-90'>
-          Salvar Produto
-        </button>
-      </form>
+        <div className="border-t border-[#E9EDF7] px-5 py-3 md:hidden">
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Pesquisar produtos..."
+              className="h-11 w-full rounded-l-lg border border-[#DDE3F0] bg-[#F8FAFE] px-4 text-sm outline-none"
+            />
+            <button
+              type="button"
+              className="flex h-11 w-14 cursor-pointer items-center justify-center rounded-r-lg bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-white"
+              aria-label="Pesquisar"
+            >
+              <FiSearch className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex">
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 mt-20 w-[232px] border-r border-[#E7EAF4] bg-white px-5 py-8 transition-transform duration-300 lg:static lg:mt-0 lg:min-h-[calc(100vh-80px)] lg:translate-x-0 ${
+            isMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute right-4 top-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-[#17213D] hover:bg-[#F1EEFF] lg:hidden"
+            aria-label="Fechar menu"
+          >
+            <FiX className="h-5 w-5" />
+          </button>
+
+          <nav className="space-y-2">
+            {sidebarItems.map(({ label, Icon, active }) => (
+              <button
+                key={label}
+                type="button"
+                className={`flex h-11 w-full cursor-pointer items-center gap-4 rounded-lg px-3 text-left text-sm font-bold transition ${
+                  active
+                    ? "bg-[#F1EEFF] text-[#4D22F2]"
+                    : "text-[#24304D] hover:bg-[#F7F8FC] hover:text-[#4D22F2]"
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="ml-[18px] mt-2 hidden border-l border-[#E4E8F3] pl-6 lg:block">
+            {productTabs.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                className={`block h-11 cursor-pointer text-sm font-semibold ${
+                  tab === "Cadastrar Produto" ? "text-[#4D22F2]" : "text-[#25314E]"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-12 rounded-lg bg-[#F3EEFF] px-4 py-6 text-center">
+            <FiHelpCircle className="mx-auto h-8 w-8 text-[#4D22F2]" />
+            <p className="mt-5 text-sm font-bold text-[#202A44]">Precisa de ajuda?</p>
+            <p className="mt-2 text-xs font-medium text-[#5F2CF2]">
+              Acesse nossa central de ajuda
+            </p>
+            <button
+              type="button"
+              className="mt-5 h-11 w-full cursor-pointer rounded-lg border border-[#6B32FF] text-sm font-bold text-[#4D22F2] transition hover:bg-white"
+            >
+              Ver Ajuda
+            </button>
+          </div>
+        </aside>
+
+        {isMenuOpen ? (
+          <button
+            type="button"
+            aria-label="Fechar menu"
+            onClick={() => setIsMenuOpen(false)}
+            className="fixed inset-0 z-40 cursor-pointer bg-[#121A33]/30 lg:hidden"
+          />
+        ) : null}
+
+        <main className="min-w-0 flex-1">
+          <section className="bg-gradient-to-r from-[#7F25FF] via-[#3345F2] to-[#057DF5] px-5 py-7 text-white md:px-8">
+            <div className="flex items-center gap-5">
+              <div className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-white/15">
+                <FiShoppingBag className="h-7 w-7" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">Cadastrar Produto</h1>
+                <p className="mt-2 text-sm font-medium text-white/95">
+                  Cole o link do produto e importamos todas as informações para você
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid gap-6 p-5 md:p-8 xl:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)]">
+            <form
+              onSubmit={handleSubmit}
+              className="overflow-hidden rounded-xl border border-[#E3E7F1] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.05)]"
+            >
+              <section className="border-b border-[#E7EAF4] p-6">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-sm font-bold text-white">
+                    1
+                  </span>
+                  <h2 className="text-lg font-bold text-[#4D22F2]">Link do produto</h2>
+                </div>
+                <label className="text-sm font-semibold text-[#2B3552]">
+                  Cole o link do produto de qualquer loja (Shopee, Amazon, etc.)
+                </label>
+                <div className="mt-3 flex flex-col gap-3 lg:flex-row">
+                  <div className="flex h-12 min-w-0 flex-1 items-center gap-3 rounded-lg border border-[#DDE3F0] px-4">
+                    <FiLink className="h-5 w-5 shrink-0 text-[#68748F]" />
+                    <input
+                      value={productUrl}
+                      onChange={(e) => setProductUrl(e.target.value)}
+                      className="min-w-0 flex-1 text-sm text-[#1B2744] outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setProductUrl("")}
+                      className="cursor-pointer text-[#68748F] hover:text-[#4D22F2]"
+                      aria-label="Limpar link"
+                    >
+                      <FiX className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    className="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] px-5 text-sm font-bold text-white shadow-[0_12px_22px_rgba(80,70,230,0.18)]"
+                  >
+                    <FiRefreshCw className="h-4 w-4" />
+                    Importar automaticamente
+                  </button>
+                </div>
+              </section>
+
+              <section className="p-6">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-sm font-bold text-white">
+                    2
+                  </span>
+                  <h2 className="text-lg font-bold text-[#4D22F2]">Informações do produto</h2>
+                </div>
+
+                <div className="space-y-5">
+                  <div>
+                    <label className="text-sm font-bold text-[#1B2744]">Nome do Produto</label>
+                    <input
+                      className="mt-2 h-12 w-full rounded-lg border border-[#DDE3F0] px-4 text-sm text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-bold text-[#1B2744]">Descrição</label>
+                    <textarea
+                      className="mt-2 min-h-[138px] w-full resize-none rounded-lg border border-[#DDE3F0] px-4 py-4 text-sm leading-6 text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
+                      maxLength={5000}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <p className="mt-[-28px] pr-4 text-right text-xs text-[#68748F]">
+                      {description.length}/5000
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-bold text-[#1B2744]">Categoria</label>
+                    <div className="mt-2 flex h-12 items-center justify-between rounded-lg border border-[#DDE3F0] px-4">
+                      <input
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="min-w-0 flex-1 text-sm text-[#1B2744] outline-none"
+                      />
+                      <FiChevronDown className="h-5 w-5 text-[#68748F]" />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between rounded-lg border border-[#E4E8F3] bg-[#F8FAFE] px-5 py-4">
+                    <div className="flex items-center gap-4">
+                      <FiStar className="h-6 w-6 fill-[#FFB31A] text-[#FFB31A]" />
+                      <div>
+                        <p className="text-sm font-bold text-[#1B2744]">
+                          Produto em destaque <span className="font-medium text-[#68748F]">(opcional)</span>
+                        </p>
+                        <p className="mt-1 text-sm text-[#68748F]">
+                          Produtos em destaque aparecem na home e em coleções especiais.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setFeatured((value) => !value)}
+                      className={`relative h-7 w-12 cursor-pointer rounded-full transition ${
+                        featured ? "bg-[#5F2CF2]" : "bg-[#D9DEE9]"
+                      }`}
+                      aria-label="Produto em destaque"
+                    >
+                      <span
+                        className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition ${
+                          featured ? "left-6" : "left-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="flex h-[52px] w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] text-base font-bold text-white shadow-[0_14px_28px_rgba(80,70,230,0.22)]"
+                  >
+                    <FiSend className="h-5 w-5" />
+                    Publicar Produto
+                  </button>
+                </div>
+              </section>
+            </form>
+
+            <aside className="space-y-5">
+              <div className="rounded-xl border border-[#E3E7F1] bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-sm font-bold text-white">
+                      3
+                    </span>
+                    <h2 className="text-lg font-bold text-[#4D22F2]">Pré-visualização</h2>
+                  </div>
+                  <span className="rounded-lg bg-[#F1EEFF] px-4 py-2 text-xs font-semibold text-[#4D22F2]">
+                    Assim como ficará no site
+                  </span>
+                </div>
+
+                <div className="relative flex min-h-[280px] items-center justify-center overflow-hidden rounded-lg border border-[#E4E8F3] bg-gradient-to-br from-white to-[#F7F8FC]">
+                  <button
+                    type="button"
+                    className="absolute left-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-[#1B2744] shadow"
+                    aria-label="Imagem anterior"
+                  >
+                    <FiChevronLeft />
+                  </button>
+                  <img
+                    src="/assets/image.png"
+                    alt={name}
+                    className="h-[230px] w-auto object-contain drop-shadow-[0_18px_28px_rgba(15,23,42,0.16)]"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-[#1B2744] shadow"
+                    aria-label="Próxima imagem"
+                  >
+                    <FiChevronRight />
+                  </button>
+                </div>
+
+                <div className="mt-3 flex justify-center gap-2">
+                  {[0, 1, 2, 3].map((index) => (
+                    <span
+                      key={index}
+                      className={`h-2 w-2 rounded-full ${index === 0 ? "bg-[#5F2CF2]" : "bg-[#D8DDE8]"}`}
+                    />
+                  ))}
+                </div>
+
+                <h3 className="mt-5 text-xl font-bold text-[#121A33]">{name}</h3>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-[#FFB31A]">★★★★</span>
+                  <span className="text-[#D8DDE8]">★</span>
+                  <span className="text-sm text-[#68748F]">(128 avaliações)</span>
+                </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <span className="text-2xl font-bold text-[#4D22F2]">
+                    R$ {Number(price || 0).toFixed(2).replace(".", ",")}
+                  </span>
+                  <span className="text-sm font-bold text-[#8993AA] line-through">R$ 249,90</span>
+                  <span className="rounded-full bg-[#FFE5E8] px-3 py-1 text-xs font-bold text-[#F04455]">
+                    -20%
+                  </span>
+                </div>
+
+                <p className="mt-4 text-sm leading-6 text-[#2D3754]">{compactDescription}</p>
+
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  <span className="flex items-center justify-center gap-2 rounded-lg bg-[#F7F8FC] px-3 py-3 text-xs font-semibold text-[#1B2744]">
+                    <FiVolume2 className="text-[#4D22F2]" />
+                    Bluetooth 5.3
+                  </span>
+                  <span className="flex items-center justify-center gap-2 rounded-lg bg-[#F7F8FC] px-3 py-3 text-xs font-semibold text-[#1B2744]">
+                    <FiBell className="text-[#4D22F2]" />
+                    Até 40h de bateria
+                  </span>
+                  <span className="flex items-center justify-center gap-2 rounded-lg bg-[#F7F8FC] px-3 py-3 text-xs font-semibold text-[#1B2744]">
+                    <FiVolume2 className="text-[#4D22F2]" />
+                    Cancelamento de ruído
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  className="mt-6 h-12 w-full cursor-pointer rounded-lg border border-[#6B32FF] text-sm font-bold text-[#4D22F2] transition hover:bg-[#F6F2FF]"
+                >
+                  Ver Produto
+                </button>
+              </div>
+
+              <div className="flex gap-4 rounded-lg border border-[#E1D5FF] bg-[#F5F0FF] p-5 text-sm text-[#4D22F2]">
+                <FiInfo className="mt-0.5 h-5 w-5 shrink-0" />
+                <p>
+                  Todas as informações são importadas automaticamente da loja de origem.
+                  <br />
+                  Revise os dados antes de publicar.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </main>
+      </div>
     </div>
-       </div>
-      
   );
 }
+
