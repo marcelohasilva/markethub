@@ -1,15 +1,17 @@
 import Header from "../components/header";
 import Cadastro from "../components/cadastro";
-import Painel from "../components/painel";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export default function TelaCadastro() {
   return (
-    <div className="overflow-hidden h-screen">
+    <div className={`min-h-screen bg-[#F7F8FC] ${poppins.className}`}>
       <Header />
-      <div className="flex flex-col md:flex-row justify-center items-start w-full ">
-        <Painel />
-        <Cadastro />
-      </div>
+      <Cadastro />
     </div>
   );
 }
