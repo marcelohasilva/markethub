@@ -1,11 +1,20 @@
 "use client";
+import Header from "../components/header";
 import Login from "../components/Login";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const TelaLogin = () => {
-    return(
-        <>
-            <Login />
-        </>
-    )
-} 
+  return (
+    <div className={`min-h-screen bg-[#F7F8FC] ${poppins.className}`}>
+      <Header />
+      <Login />
+    </div>
+  );
+};
+
 export default TelaLogin;
