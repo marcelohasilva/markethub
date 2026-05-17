@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "MarketHub",
@@ -13,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="bg-[#EBEBEB] min-h-screen w-full">{children}</body>
+      <body
+        className={`${poppins.className} bg-[#EBEBEB] min-h-screen w-full`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
