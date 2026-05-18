@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FiGrid, FiHome, FiStar, FiTag, FiLayers } from "react-icons/fi";
+import { FiGrid, FiHome, FiStar, FiTag, FiLayers, FiShoppingCart } from "react-icons/fi";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 
 interface NavMenuProps {
   onNavigate?: () => void;
@@ -17,6 +18,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
     { label: "Ofertas do Dia", to: "#", icon: FiTag },
     { label: "Colecoes", to: "#", icon: FiLayers },
     { label: "Mais Vendidos", to: "#", icon: FiStar },
+    { label: "Minha loja", to: "/cadastrarloja", icon: HiOutlineBuildingStorefront },
   ];
   const categories = [
     {
