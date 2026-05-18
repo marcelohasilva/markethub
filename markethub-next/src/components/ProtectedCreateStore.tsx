@@ -3,35 +3,36 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CadastrarLoja from "../views/CadastrarLoja";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+
 const ProtectedCreateStore = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [hasStore, setHasStore] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    setUserId(user?.id ?? null);
-  }, []);
-
-  useEffect(() => {
-    if (!userId) {
-      setLoading(false);
-      setHasStore(false);
-      return;
-    }
-
     const checkStore = async () => {
+      const token = localStorage.getItem("api_token");
+
+      if (!token) {
+        setLoading(false);
+        setHasStore(false);
+        return;
+      }
+
       try {
-        const response = await fetch(`http://localhost:8000/stores/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/v1/stores`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
         const result = await response.json();
 
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
-          setHasStore(true);
-        } else {
-          setHasStore(false);
-        }
+        const stores = Array.isArray(result) ? result : result?.data ?? [];
+        setHasStore(stores.length > 0);
       } catch (error) {
         console.error("Erro ao verificar loja", error);
         setHasStore(false);
@@ -41,7 +42,7 @@ const ProtectedCreateStore = () => {
     };
 
     checkStore();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     if (hasStore) router.replace("/loja");
