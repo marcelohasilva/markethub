@@ -2,10 +2,13 @@
 import { useState, useEffect, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+
 export const FormCadLoja = () => {
     const [nameStore, setNameStore] = useState<string>("")
     const [describeStore, setDescribeStore] = useState<string>("")
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true)
+    const [isCheckingStore, setIsCheckingStore] = useState<boolean>(false)
     const router = useRouter();
 
     // Verificação inicial: se não houver token, redireciona ou avisa
@@ -41,11 +44,10 @@ export const FormCadLoja = () => {
                 description: describeStore.trim(),
             };
 
-            const response = await fetch('http://localhost:8000/stores', {
+            const response = await fetch(`${API_BASE_URL}/v1/stores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // ADICIONADO: Envio do token para que o PHP saiba quem é o dono da loja
                     'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(payload),
@@ -65,6 +67,46 @@ export const FormCadLoja = () => {
         } catch (error: any) {
             console.error("Erro na requisição:", error);
             alert(error.message);
+        }
+    }
+
+    async function handleEnterStore() {
+        const token = localStorage.getItem("api_token");
+
+        if (!token) {
+            alert("Sessao expirada. Por favor, faca login.");
+            router.push("/login");
+            return;
+        }
+
+        try {
+            setIsCheckingStore(true);
+            const response = await fetch(`${API_BASE_URL}/v1/stores`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Erro ao verificar lojas");
+            }
+
+            const stores = Array.isArray(data) ? data : data?.data ?? [];
+            if (!stores.length) {
+                alert("Voce ainda nao possui uma loja cadastrada.");
+                return;
+            }
+
+            router.push("/loja");
+        } catch (error: any) {
+            console.error("Erro ao verificar loja:", error);
+            alert(error.message || "Erro ao verificar loja");
+        } finally {
+            setIsCheckingStore(false);
         }
     }
 
@@ -132,7 +174,7 @@ export const FormCadLoja = () => {
 
                 <div className='border-t border-gray-200 text-center pt-4'>
                     <p className='text-sm text-gray-500'>
-                        Já tem uma loja? <button type="button" onClick={() => router.push("/login")} className="cursor-pointer text-indigo-700 font-bold hover:underline">Entrar</button>
+                        Já tem uma loja? <button type="button" onClick={handleEnterStore} disabled={isCheckingStore} className="cursor-pointer text-indigo-700 font-bold hover:underline disabled:opacity-60 disabled:cursor-not-allowed">Entrar</button>
                     </p>
                 </div>
             </form>
