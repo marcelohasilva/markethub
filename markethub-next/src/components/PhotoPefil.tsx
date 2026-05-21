@@ -9,17 +9,18 @@ const PhotoPerfil = () => {
     useEffect(() => {
         const token = localStorage.getItem("api_token");
 
-        fetch(`${API_BASE_URL}/v1/stores`, {
+        fetch(`${API_BASE_URL}/v1/stores/me`, {
             headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         })
             .then((response) => response.json())
             .then((data) => {
-                const list = Array.isArray(data) ? data : (data?.data ?? []);
-                if (list.length > 0) {
-                    const store = list[0];
-                    setName(store.name ?? "");
-                    setDescribe(store.description ?? "");
-                }
+            if (data && (data.name || data.id)) {
+            setName(data.name ?? "");
+            setDescribe(data.description ?? "");
+        } else {
+                setName("");
+                setDescribe("");
+        }
             })
             .catch(() => {
                 setName("");
@@ -39,10 +40,10 @@ const PhotoPerfil = () => {
             </div>
 
             <h1 className="mt-4 text-2xl font-semibold md:text-3xl">
-                {name || "MarketHub"}
+                {name}
             </h1>
             <p className="mt-1 text-sm text-white/90 md:text-base">
-                {describe || "Loja especializada em artigos esportivos."}
+                {describe}
             </p>
         </div>
     );
