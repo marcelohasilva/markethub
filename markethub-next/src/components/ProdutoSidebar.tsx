@@ -63,6 +63,7 @@ export default function ProdutoSidebar({
                   onToggleConfig();
                   return;
                 }
+
                 onNavigate(to);
               }}
               className={`flex h-11 w-full cursor-pointer items-center gap-4 rounded-lg px-3 text-left text-sm font-bold transition ${

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import {
   CubeIcon,
   EyeIcon,
@@ -35,6 +36,7 @@ const benefits = [
 ];
 
 export default function Cadastro() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -159,6 +161,8 @@ export default function Cadastro() {
       setPassword("");
       setConfirmPassword("");
       setName("");
+
+      router.push("/");
     } catch {
       setFormError("Erro ao conectar ao servidor");
     }

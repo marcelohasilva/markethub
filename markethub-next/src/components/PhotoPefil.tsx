@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+import { fetchCurrentStore } from "@/lib/stores";
 
 const PhotoPerfil = () => {
     const [name, setName] = useState<string>("");
@@ -8,19 +7,14 @@ const PhotoPerfil = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("api_token");
-
-        fetch(`${API_BASE_URL}/v1/stores/me`, {
-            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-            if (data && (data.name || data.id)) {
-            setName(data.name ?? "");
-            setDescribe(data.description ?? "");
-        } else {
-                setName("");
-                setDescribe("");
+        if (!token) {
+            return;
         }
+
+        fetchCurrentStore(token)
+            .then((store) => {
+                setName(store.name ?? "");
+                setDescribe(store.description ?? "");
             })
             .catch(() => {
                 setName("");

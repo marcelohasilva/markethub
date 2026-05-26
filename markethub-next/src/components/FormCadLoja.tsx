@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+import { API_BASE_URL, ApiRequestError, fetchCurrentStore } from "@/lib/stores";
 
 export const FormCadLoja = () => {
     const [nameStore, setNameStore] = useState<string>("")
@@ -81,30 +80,17 @@ export const FormCadLoja = () => {
 
         try {
             setIsCheckingStore(true);
-            const response = await fetch(`${API_BASE_URL}/v1/stores`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "Erro ao verificar lojas");
-            }
-
-            const stores = Array.isArray(data) ? data : data?.data ?? [];
-            if (!stores.length) {
+            await fetchCurrentStore(token);
+            router.push("/loja");
+        } catch (error: unknown) {
+            if (error instanceof ApiRequestError && error.status === 404) {
                 alert("Voce ainda nao possui uma loja cadastrada.");
                 return;
             }
 
-            router.push("/loja");
-        } catch (error: any) {
             console.error("Erro ao verificar loja:", error);
-            alert(error.message || "Erro ao verificar loja");
+            const message = error instanceof Error ? error.message : "Erro ao verificar loja";
+            alert(message);
         } finally {
             setIsCheckingStore(false);
         }

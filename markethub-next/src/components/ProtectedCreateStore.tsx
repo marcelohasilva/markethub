@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CadastrarLoja from "../views/CadastrarLoja";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+import { ApiRequestError, fetchCurrentStore } from "@/lib/stores";
 
 const ProtectedCreateStore = () => {
   const router = useRouter();
@@ -22,18 +21,14 @@ const ProtectedCreateStore = () => {
       }
 
       try {
-        const response = await fetch(`${API_BASE_URL}/v1/stores`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          }
-        });
-        const result = await response.json();
-
-        const stores = Array.isArray(result) ? result : result?.data ?? [];
-        setHasStore(stores.length > 0);
+        await fetchCurrentStore(token);
+        setHasStore(true);
       } catch (error) {
+        if (error instanceof ApiRequestError && error.status === 404) {
+          setHasStore(false);
+          return;
+        }
+
         console.error("Erro ao verificar loja", error);
         setHasStore(false);
       } finally {

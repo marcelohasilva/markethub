@@ -23,11 +23,12 @@ const sidebarItems: SidebarItem[] = [
   { label: "Configurações", Icon: FiSettings, to: "/configuracoes" },
 ];
 
-const productTabs: SidebarTab[] = [
+const configTabs: SidebarTab[] = [
   { label: "Todos os Produtos", to: "/produtos" },
   { label: "Cadastrar Produto", to: "/cadastrarproduto" },
   { label: "Importados", to: "/produtos/importados" },
   { label: "Coleções", to: "/produtos/colecoes" },
+  { label: "Configurações da Loja", to: "/configuracoes" },
 ];
 
 export default function ProdutoForm() {
@@ -118,7 +119,7 @@ export default function ProdutoForm() {
       <div className="flex">
         <ProdutoSidebar
           items={sidebarItems}
-          tabs={productTabs}
+          tabs={configTabs}
           pathname={pathname}
           isMenuOpen={isMenuOpen}
           isConfigOpen={isConfigOpen}
@@ -178,4 +179,3 @@ export default function ProdutoForm() {
     </div>
   );
 }
-
