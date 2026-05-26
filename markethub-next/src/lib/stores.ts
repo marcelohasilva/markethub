@@ -63,3 +63,17 @@ export async function updateCurrentStore(
 
   return response.json();
 }
+
+export async function deleteCurrentStore(token: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/v1/stores/me`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new ApiRequestError(response.status, await readErrorMessage(response));
+  }
+}
