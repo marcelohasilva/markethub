@@ -19,7 +19,7 @@ const PhotoPerfil = () => {
             setDescribe(data.description ?? "");
         } else {
                 setName("");
-                setDescribe("");
+                    setDescribe("");
         }
             })
             .catch(() => {
