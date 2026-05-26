@@ -1,5 +1,10 @@
+import RequireActiveStore from "../../components/RequireActiveStore";
 import Dashboard from "../../views/Dashboard";
 
 export default function Page() {
-  return <Dashboard />;
+  return (
+    <RequireActiveStore>
+      <Dashboard />
+    </RequireActiveStore>
+  );
 }

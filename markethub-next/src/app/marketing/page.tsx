@@ -1,5 +1,10 @@
+import RequireActiveStore from "../../components/RequireActiveStore";
 import Marketing from "../../views/Marketing";
 
 export default function Page() {
-  return <Marketing />;
+  return (
+    <RequireActiveStore>
+      <Marketing />
+    </RequireActiveStore>
+  );
 }
