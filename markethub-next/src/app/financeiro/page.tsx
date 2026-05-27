@@ -1,4 +1,4 @@
-import RequireActiveStore from "../../components/RequireActiveStore";
+import RequireActiveStore from "../../components/shared/RequireActiveStore";
 import Financeiro from "../../views/Financeiro";
 
 export default function Page() {

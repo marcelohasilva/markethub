@@ -6,6 +6,7 @@ export interface StoreProduct {
   name: string;
   price: number;
   description?: string;
+  productUrl?: string;
 }
 
 interface CardProdutoLojaProps {
@@ -17,6 +18,11 @@ export default function CardProdutoLoja({ product, isFeatured }: CardProdutoLoja
   const router = useRouter();
 
   function handleNavigate() {
+    if (product.productUrl) {
+      window.location.href = product.productUrl;
+      return;
+    }
+
     router.push(`/produto/${product.id}`);
   }
 

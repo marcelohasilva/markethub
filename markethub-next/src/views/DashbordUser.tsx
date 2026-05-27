@@ -1,5 +1,5 @@
 "use client";
-import UserList from "../components/UserList";
+import UserList from "../components/admin/UserList";
 
 const DashbordUser = () => {
     return (

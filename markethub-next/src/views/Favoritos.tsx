@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import HeaderMain from "../components/HeaderMain";
-import EmptyFavorites from "../components/EmptyFavorites";
-import CardFavorito from "../components/CardFavorito";
+import HeaderMain from "../components/shared/HeaderMain";
+import EmptyFavorites from "../components/favoritos/EmptyFavorites";
+import CardFavorito from "../components/favoritos/CardFavorito";
 import type { FavoriteProduct } from "../Functions/Storage";
 
 export default function Favoritos() {

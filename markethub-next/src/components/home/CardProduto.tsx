@@ -7,6 +7,7 @@ export interface Product {
   name: string;
   price: number;
   description?: string;
+  productUrl?: string;
 }
 
 
@@ -14,6 +15,11 @@ export default function CardProduto({ product }: { product: Product }) {
   const router = useRouter();
 
   function handleNavigate() {
+    if (product.productUrl) {
+      window.location.href = product.productUrl;
+      return;
+    }
+
     router.push(`/produto/${product.id}`);
   }
 

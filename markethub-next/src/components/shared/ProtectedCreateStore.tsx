@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import CadastrarLoja from "../views/CadastrarLoja";
+import CadastrarLoja from "../../views/CadastrarLoja";
 import { ApiRequestError, fetchCurrentStore } from "@/lib/stores";
 
 const ProtectedCreateStore = () => {

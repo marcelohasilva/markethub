@@ -1,6 +1,6 @@
 "use client";
-import Header from "../components/header";
-import Login from "../components/Login";
+import Header from "../components/auth/header";
+import Login from "../components/auth/Login";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({

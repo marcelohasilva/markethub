@@ -1,8 +1,8 @@
 "use client";
-import ButoonCar from "../components/butoonCAr";
-import CardCarrinho from "../components/CardCarrinho";
-import CarTotPrice from "../components/CarTotPrice";
-import HeaderMain from "../components/HeaderMain";
+import ButoonCar from "../components/carrinho/butoonCAr";
+import CardCarrinho from "../components/carrinho/CardCarrinho";
+import CarTotPrice from "../components/carrinho/CarTotPrice";
+import HeaderMain from "../components/shared/HeaderMain";
 
 const Carrinho = () => {
   // ✅ ID fixo

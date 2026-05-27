@@ -1,4 +1,4 @@
-import RequireActiveStore from "../../../components/RequireActiveStore";
+import RequireActiveStore from "../../../components/shared/RequireActiveStore";
 import ProdutosImportados from "../../../views/ProdutosImportados";
 
 export default function Page() {

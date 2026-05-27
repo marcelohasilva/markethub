@@ -1,7 +1,7 @@
 "use client";
-import { FormCadLoja } from "../components/FormCadLoja";
-import HeaderMain from "../components/HeaderMain";
-import TextdoCadLoja from "../components/textdoCadLoja";
+import { FormCadLoja } from "../components/loja/FormCadLoja";
+import HeaderMain from "../components/shared/HeaderMain";
+import TextdoCadLoja from "../components/loja/textdoCadLoja";
 
 
 const CadastrarLoja = () => {

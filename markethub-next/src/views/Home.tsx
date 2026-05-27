@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import CardProduto from "../components/CardProduto";
-import HeaderMain from "../components/HeaderMain";
-import HomeCarousel from "../components/HomeCarousel";
-import HomeMarketplaces from "../components/HomeMarketplaces";
-import HomeCategories from "../components/HomeCategories";
-import HomeFooter from "../components/HomeFooter";
+import CardProduto from "../components/home/CardProduto";
+import HeaderMain from "../components/shared/HeaderMain";
+import HomeCarousel from "../components/home/HomeCarousel";
+import HomeMarketplaces from "../components/home/HomeMarketplaces";
+import HomeCategories from "../components/home/HomeCategories";
+import HomeFooter from "../components/home/HomeFooter";
 
 interface Product {
     id: number;

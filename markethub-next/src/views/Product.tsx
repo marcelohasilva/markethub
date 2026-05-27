@@ -11,9 +11,9 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 import { FiMaximize2, FiTag, FiZap } from "react-icons/fi";
-import DescribeProduct from "../components/DescribeProduct";
-import HeaderMain from "../components/HeaderMain";
-import ButtonCart from "../components/ButtonCart";
+import DescribeProduct from "../components/produto/DescribeProduct";
+import HeaderMain from "../components/shared/HeaderMain";
+import ButtonCart from "../components/produto/ButtonCart";
 import type { FavoriteProduct } from "../Functions/Storage";
 
 const Product = () => {

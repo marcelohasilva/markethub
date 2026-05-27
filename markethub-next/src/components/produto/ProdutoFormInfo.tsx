@@ -4,24 +4,32 @@ import { FiChevronDown, FiSend, FiStar } from "react-icons/fi";
 
 interface ProdutoFormInfoProps {
   name: string;
+  price: number | "";
+  stock: number | "";
   description: string;
-  category: string;
+  categoryId: string;
   featured: boolean;
   onNameChange: (value: string) => void;
+  onPriceChange: (value: number | "") => void;
+  onStockChange: (value: number | "") => void;
   onDescriptionChange: (value: string) => void;
-  onCategoryChange: (value: string) => void;
+  onCategoryIdChange: (value: string) => void;
   onToggleFeatured: () => void;
   descriptionLength: number;
 }
 
 export default function ProdutoFormInfo({
   name,
+  price,
+  stock,
   description,
-  category,
+  categoryId,
   featured,
   onNameChange,
+  onPriceChange,
+  onStockChange,
   onDescriptionChange,
-  onCategoryChange,
+  onCategoryIdChange,
   onToggleFeatured,
   descriptionLength,
 }: ProdutoFormInfoProps) {
@@ -46,6 +54,34 @@ export default function ProdutoFormInfo({
         </div>
 
         <div>
+          <label className="text-sm font-bold text-[#1B2744]">Preço</label>
+          <input
+            className="mt-2 h-12 w-full rounded-lg border border-[#DDE3F0] px-4 text-sm text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
+            type="number"
+            inputMode="decimal"
+            value={price}
+            onChange={(e) => {
+              const raw = e.target.value;
+              onPriceChange(raw === "" ? "" : Number(raw));
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-bold text-[#1B2744]">Estoque</label>
+          <input
+            className="mt-2 h-12 w-full rounded-lg border border-[#DDE3F0] px-4 text-sm text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
+            type="number"
+            inputMode="numeric"
+            value={stock}
+            onChange={(e) => {
+              const raw = e.target.value;
+              onStockChange(raw === "" ? "" : Number(raw));
+            }}
+          />
+        </div>
+
+        <div>
           <label className="text-sm font-bold text-[#1B2744]">Descrição</label>
           <textarea
             className="mt-2 min-h-[138px] w-full resize-none rounded-lg border border-[#DDE3F0] px-4 py-4 text-sm leading-6 text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
@@ -59,11 +95,12 @@ export default function ProdutoFormInfo({
         </div>
 
         <div>
-          <label className="text-sm font-bold text-[#1B2744]">Categoria</label>
+          <label className="text-sm font-bold text-[#1B2744]">Categoria (ID)</label>
           <div className="mt-2 flex h-12 items-center justify-between rounded-lg border border-[#DDE3F0] px-4">
             <input
-              value={category}
-              onChange={(e) => onCategoryChange(e.target.value)}
+              value={categoryId}
+              onChange={(e) => onCategoryIdChange(e.target.value)}
+              placeholder="Opcional"
               className="min-w-0 flex-1 text-sm text-[#1B2744] outline-none"
             />
             <FiChevronDown className="h-5 w-5 text-[#68748F]" />

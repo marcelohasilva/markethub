@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import HeaderMain from "../components/HeaderMain";
-import NavLoja from "../components/NavLoja";
-import PhotoPerfil from "../components/PhotoPefil";
-import CardProdutoLoja, { type StoreProduct } from "../components/CardProdutoLoja";
+import HeaderMain from "../components/shared/HeaderMain";
+import NavLoja from "../components/loja/NavLoja";
+import PhotoPerfil from "../components/loja/PhotoPefil";
+import CardProdutoLoja, { type StoreProduct } from "../components/loja/CardProdutoLoja";
 
 const Loja = () => {
 

@@ -12,6 +12,8 @@ import ProdutoHero from "./ProdutoHero";
 import ProdutoPreview from "./ProdutoPreview";
 import ProdutoSidebar, { type SidebarItem, type SidebarTab } from "./ProdutoSidebar";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", Icon: FiGrid, to: "/dashboard" },
   { label: "Produtos", Icon: FiTag, to: "/produtos" },
@@ -45,22 +47,23 @@ export default function ProdutoForm() {
   );
   const [name, setName] = useState("Fone de Ouvido Bluetooth SoundMax H30");
   const [price, setPrice] = useState<number | "">(199.9);
+  const [stock, setStock] = useState<number | "">(10);
   const [description, setDescription] = useState(
     "Desfrute de um som potente e envolvente com o SoundMax H30.\nConforto, bateria de longa duração e conectividade bluetooth para o seu dia a dia.\nCompatível com smartphones, tablets e notebooks.",
   );
-  const [category, setCategory] = useState("Eletrônicos  >  Áudio  >  Fones de Ouvido");
+  const [categoryId, setCategoryId] = useState("");
   const [featured, setFeatured] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!name || price === "" || !description) {
+    if (!productUrl || !name || price === "" || stock === "" || !description) {
       alert("Preencha todos os campos");
       return;
     }
 
-    if (Number(price) <= 0) {
-      alert("O preço deve ser maior que 0");
+    if (Number(price) <= 0 || Number(stock) <= 0) {
+      alert("O preço e o estoque devem ser maiores que 0");
       return;
     }
 
@@ -72,12 +75,15 @@ export default function ProdutoForm() {
 
     try {
       const payload = {
+        productUrl: productUrl.trim(),
         name: name.trim(),
         price: Number(price),
+        stock: Number(stock),
         description: description.trim(),
+        categoryId: categoryId.trim() || undefined,
       };
 
-      const resposta = await fetch("http://localhost:8000/products", {
+      const resposta = await fetch(`${API_BASE_URL}/v1/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +101,10 @@ export default function ProdutoForm() {
       router.push("/loja");
       setName("");
       setPrice("");
+      setStock("");
       setDescription("");
+      setProductUrl("");
+      setCategoryId("");
     } catch (error) {
       const message = error instanceof Error ? error.message : undefined;
       alert(message || "Erro ao conectar ao servidor");
@@ -154,12 +163,16 @@ export default function ProdutoForm() {
 
               <ProdutoFormInfo
                 name={name}
+                price={price}
+                stock={stock}
                 description={description}
-                category={category}
+                categoryId={categoryId}
                 featured={featured}
                 onNameChange={setName}
+                onPriceChange={setPrice}
+                onStockChange={setStock}
                 onDescriptionChange={setDescription}
-                onCategoryChange={setCategory}
+                onCategoryIdChange={setCategoryId}
                 onToggleFeatured={() => setFeatured((value) => !value)}
                 descriptionLength={description.length}
               />
