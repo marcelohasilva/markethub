@@ -18,7 +18,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
     { label: "Ofertas do Dia", to: "/ofertas", icon: FiTag },
     { label: "Colecoes", to: "/colecoes", icon: FiLayers },
     { label: "Mais Vendidos", to: "/maisvendidos", icon: FiStar },
-    { label: "Minha loja", to: "/cadastrarloja", icon: HiOutlineBuildingStorefront },
+    { label: "Lojas", to: "/lojas", icon: HiOutlineBuildingStorefront },
   ];
   const categories = [
     {

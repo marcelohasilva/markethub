@@ -12,6 +12,7 @@ import {
   FiShoppingCart,
   FiUser,
 } from "react-icons/fi";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 
 interface ActionsProps {
@@ -142,6 +143,7 @@ export default function Actions({ variant = "full" }: ActionsProps) {
 
   const menuItems = [
     { label: "Meu perfil", href: "/users", icon: FiUser },
+    { label: "Minha loja", href: "/cadastrarloja", icon: HiOutlineBuildingStorefront },
     { label: "Meus pedidos", href: "/pedidos", icon: FiBox },
     { label: "Enderecos", href: "/clientes", icon: FiMapPin },
     { label: "Formas de pagamento", href: "/financeiro", icon: FiCreditCard },
