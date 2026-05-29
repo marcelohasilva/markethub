@@ -13,11 +13,34 @@ export class ApiRequestError extends Error {
 
 export type StoreProfile = {
   id: string;
+  userId?: string;
   name: string;
   description?: string | null;
   createdAt?: string;
   updatedAt?: string;
 };
+
+type StoreProfileApi = {
+  id: string;
+  userId?: string;
+  name: string;
+  description?: string | null;
+  createdAT?: string;
+  updatedAT?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+function normalizeStoreProfile(store: StoreProfileApi): StoreProfile {
+  return {
+    id: store.id,
+    userId: store.userId,
+    name: store.name,
+    description: store.description ?? null,
+    createdAt: store.createdAt ?? store.createdAT,
+    updatedAt: store.updatedAt ?? store.updatedAT,
+  };
+}
 
 async function readErrorMessage(response: Response) {
   try {
@@ -41,7 +64,8 @@ export async function fetchCurrentStore(token: string): Promise<StoreProfile> {
     throw new ApiRequestError(response.status, await readErrorMessage(response));
   }
 
-  return response.json();
+  const data = (await response.json()) as StoreProfileApi;
+  return normalizeStoreProfile(data);
 }
 
 export async function updateCurrentStore(
@@ -61,7 +85,8 @@ export async function updateCurrentStore(
     throw new ApiRequestError(response.status, await readErrorMessage(response));
   }
 
-  return response.json();
+  const responseData = (await response.json()) as StoreProfileApi;
+  return normalizeStoreProfile(responseData);
 }
 
 export async function deleteCurrentStore(token: string): Promise<void> {
@@ -76,4 +101,46 @@ export async function deleteCurrentStore(token: string): Promise<void> {
   if (!response.ok) {
     throw new ApiRequestError(response.status, await readErrorMessage(response));
   }
+}
+
+export async function fetchAllStores(token?: string): Promise<StoreProfile[]> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}/v1/stores`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new ApiRequestError(response.status, await readErrorMessage(response));
+  }
+
+  const data = (await response.json()) as StoreProfileApi[];
+  return data.map(normalizeStoreProfile);
+}
+
+export async function fetchStoreById(token: string | undefined, storeId: string): Promise<StoreProfile> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}/v1/stores/${storeId}`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new ApiRequestError(response.status, await readErrorMessage(response));
+  }
+
+  const data = (await response.json()) as StoreProfileApi;
+  return normalizeStoreProfile(data);
 }
