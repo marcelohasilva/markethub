@@ -24,6 +24,7 @@ const getBadgeColor = (badge?: StoreDisplay["badge"]) => {
 const LojaCard = ({ store, onView }: LojaCardProps) => {
   const ratingLabel = store.rating ? store.rating.toFixed(1) : "0.0";
   const reviewLabel = store.reviews?.toLocaleString() ?? "0";
+  const isImageLogo = store.logo.startsWith("/") || store.logo.startsWith("http");
 
   return (
     <div className="overflow-hidden rounded-[28px] border border-[#eaecf0] bg-white shadow-[0_2px_12px_rgba(16,24,40,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(16,24,40,0.16)]">
@@ -46,17 +47,22 @@ const LojaCard = ({ store, onView }: LojaCardProps) => {
 
         <button
           type="button"
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#98a2b3] shadow-sm"
+          className="absolute right-4 top-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-[#98a2b3] shadow-sm"
         >
           <Heart className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="px-6 pb-7">
-        <div className="-mt-10 flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border-[5px] border-white bg-[#101828] text-base font-bold uppercase text-white shadow-[0_10px_24px_rgba(16,24,40,0.2)]">
-            {store.logo}
-          </div>
+      <div className="relative px-6 pb-7 pt-12">
+        <div className="absolute left-6 -top-7 z-20 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-[5px] border-white bg-[#101828] text-base font-bold uppercase text-white shadow-[0_12px_28px_rgba(16,24,40,0.24)]">
+          {isImageLogo ? (
+            <img src={store.logo} alt={store.name} className="h-full w-full object-cover" />
+          ) : (
+            store.logo
+          )}
+        </div>
+
+        <div className="flex items-center gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h3 className="text-[20px] font-bold tracking-[-1px] text-[#101828] md:text-[22px] lg:text-[24px]">
@@ -109,7 +115,7 @@ const LojaCard = ({ store, onView }: LojaCardProps) => {
           <button
             type="button"
             onClick={() => onView(store.id)}
-            className="h-[42px] rounded-xl border border-violet-500 px-5 text-sm font-bold text-violet-600 transition-all hover:bg-violet-600 hover:text-white"
+            className="h-[42px] cursor-pointer rounded-xl border border-violet-500 px-5 text-sm font-bold text-violet-600 transition-all hover:bg-violet-600 hover:text-white"
           >
             Ver loja
           </button>

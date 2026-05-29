@@ -10,7 +10,7 @@ const LojasSortBar = ({ sortBy, onSortChange }: LojasSortBarProps) => {
       <select
         value={sortBy}
         onChange={(e) => onSortChange(e.target.value)}
-        className="h-[58px] w-[220px] rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-sm focus:outline-none"
+        className="h-[58px] w-[220px] cursor-pointer rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-sm focus:outline-none"
       >
         <option>Mais relevantes</option>
         <option>Maior rating</option>

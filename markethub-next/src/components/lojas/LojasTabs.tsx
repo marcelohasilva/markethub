@@ -24,7 +24,7 @@ const LojasTabs = ({ activeTab, onChange }: LojasTabsProps) => {
               key={label}
               type="button"
               onClick={() => onChange(label)}
-              className={`flex h-[74px] min-w-[180px] items-center justify-center gap-2 rounded-2xl border-b-[3px] px-4 text-sm font-semibold transition ${
+              className={`flex h-[74px] min-w-[180px] cursor-pointer items-center justify-center gap-2 rounded-2xl border-b-[3px] px-4 text-sm font-semibold transition ${
                 isActive
                   ? "border-b-[#7c3aed] bg-[#f4ebff] text-[#7c3aed]"
                   : "border-b-transparent text-[#667085] hover:bg-[#f2f4f7]"

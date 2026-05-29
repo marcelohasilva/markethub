@@ -33,19 +33,19 @@ const LojasFilters = ({
         />
         <button
           type="button"
-          className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-[#7c3aed] text-white"
+          className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-xl bg-[#7c3aed] text-white"
           aria-label="Buscar"
         >
           <Search className="h-4 w-4" />
         </button>
       </div>
 
-      <label className="flex flex-col gap-2 text-[13px] font-semibold text-[#98a2b3]">
+      <label className="flex cursor-pointer flex-col gap-2 text-[13px] font-semibold text-[#98a2b3]">
         Categoria
         <select
           value={category}
           onChange={(e) => onCategoryChange(e.target.value)}
-          className="h-[58px] rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-[0_2px_10px_rgba(16,24,40,0.06)] focus:outline-none"
+          className="h-[58px] cursor-pointer rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-[0_2px_10px_rgba(16,24,40,0.06)] focus:outline-none"
         >
           <option value="Todas">Todas</option>
           <option value="Eletronicos">Eletrônicos</option>
@@ -55,12 +55,12 @@ const LojasFilters = ({
         </select>
       </label>
 
-      <label className="flex flex-col gap-2 text-[13px] font-semibold text-[#98a2b3]">
+      <label className="flex cursor-pointer flex-col gap-2 text-[13px] font-semibold text-[#98a2b3]">
         Localizacao
         <select
           value={location}
           onChange={(e) => onLocationChange(e.target.value)}
-          className="h-[58px] rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-[0_2px_10px_rgba(16,24,40,0.06)] focus:outline-none"
+          className="h-[58px] cursor-pointer rounded-2xl border border-[#e4e7ec] bg-white px-4 text-sm font-semibold text-[#101828] shadow-[0_2px_10px_rgba(16,24,40,0.06)] focus:outline-none"
         >
           <option value="Todas">Todas</option>
           <option value="SP">Sao Paulo</option>
@@ -70,7 +70,7 @@ const LojasFilters = ({
         </select>
       </label>
 
-      <label className="flex items-center justify-between gap-3 rounded-2xl border border-[#e4e7ec] bg-white px-5 py-3 text-sm font-semibold text-[#344054] shadow-[0_2px_10px_rgba(16,24,40,0.06)]">
+      <label className="flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-[#e4e7ec] bg-white px-5 py-3 text-sm font-semibold text-[#344054] shadow-[0_2px_10px_rgba(16,24,40,0.06)]">
         Lojas oficiais
         <span className="relative inline-flex h-6 w-12 items-center">
           <input
