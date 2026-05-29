@@ -4,22 +4,29 @@ import HeaderMain from "../components/shared/HeaderMain";
 import NavLoja from "../components/loja/NavLoja";
 import PhotoPerfil from "../components/loja/PhotoPefil";
 import CardProdutoLoja, { type StoreProduct } from "../components/loja/CardProdutoLoja";
+import { StoreProfile } from "@/lib/stores";
+import { useSearchParams } from "next/navigation";
+import { fetchStoreById } from "@/lib/stores";
 
-const Loja = () => {
+type LojaProps = {
+    storeData?: StoreProfile | null;
+};
+
+const Loja = ({ storeData }: LojaProps) => {
 
     const [products, setProducts] = useState<StoreProduct[]>([])
-    
+
          useEffect(() => {
              fetch("/api/products", { cache: "no-store" })
-                     .then(response => response.json()) 
+                     .then(response => response.json())
                     .then(data => {
                         const list = Array.isArray(data) ? data : (data?.data ?? []);
                         setProducts(list);
                      })
-                    .catch(err => console.error("Erro ao buscar dados:", err)); 
+                    .catch(err => console.error("Erro ao buscar dados:", err));
             }, []);
 
-            
+
     return(
         <div className="min-h-screen bg-[#F3F4F6]">
             <HeaderMain />
@@ -29,7 +36,7 @@ const Loja = () => {
                     <div className="pointer-events-none absolute left-6 top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                     <div className="pointer-events-none absolute right-10 top-6 h-48 w-48 rounded-full border border-white/15" />
                     <div className="pointer-events-none absolute right-16 top-12 h-28 w-28 rounded-full border border-white/20" />
-                    <PhotoPerfil />
+                    <PhotoPerfil storeName={storeData?.name} />
                 </div>
 
                 <NavLoja />

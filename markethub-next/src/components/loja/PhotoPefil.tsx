@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import { fetchCurrentStore } from "@/lib/stores";
 
-const PhotoPerfil = () => {
+type PhotoPerfilProps = {
+    storeName?: string;
+};
+
+const PhotoPerfil = ({ storeName }: PhotoPerfilProps) => {
     const [name, setName] = useState<string>("");
     const [describe, setDescribe] = useState<string>("");
 
     useEffect(() => {
+        if (storeName) {
+            setName(storeName);
+            setDescribe("");
+            return;
+        }
+
         const token = localStorage.getItem("api_token");
         if (!token) {
             return;
@@ -20,7 +30,7 @@ const PhotoPerfil = () => {
                 setName("");
                 setDescribe("");
             });
-    }, []);
+    }, [storeName]);
 
     return (
         <div className="relative z-10 flex flex-col items-center text-center text-white">
