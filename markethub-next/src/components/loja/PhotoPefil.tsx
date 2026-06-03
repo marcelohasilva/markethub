@@ -10,10 +10,14 @@ const PhotoPerfil = ({ storeName }: PhotoPerfilProps) => {
     const [describe, setDescribe] = useState<string>("");
 
     useEffect(() => {
+<<<<<<< HEAD:markethub-next/src/components/loja/PhotoPefil.tsx
         if (storeName) {
             setName(storeName);
             setDescribe("");
             return;
+=======
+    
+>>>>>>
         }
 
         const token = localStorage.getItem("api_token");

@@ -75,13 +75,13 @@ export default function ProdutoForm() {
 
     try {
       const payload = {
-        productUrl: productUrl.trim(),
-        name: name.trim(),
-        price: Number(price),
-        stock: Number(stock),
-        description: description.trim(),
-        categoryId: categoryId.trim() || undefined,
-      };
+      productUrl: productUrl.trim(),
+      name: name.trim(),
+      price: Number(price),
+      stock: Number(stock),
+      description: description.trim(),
+      categoryId: "bdd068d5-72fe-4c32-9134-8bf1cea463e4",
+    };
 
       const resposta = await fetch(`${API_BASE_URL}/v1/products`, {
         method: "POST",
