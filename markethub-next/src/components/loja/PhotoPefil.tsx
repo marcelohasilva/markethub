@@ -10,10 +10,26 @@ const PhotoPerfil = ({ storeName }: PhotoPerfilProps) => {
     const [describe, setDescribe] = useState<string>("");
 
     useEffect(() => {
+<<<<<<< HEAD:markethub-next/src/components/loja/PhotoPefil.tsx
         if (storeName) {
             setName(storeName);
             setDescribe("");
             return;
+=======
+        const token = localStorage.getItem("api_token");
+
+        fetch(`${API_BASE_URL}/v1/stores/me`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            if (data && (data.name || data.id)) {
+            setName(data.name ?? "");
+            setDescribe(data.description ?? "");
+        } else {
+                setName("");
+                    setDescribe("");
+>>>>>>> b9703596418295945e99d398af9e011b15a7e7f6:markethub-next/src/components/PhotoPefil.tsx
         }
 
         const token = localStorage.getItem("api_token");
