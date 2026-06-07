@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 
 export interface StoreProduct {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description?: string;
