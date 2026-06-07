@@ -16,6 +16,18 @@ export type StoreProfile = {
   userId?: string;
   name: string;
   description?: string | null;
+  products?: StoreProductSummary[];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type StoreProductSummary = {
+  id: string;
+  productUrl?: string;
+  name: string;
+  description?: string | null;
+  price: string | number;
+  active?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -25,6 +37,7 @@ type StoreProfileApi = {
   userId?: string;
   name: string;
   description?: string | null;
+  products?: StoreProductSummary[];
   createdAT?: string;
   updatedAT?: string;
   createdAt?: string;
@@ -37,6 +50,16 @@ function normalizeStoreProfile(store: StoreProfileApi): StoreProfile {
     userId: store.userId,
     name: store.name,
     description: store.description ?? null,
+    products: store.products?.map((product) => ({
+      id: product.id,
+      productUrl: product.productUrl,
+      name: product.name,
+      description: product.description ?? null,
+      price: product.price,
+      active: product.active,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    })),
     createdAt: store.createdAt ?? store.createdAT,
     updatedAt: store.updatedAt ?? store.updatedAT,
   };
@@ -143,4 +166,23 @@ export async function fetchStoreById(token: string | undefined, storeId: string)
 
   const data = (await response.json()) as StoreProfileApi;
   return normalizeStoreProfile(data);
+}
+
+export async function fetchStoreByIdOrFromList(token: string | undefined, storeId: string): Promise<StoreProfile> {
+  try {
+    return await fetchStoreById(token, storeId);
+  } catch (error) {
+    if (!(error instanceof ApiRequestError) || error.status !== 404) {
+      throw error;
+    }
+
+    const stores = await fetchAllStores(token);
+    const store = stores.find((item) => String(item.id) === String(storeId));
+
+    if (!store) {
+      throw error;
+    }
+
+    return store;
+  }
 }

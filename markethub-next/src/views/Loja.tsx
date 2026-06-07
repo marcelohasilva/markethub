@@ -4,27 +4,104 @@ import HeaderMain from "../components/shared/HeaderMain";
 import NavLoja from "../components/loja/NavLoja";
 import PhotoPerfil from "../components/loja/PhotoPefil";
 import CardProdutoLoja, { type StoreProduct } from "../components/loja/CardProdutoLoja";
-import { StoreProfile } from "@/lib/stores";
-import { useSearchParams } from "next/navigation";
-import { fetchStoreById } from "@/lib/stores";
+import { ApiRequestError, CREATE_STORE_ROUTE, fetchCurrentStore, StoreProfile } from "@/lib/stores";
+import { useRouter } from "next/navigation";
 
 type LojaProps = {
     storeData?: StoreProfile | null;
 };
 
 const Loja = ({ storeData }: LojaProps) => {
+    const router = useRouter();
 
     const [products, setProducts] = useState<StoreProduct[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const isPublicStore = Boolean(storeData);
 
          useEffect(() => {
-             fetch("/api/products", { cache: "no-store" })
-                     .then(response => response.json())
-                    .then(data => {
-                        const list = Array.isArray(data) ? data : (data?.data ?? []);
-                        setProducts(list);
-                     })
-                    .catch(err => console.error("Erro ao buscar dados:", err));
-            }, []);
+             let isMounted = true;
+
+             async function loadProducts() {
+                 const token = localStorage.getItem("api_token");
+
+                 if (!storeData && !token) {
+                     router.replace("/login");
+                     return;
+                 }
+
+                 try {
+                     const currentStore = storeData ?? await fetchCurrentStore(token as string);
+
+                     const storeProducts = currentStore.products?.map((product) => ({
+                         id: product.id,
+                         name: product.name,
+                         price: Number(product.price),
+                         description: product.description ?? undefined,
+                         productUrl: product.productUrl,
+                     })) ?? [];
+
+                     if (storeProducts.length > 0) {
+                         if (isMounted) {
+                             setProducts(storeProducts);
+                         }
+                         return;
+                     }
+
+                     const productHeaders: HeadersInit = token
+                         ? { Authorization: `Bearer ${token}` }
+                         : {};
+                     const response = await fetch("/api/products", {
+                         cache: "no-store",
+                         headers: productHeaders,
+                     });
+                     const data = await response.json();
+
+                     const list = Array.isArray(data) ? data : (data?.data ?? []);
+                     const filtered = list.filter((product: { storeId?: string; StoreId?: string; store_id?: string; userId?: string; UserId?: string; user_id?: string }) => {
+                         const productStoreId = product.storeId ?? product.StoreId ?? product.store_id;
+                         const productUserId = product.userId ?? product.UserId ?? product.user_id;
+
+                         return (
+                             String(productStoreId ?? "") === String(currentStore.id) ||
+                             (currentStore.userId ? String(productUserId ?? "") === String(currentStore.userId) : false)
+                         );
+                     });
+
+                     if (isMounted) {
+                         setProducts(filtered.map((product: { id: string | number; name: string; price: string | number; description?: string; productUrl?: string }) => ({
+                             id: String(product.id),
+                             name: product.name,
+                             price: Number(product.price),
+                             description: product.description,
+                             productUrl: product.productUrl,
+                         })));
+                     }
+                 } catch (error) {
+                     if (error instanceof ApiRequestError && error.status === 404) {
+                         router.replace(CREATE_STORE_ROUTE);
+                         return;
+                     }
+
+                     if (error instanceof ApiRequestError && error.status === 401) {
+                         localStorage.removeItem("api_token");
+                         router.replace("/login");
+                         return;
+                     }
+
+                     console.error("Erro ao buscar dados:", error);
+                 } finally {
+                     if (isMounted) {
+                         setIsLoading(false);
+                     }
+                 }
+             }
+
+             loadProducts();
+
+             return () => {
+                 isMounted = false;
+             };
+         }, [router, storeData]);
 
 
     return(
@@ -36,10 +113,10 @@ const Loja = ({ storeData }: LojaProps) => {
                     <div className="pointer-events-none absolute left-6 top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                     <div className="pointer-events-none absolute right-10 top-6 h-48 w-48 rounded-full border border-white/15" />
                     <div className="pointer-events-none absolute right-16 top-12 h-28 w-28 rounded-full border border-white/20" />
-                    <PhotoPerfil storeName={storeData?.name} />
+                    <PhotoPerfil storeName={storeData?.name} storeDescription={storeData?.description ?? undefined} />
                 </div>
 
-                <NavLoja />
+                <NavLoja canManageStore={!isPublicStore} />
             </section>
 
             <section className="w-full px-4 pb-16 pt-8 md:px-6 lg:px-[97px]">
@@ -55,15 +132,21 @@ const Loja = ({ storeData }: LojaProps) => {
                     </div>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-                    {products.map((product, index) => (
-                        <CardProdutoLoja
-                            key={product.id}
-                            product={product}
-                            isFeatured={index === 0}
-                        />
-                    ))}
-                </div>
+                {isLoading ? (
+                    <p className="mt-6 text-sm text-gray-500">Carregando produtos da sua loja...</p>
+                ) : products.length === 0 ? (
+                    <p className="mt-6 text-sm text-gray-500">Nenhum produto cadastrado nessa loja.</p>
+                ) : (
+                    <div className="mt-6 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+                        {products.map((product, index) => (
+                            <CardProdutoLoja
+                                key={product.id}
+                                product={product}
+                                isFeatured={index === 0}
+                            />
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     )
