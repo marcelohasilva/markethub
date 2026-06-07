@@ -1,6 +1,6 @@
 import type { StoreProfile } from "@/lib/stores";
 
-export type StoreDisplay = StoreProfile & {
+export type StoreDisplay = Omit<StoreProfile, "products"> & {
   logo: string;
   rating: number;
   reviews: number;

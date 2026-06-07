@@ -6,7 +6,6 @@ import LojasFilters from "@/components/lojas/LojasFilters";
 import LojasGrid from "@/components/lojas/LojasGrid";
 import LojasHeader from "@/components/lojas/LojasHeader";
 import LojasPagination from "@/components/lojas/LojasPagination";
-import LojasSortBar from "@/components/lojas/LojasSortBar";
 import LojasTabs from "@/components/lojas/LojasTabs";
 import type { StoreDisplay } from "@/components/lojas/types";
 
@@ -60,7 +59,7 @@ export default function Lojas() {
           reviews: 1256,
           category: store.description || "Categoria",
           tags: defaultTags[index % defaultTags.length] ?? [],
-          products: 100,
+          products: store.products?.length ?? 0,
           sales: 250,
           location: defaultLocations[index % defaultLocations.length].location,
           state: defaultLocations[index % defaultLocations.length].state,
@@ -79,9 +78,9 @@ export default function Lojas() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fc]">
-      <div className="mx-auto max-w-[1450px] px-6 py-10">
-        <div className="space-y-8">
+    <div className="min-h-screen bg-[#fbfcff]">
+      <div className="mx-auto max-w-[1690px] px-4 pb-24 pt-7 md:px-7 md:pb-10 md:pt-11 lg:px-[60px]">
+        <div className="space-y-5 md:space-y-8 lg:space-y-9">
           <LojasHeader
             title="Todas as Lojas"
             subtitle="Encontre as melhores lojas da plataforma e descubra produtos incríveis."
@@ -98,9 +97,9 @@ export default function Lojas() {
             onLocationChange={setLocation}
             officialOnly={officialOnly}
             onToggleOfficial={setOfficialOnly}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
           />
-
-          <LojasSortBar sortBy={sortBy} onSortChange={setSortBy} />
         </div>
 
         <LojasGrid
@@ -110,9 +109,14 @@ export default function Lojas() {
           onViewStore={(id) => router.push(`/loja?id=${id}`)}
         />
 
-        <LojasPagination currentPage={currentPage} onPageChange={setCurrentPage} />
+        <div className="mt-10 hidden md:block">
+          <LojasPagination
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
+        </div>
 
-        <p className="mt-6 text-center text-sm text-[#667085]">
+        <p className="mt-6 hidden text-sm text-[#667085] md:block">
           Mostrando 1 a 6 de 120 lojas
         </p>
       </div>
