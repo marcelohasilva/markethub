@@ -52,10 +52,20 @@ export const FormCadLoja = () => {
                 body: JSON.stringify(payload),
             });
 
-            const data = await response.json();
+            let data: any = null;
+
+            try {
+                data = await response.json();
+            } catch {
+                data = null;
+            }
 
             if (!response.ok) {
-                throw new Error(data.message || "Erro ao criar loja");
+                if (response.status === 401) {
+                    throw new ApiRequestError(401, data?.message || "Sessão expirada. Faça login novamente.");
+                }
+
+                throw new Error(data?.message || "Erro ao criar loja");
             }
 
         
@@ -64,6 +74,13 @@ export const FormCadLoja = () => {
             router.push("/loja");
 
         } catch (error: any) {
+            if (error instanceof ApiRequestError && error.status === 401) {
+                localStorage.removeItem("api_token");
+                alert(error.message);
+                router.push("/login");
+                return;
+            }
+
             console.error("Erro na requisição:", error);
             alert(error.message);
         }
@@ -85,6 +102,13 @@ export const FormCadLoja = () => {
         } catch (error: unknown) {
             if (error instanceof ApiRequestError && error.status === 404) {
                 alert("Voce ainda nao possui uma loja cadastrada.");
+                return;
+            }
+
+            if (error instanceof ApiRequestError && error.status === 401) {
+                localStorage.removeItem("api_token");
+                alert("Sessão expirada. Faça login novamente.");
+                router.push("/login");
                 return;
             }
 
