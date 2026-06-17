@@ -1,14 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { FiBell, FiChevronLeft, FiChevronRight, FiVolume2 } from "react-icons/fi";
 
 interface ProdutoPreviewProps {
   name: string;
   price: number | "";
   compactDescription: string;
+  image: File | null;
 }
 
-export default function ProdutoPreview({ name, price, compactDescription }: ProdutoPreviewProps) {
+export default function ProdutoPreview({ name, price, compactDescription, image }: ProdutoPreviewProps) {
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!image) {
+      setPreviewSrc(null);
+      return;
+    }
+
+    const url = URL.createObjectURL(image);
+    setPreviewSrc(url);
+    return () => URL.revokeObjectURL(url);
+  }, [image]);
   return (
     <div className="rounded-xl border border-[#E3E7F1] bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -32,7 +46,7 @@ export default function ProdutoPreview({ name, price, compactDescription }: Prod
           <FiChevronLeft />
         </button>
         <img
-          src="/assets/image.png"
+          src={previewSrc || "/assets/image.png"}
           alt={name}
           className="h-[230px] w-auto object-contain drop-shadow-[0_18px_28px_rgba(15,23,42,0.16)]"
         />

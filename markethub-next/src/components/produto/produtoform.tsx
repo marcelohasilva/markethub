@@ -13,7 +13,7 @@ import ProdutoPreview from "./ProdutoPreview";
 import ProdutoSidebar, { type SidebarItem, type SidebarTab } from "./ProdutoSidebar";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
-
+ 
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", Icon: FiGrid, to: "/dashboard" },
   { label: "Produtos", Icon: FiTag, to: "/produtos" },
@@ -36,6 +36,8 @@ const configTabs: SidebarTab[] = [
 export default function ProdutoForm() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const [image, setImage] = useState<File | null>(null);
 
   // layout state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -162,27 +164,30 @@ export default function ProdutoForm() {
               />
 
               <ProdutoFormInfo
-                name={name}
-                price={price}
-                stock={stock}
-                description={description}
-                categoryId={categoryId}
-                featured={featured}
-                onNameChange={setName}
-                onPriceChange={setPrice}
-                onStockChange={setStock}
-                onDescriptionChange={setDescription}
-                onCategoryIdChange={setCategoryId}
-                onToggleFeatured={() => setFeatured((value) => !value)}
-                descriptionLength={description.length}
-              />
+              name={name}
+              price={price}
+              stock={stock}
+              description={description}
+              categoryId={categoryId}
+              featured={featured}
+              image={image}
+              onImageChange={setImage}
+              onNameChange={setName}
+              onPriceChange={setPrice}
+              onStockChange={setStock}
+              onDescriptionChange={setDescription}
+              onCategoryIdChange={setCategoryId}
+              onToggleFeatured={() => setFeatured((value) => !value)}
+              descriptionLength={description.length}
+            />
             </form>
 
             <aside className="space-y-5">
               <ProdutoPreview
-                name={name}
-                price={price}
-                compactDescription={compactDescription}
+              name={name}
+              price={price}
+              compactDescription={compactDescription}
+              image={image}
               />
               <ProdutoFooterInfo />
             </aside>
