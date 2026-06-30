@@ -10,7 +10,7 @@ type LojasGridProps = {
 
 const LojasGrid = ({ loading, error, stores, onViewStore }: LojasGridProps) => {
   return (
-    <div className="grid grid-cols-1 gap-8 pb-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-5 grid grid-cols-1 gap-3 pb-6 md:mt-8 md:grid-cols-3 md:gap-5">
       {loading ? (
         <div className="col-span-3 text-center py-12">
           <p className="text-gray-500">Carregando lojas...</p>
