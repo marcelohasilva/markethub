@@ -13,7 +13,7 @@ import ProdutoPreview from "./ProdutoPreview";
 import ProdutoSidebar, { type SidebarItem, type SidebarTab } from "./ProdutoSidebar";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
- 
+
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", Icon: FiGrid, to: "/dashboard" },
   { label: "Produtos", Icon: FiTag, to: "/produtos" },
@@ -56,62 +56,97 @@ export default function ProdutoForm() {
   const [categoryId, setCategoryId] = useState("");
   const [featured, setFeatured] = useState(false);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+ async function handleSubmit(e: FormEvent) {
+  e.preventDefault();
 
-    if (!productUrl || !name || price === "" || stock === "" || !description) {
-      alert("Preencha todos os campos");
-      return;
+  if (!productUrl || !name || price === "" || stock === "" || !description) {
+    alert("Preencha todos os campos");
+    return;
+  }
+
+  if (Number(price) <= 0 || Number(stock) <= 0) {
+    alert("O preço e o estoque devem ser maiores que 0");
+    return;
+  }
+
+  const token = localStorage.getItem("api_token");
+  if (!token) {
+    alert("Você precisa estar logado para cadastrar produtos!");
+    return;
+  }
+
+  try {
+    const uploadedImagesUrls: string[] = [];
+
+    // 1. Se o usuário escolheu uma imagem local, fazemos o upload dela primeiro
+    if (image) {
+      const imgbbFormData = new FormData();
+      imgbbFormData.append("image", image);
+
+      // COLE SUA CHAVE DA API DO IMGBB AQUI ABAIXO:
+      const IMGBB_API_KEY = "b597a2b2ccf68be2cfdc6fc8757ee423"; 
+
+      const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: "POST",
+        body: imgbbFormData,
+      });
+
+      if (!imgbbResponse.ok) {
+        throw new Error("Falha ao realizar o upload da imagem para o servidor.");
+      }
+
+      const imgbbData = await imgbbResponse.json();
+      const directLink = imgbbData.data.url; // Esse é o link direto "https://i.ibb.co/..."
+      
+      // Adiciona na array que o backend espera
+      uploadedImagesUrls.push(directLink);
     }
 
-    if (Number(price) <= 0 || Number(stock) <= 0) {
-      alert("O preço e o estoque devem ser maiores que 0");
-      return;
-    }
-
-    const token = localStorage.getItem("api_token");
-    if (!token) {
-      alert("Você precisa estar logado para cadastrar produtos!");
-      return;
-    }
-
-    try {
-      const payload = {
+    // 2. Agora montamos o JSON perfeito no formato exato que o seu NestJS espera
+    const payload = {
       productUrl: productUrl.trim(),
       name: name.trim(),
       price: Number(price),
       stock: Number(stock),
       description: description.trim(),
-      categoryId: "bdd068d5-72fe-4c32-9134-8bf1cea463e4",
+      categoryId: "66cc74a5-ab16-44b9-9e92-48e25cffa41e",
+      images: uploadedImagesUrls, // Envia como Array de Strings contendo URLs [ "https://..." ]
     };
 
-      const resposta = await fetch(`${API_BASE_URL}/v1/products`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+    // 3. Envia o JSON puro para o seu backend local
+    const resposta = await fetch(`${API_BASE_URL}/v1/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-      const data = await resposta.json();
+    const data = await resposta.json();
 
-      if (!resposta.ok) {
-        throw new Error(data.message || "Erro ao salvar produto");
-      }
-
-      router.push("/loja");
-      setName("");
-      setPrice("");
-      setStock("");
-      setDescription("");
-      setProductUrl("");
-      setCategoryId("");
-    } catch (error) {
-      const message = error instanceof Error ? error.message : undefined;
-      alert(message || "Erro ao conectar ao servidor");
+    if (!resposta.ok) {
+      throw new Error(
+        Array.isArray(data.message) 
+          ? data.message.join(", ") 
+          : data.message || "Erro ao salvar produto"
+      );
     }
+
+    // Limpeza de estados se der sucesso
+    router.push("/loja");
+    setName("");
+    setPrice("");
+    setStock("");
+    setDescription("");
+    setProductUrl("");
+    setCategoryId("");
+    setImage(null);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : undefined;
+    alert(message || "Erro ao conectar ao servidor");
   }
+}
 
   const compactDescription = useMemo(
     () => description.split("\n").filter(Boolean).slice(0, 2).join(" "),
@@ -164,30 +199,30 @@ export default function ProdutoForm() {
               />
 
               <ProdutoFormInfo
-              name={name}
-              price={price}
-              stock={stock}
-              description={description}
-              categoryId={categoryId}
-              featured={featured}
-              image={image}
-              onImageChange={setImage}
-              onNameChange={setName}
-              onPriceChange={setPrice}
-              onStockChange={setStock}
-              onDescriptionChange={setDescription}
-              onCategoryIdChange={setCategoryId}
-              onToggleFeatured={() => setFeatured((value) => !value)}
-              descriptionLength={description.length}
-            />
+                name={name}
+                price={price}
+                stock={stock}
+                description={description}
+                categoryId={categoryId}
+                featured={featured}
+                image={image}
+                onImageChange={setImage}
+                onNameChange={setName}
+                onPriceChange={setPrice}
+                onStockChange={setStock}
+                onDescriptionChange={setDescription}
+                onCategoryIdChange={setCategoryId}
+                onToggleFeatured={() => setFeatured((value) => !value)}
+                descriptionLength={description.length}
+              />
             </form>
 
             <aside className="space-y-5">
               <ProdutoPreview
-              name={name}
-              price={price}
-              compactDescription={compactDescription}
-              image={image}
+                name={name}
+                price={price}
+                compactDescription={compactDescription}
+                image={image}
               />
               <ProdutoFooterInfo />
             </aside>
