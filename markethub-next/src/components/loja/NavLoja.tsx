@@ -3,6 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiBox, FiInfo, FiStar, FiPhone, FiPlusSquare } from "react-icons/fi";
 
+interface NavLojaProps {
+    canManageStore: boolean;
+}
+
 const NAV_ITEMS = [
 	{ label: "Produtos", to: "/loja", icon: FiBox },
 	{ label: "Sobre", to: "/loja", icon: FiInfo },
@@ -11,7 +15,7 @@ const NAV_ITEMS = [
 	{ label: "Cadastrar Produto", mobileLabel: "Cadastrar", to: "/cadastrarproduto", icon: FiPlusSquare }
 ];
 
-const NavLoja = () => {
+const NavLoja = ({ canManageStore }: NavLojaProps) => {
 	const [active, setActive] = useState("Produtos");
 	const router = useRouter();
 
@@ -44,10 +48,12 @@ const NavLoja = () => {
 									<span className="md:hidden">{item.mobileLabel ?? item.label}</span>
 									<span className="hidden md:inline">{item.label}</span>
 								</button>
+								
 							</li>
 						);
 					})}
 				</ul>
+				
 			</nav>
 		</div>
 	);

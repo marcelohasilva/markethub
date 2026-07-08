@@ -14,97 +14,101 @@ type LojaProps = {
 const Loja = ({ storeData }: LojaProps) => {
     const router = useRouter();
 
-    const [products, setProducts] = useState<StoreProduct[]>([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [products, setProducts] = useState<StoreProduct[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const isPublicStore = Boolean(storeData);
 
-         useEffect(() => {
-             let isMounted = true;
+    useEffect(() => {
+        let isMounted = true;
 
-             async function loadProducts() {
-                 const token = localStorage.getItem("api_token");
+        async function loadProducts() {
+            const token = localStorage.getItem("api_token");
 
-                 if (!storeData && !token) {
-                     router.replace("/login");
-                     return;
-                 }
+            if (!storeData && !token) {
+                router.replace("/login");
+                return;
+            }
 
-                 try {
-                     const currentStore = storeData ?? await fetchCurrentStore(token as string);
+            try {
+                const currentStore = storeData ?? await fetchCurrentStore(token as string);
 
-                     const storeProducts = currentStore.products?.map((product) => ({
-                         id: product.id,
-                         name: product.name,
-                         price: Number(product.price),
-                         description: product.description ?? undefined,
-                         productUrl: product.productUrl,
-                     })) ?? [];
+                // 🌟 CORREÇÃO 1: Incluindo a propriedade 'images' vinda da store
+                const storeProducts = currentStore.products?.map((product: any) => ({
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                description: product.description ?? undefined,
+                productUrl: product.productUrl,
+                images: product.images, // ✨ O TypeScript vai parar de reclamar aqui!
+            })) ?? [];
 
-                     if (storeProducts.length > 0) {
-                         if (isMounted) {
-                             setProducts(storeProducts);
-                         }
-                         return;
-                     }
+                if (storeProducts.length > 0) {
+                    if (isMounted) {
+                        setProducts(storeProducts);
+                    }
+                    return;
+                }
 
-                     const productHeaders: HeadersInit = token
-                         ? { Authorization: `Bearer ${token}` }
-                         : {};
-                     const response = await fetch("/api/products", {
-                         cache: "no-store",
-                         headers: productHeaders,
-                     });
-                     const data = await response.json();
+                const productHeaders: HeadersInit = token
+                    ? { Authorization: `Bearer ${token}` }
+                    : {};
+                const response = await fetch("/api/products/me", {
+                    cache: "no-store",
+                    headers: productHeaders,
+                });
+                const data = await response.json();
+                console.log("DADOS CHEGANDO NO FRONTEND:", data); // Olhe aqui!
 
-                     const list = Array.isArray(data) ? data : (data?.data ?? []);
-                     const filtered = list.filter((product: { storeId?: string; StoreId?: string; store_id?: string; userId?: string; UserId?: string; user_id?: string }) => {
-                         const productStoreId = product.storeId ?? product.StoreId ?? product.store_id;
-                         const productUserId = product.userId ?? product.UserId ?? product.user_id;
+                const list = Array.isArray(data) ? data : (data?.data ?? []);
+                const filtered = list.filter((product: { storeId?: string; StoreId?: string; store_id?: string; userId?: string; UserId?: string; user_id?: string }) => {
+                    const productStoreId = product.storeId ?? product.StoreId ?? product.store_id;
+                    const productUserId = product.userId ?? product.UserId ?? product.user_id;
 
-                         return (
-                             String(productStoreId ?? "") === String(currentStore.id) ||
-                             (currentStore.userId ? String(productUserId ?? "") === String(currentStore.userId) : false)
-                         );
-                     });
+                    return (
+                        String(productStoreId ?? "") === String(currentStore.id) ||
+                        (currentStore.userId ? String(productUserId ?? "") === String(currentStore.userId) : false)
+                    );
+                });
 
-                     if (isMounted) {
-                         setProducts(filtered.map((product: { id: string | number; name: string; price: string | number; description?: string; productUrl?: string }) => ({
-                             id: String(product.id),
-                             name: product.name,
-                             price: Number(product.price),
-                             description: product.description,
-                             productUrl: product.productUrl,
-                         })));
-                     }
-                 } catch (error) {
-                     if (error instanceof ApiRequestError && error.status === 404) {
-                         router.replace(CREATE_STORE_ROUTE);
-                         return;
-                     }
+                // 🌟 CORREÇÃO 2: Incluindo a propriedade 'images' vinda do fetch da API geral
+                if (isMounted) {
+                    setProducts(filtered.map((product: { id: string | number; name: string; price: string | number; description?: string; productUrl?: string; images?: any[] }) => ({
+                        id: String(product.id),
+                        name: product.name,
+                        price: Number(product.price),
+                        description: product.description,
+                        productUrl: product.productUrl,
+                        images: product.images, // ✨ repassando a array de imagens para o card
+                    })));
+                }
+            } catch (error) {
+                if (error instanceof ApiRequestError && error.status === 404) {
+                    router.replace(CREATE_STORE_ROUTE);
+                    return;
+                }
 
-                     if (error instanceof ApiRequestError && error.status === 401) {
-                         localStorage.removeItem("api_token");
-                         router.replace("/login");
-                         return;
-                     }
+                if (error instanceof ApiRequestError && error.status === 401) {
+                    localStorage.removeItem("api_token");
+                    router.replace("/login");
+                    return;
+                }
 
-                     console.error("Erro ao buscar dados:", error);
-                 } finally {
-                     if (isMounted) {
-                         setIsLoading(false);
-                     }
-                 }
-             }
+                console.error("Erro ao buscar dados:", error);
+            } finally {
+                if (isMounted) {
+                    setIsLoading(false);
+                }
+            }
+        }
 
-             loadProducts();
+        loadProducts();
 
-             return () => {
-                 isMounted = false;
-             };
-         }, [router, storeData]);
+        return () => {
+            isMounted = false;
+        };
+    }, [router, storeData]);
 
-
-    return(
+    return (
         <div className="min-h-screen bg-[#F3F4F6]">
             <HeaderMain />
 
@@ -113,7 +117,7 @@ const Loja = ({ storeData }: LojaProps) => {
                     <div className="pointer-events-none absolute left-6 top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                     <div className="pointer-events-none absolute right-10 top-6 h-48 w-48 rounded-full border border-white/15" />
                     <div className="pointer-events-none absolute right-16 top-12 h-28 w-28 rounded-full border border-white/20" />
-                    <PhotoPerfil storeName={storeData?.name} storeDescription={storeData?.description ?? undefined} />
+                   <PhotoPerfil storeName={storeData?.name} />
                 </div>
 
                 <NavLoja canManageStore={!isPublicStore} />
@@ -149,6 +153,7 @@ const Loja = ({ storeData }: LojaProps) => {
                 )}
             </section>
         </div>
-    )
-}
+    );
+};
+
 export default Loja;
