@@ -28,7 +28,7 @@ const marketplaces = [
 const HomeMarketplaces = () => {
   return (
     <section className="mt-10">
-      <h2 className="text-[#282729] text-xl md:text-3xl font-bold">Market Places</h2>
+      <h2 className="text-[#282729] text-xl md:text-3xl font-bold">Lojas Parceiras</h2>
       <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-3 md:grid-cols-6">
         {marketplaces.map((item) => (
           <button

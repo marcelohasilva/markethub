@@ -10,8 +10,8 @@ const HomeCarousel = () => {
       {
         id: 1,
         title: "BLACK\nFRIDAY",
-        subtitle: "LIMITED OFFER",
-        cta: "SHOP NOW",
+        subtitle: "OFERTA LIMITADA",
+        cta: "VEJA LOJA",
         image: "/assets/art.png",
         bgFrom: "#8F5CFF",
         bgTo: "#1A7FF0",

@@ -194,7 +194,7 @@ const Login = () => {
           <form onSubmit={handleLogin} className="mt-[29px] flex flex-col gap-[18px]">
             <div>
               <label htmlFor="login-email" className="text-[13px] font-bold leading-none text-[#2F3747]">
-                Email
+                E-mail
               </label>
               <div className="relative mt-[9px]">
                 <EnvelopeIcon className="absolute left-[18px] top-1/2 h-[22px] w-[22px] -translate-y-1/2 stroke-[1.8] text-[#8B98B0]" />

@@ -13,7 +13,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
   const pathname = usePathname();
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const links = [
-    { label: "Home", to: "/", icon: FiHome },
+    { label: "Início", to: "/", icon: FiHome },
     { label: "Categorias", to: "#", icon: FiGrid },
     { label: "Ofertas do Dia", to: "/ofertas", icon: FiTag },
     { label: "Colecoes", to: "/colecoes", icon: FiLayers },

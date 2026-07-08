@@ -7,7 +7,7 @@ import TextdoCadLoja from "../components/loja/textdoCadLoja";
 const CadastrarLoja = () => {
     return(
       <>
-      <div className= 'bg-[#EBEBEB]'>
+      <div className= ''>
         <HeaderMain />
         <TextdoCadLoja />
 
