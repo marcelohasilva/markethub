@@ -18,15 +18,14 @@ import { useRouter } from "next/navigation";
 
 type LojaProps = {
     storeData?: StoreProfile | null;
+    canManageStore: boolean;
 };
 
-const Loja = ({ storeData }: LojaProps) => {
+const Loja = ({ storeData, canManageStore }: LojaProps) => {
     const router = useRouter();
 
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const isPublicStore = Boolean(storeData);
 
     useEffect(() => {
         let isMounted = true;
@@ -172,7 +171,7 @@ const Loja = ({ storeData }: LojaProps) => {
                     <PhotoPerfil storeName={storeData?.name} />
                 </div>
 
-                <NavLoja canManageStore={!isPublicStore} />
+                <NavLoja canManageStore={canManageStore} />
             </section>
 
 

@@ -18,12 +18,15 @@ const NAV_ITEMS = [
 const NavLoja = ({ canManageStore }: NavLojaProps) => {
 	const [active, setActive] = useState("Produtos");
 	const router = useRouter();
+	const navItems = canManageStore
+		? NAV_ITEMS
+		: NAV_ITEMS.filter((item) => item.label !== "Cadastrar Produto");
 
 	return (
 		<div className="w-full flex justify-center -mt-6 px-4">
 			<nav className="w-full z-1 max-w-[920px] rounded-2xl bg-white shadow-md md:h-auto">
 				<ul className="flex h-16 flex-nowrap items-center gap-2 overflow-x-auto px-3 py-2 md:h-auto md:gap-4 md:px-6 md:py-3 lg:gap-6">
-					{NAV_ITEMS.map((item) => {
+					{navItems.map((item) => {
 						const Icon = item.icon;
 						const isActive = active === item.label;
 						const isAction = item.label === "Cadastrar Produto";
