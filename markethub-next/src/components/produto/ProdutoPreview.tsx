@@ -70,8 +70,10 @@ export default function ProdutoPreview({ name, price, compactDescription, image 
 
       <h3 className="mt-5 text-xl font-bold text-[#121A33]">{name}</h3>
       <div className="mt-3 flex flex-wrap items-center gap-2">
+        <div className="gap-0">
         <span className="text-[#FFB31A]">★★★★</span>
         <span className="text-[#D8DDE8]">★</span>
+        </div>
         <span className="text-sm text-[#68748F]">(128 avaliações)</span>
       </div>
 
