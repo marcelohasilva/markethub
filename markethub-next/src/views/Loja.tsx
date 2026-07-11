@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import HeaderMain from "../components/shared/HeaderMain";
 import NavLoja from "../components/loja/NavLoja";
 import PhotoPerfil from "../components/loja/PhotoPefil";
-import CardProduto from "../components/home/CardProduto";
-import CardProdutoLoja, {
-    type StoreProduct,
-} from "../components/loja/CardProdutoLoja";
+import CardProduto, {
+    type Product,
+} from "../components/home/CardProduto";
 import {
     ApiRequestError,
     CREATE_STORE_ROUTE,
+    API_BASE_URL,
     fetchCurrentStore,
     StoreProfile,
 } from "@/lib/stores";
@@ -23,7 +23,7 @@ type LojaProps = {
 const Loja = ({ storeData }: LojaProps) => {
     const router = useRouter();
 
-    const [products, setProducts] = useState<StoreProduct[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const isPublicStore = Boolean(storeData);
@@ -53,7 +53,11 @@ const Loja = ({ storeData }: LojaProps) => {
                         images: product.images,
                     })) ?? [];
 
-                if (storeProducts.length > 0) {
+                const hasImages = storeProducts.some(
+                    (product) => product.images && product.images.length > 0
+                );
+
+                if (storeProducts.length > 0 && hasImages) {
                     if (isMounted) {
                         setProducts(storeProducts);
                     }
@@ -64,7 +68,7 @@ const Loja = ({ storeData }: LojaProps) => {
                     ? { Authorization: `Bearer ${token}` }
                     : {};
 
-                const response = await fetch("/api/products/me", {
+                const response = await fetch(`${API_BASE_URL}/v1/products`, {
                     cache: "no-store",
                     headers: productHeaders,
                 });
@@ -108,7 +112,16 @@ const Loja = ({ storeData }: LojaProps) => {
                 );
 
                 if (isMounted) {
-                    setProducts(filtered);
+                    setProducts(
+                        filtered.map((product: any) => ({
+                            id: product.id,
+                            name: product.name,
+                            price: Number(product.price),
+                            description: product.description ?? undefined,
+                            productUrl: product.productUrl,
+                            images: product.images,
+                        }))
+                    );
                 }
             } catch (error) {
                 if (
@@ -198,14 +211,14 @@ const Loja = ({ storeData }: LojaProps) => {
 
                 ) : (
 
-                    <div className="mt-6 flex flex-wrap gap-5">
+                    <div className="mt-6 grid grid-cols-2 gap-4 pb-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
 
                          {products.map(product => (
-                          <CardProduto 
-                                                                        key={product.id}
-                                                                        product={product}
-                                                                    />
-                                                                ))}                                          
+                                                    <CardProduto 
+                            key={product.id}
+                            product={product}
+                        />
+                    ))}                                          
 
                     </div>
 

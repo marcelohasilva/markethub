@@ -30,6 +30,14 @@ export type StoreProductSummary = {
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  images?: StoreProductImageSummary[];
+};
+
+export type StoreProductImageSummary = {
+  id: string;
+  imageUrl: string;
+  productId: string;
+  createdAt?: string;
 };
 
 type StoreProfileApi = {
@@ -59,6 +67,12 @@ function normalizeStoreProfile(store: StoreProfileApi): StoreProfile {
       active: product.active,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
+      images: product.images?.map((image) => ({
+        id: image.id,
+        imageUrl: image.imageUrl,
+        productId: image.productId,
+        createdAt: image.createdAt,
+      })),
     })),
     createdAt: store.createdAt ?? store.createdAT,
     updatedAt: store.updatedAt ?? store.updatedAT,

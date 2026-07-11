@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 // Interface corrigida para corresponder ao seu JSON real
 export interface ProductImage {
@@ -34,45 +35,42 @@ export default function CardProdutoLoja({ product, isFeatured }: CardProdutoLoja
 
     router.push(`/produto/${product.id}`);
   }
-  console.log("Dados do produto chegando no Card:", product);
-
-  // 1. Prioriza SEMPRE a imagem real do banco. Se não existir, usa a de segurança.
   const displayImage = product.images && product.images.length > 0
     ? product.images[0].imageUrl
-    : "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=300&q=80";
+    : "https://via.placeholder.com/150?text=Sem+Imagem";
 
-  // 2. Garante que o preço vire número para o .toFixed() funcionar perfeitamente
   const parsedPrice = Number(product.price) || 0;
 
   return (
     <div onClick={handleNavigate} className="cursor-pointer">
-      <div className="w-full max-w-[220px] rounded-2xl bg-white p-3 shadow-lg">
-        <div className="relative flex h-[170px] items-center justify-center rounded-xl bg-[#F3F4F6] overflow-hidden">
-          {isFeatured ? (
-            <span className="absolute left-2 top-2 z-10 rounded-md bg-[#6B3DF2] px-2 py-1 text-[10px] font-semibold text-white">
-              Mais popular
-            </span>
-          ) : null}
-                <img
+      <div className="w-full bg-white rounded-2xl shadow-lg p-3 md:max-w-[220px]">
+        <div className="relative bg-[#E0E0E0] rounded-xl h-[160px] md:h-[180px] flex items-center justify-center overflow-hidden">
+          <img
           src={displayImage}
           alt={product.name}
-          // Mude de 'object-contain' para 'object-cover w-full h-full'
-          className="h-full w-full object-cover transition duration-300 hover:scale-110"
+          className="h-[120px] md:h-[140px] w-full object-contain hover:scale-110 transition duration-300"
         />
         </div>
 
-        <p className="mt-3 text-xs text-gray-500">Tênis Esportivo</p>
-        <h3 className="text-sm font-semibold text-[#1A1C27] line-clamp-2 min-h-[40px]">
+        <h3 className="text-sm font-medium text-[#1A1C27] mt-3 line-clamp-2 min-h-[40px]">
           {product.name}
         </h3>
 
-        <p className="mt-1 text-sm font-bold text-[#1A1C27]">
-          R$ {parsedPrice.toFixed(2)}
+        <div className="flex gap-1 text-indigo-500 my-1">
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaRegStar />
+        </div>
+
+        <p className="text-sm font-bold text-[#1A1C27]">
+          R$ {parsedPrice.toFixed(2)} no Pix
         </p>
 
-        <button className="mt-2 text-xs font-semibold text-[#6B3DF2]">
-          Ver detalhes →
-        </button>
+        <p className="text-xs text-gray-600">
+          ou 2x de R$ {(parsedPrice / 2).toFixed(2)} 
+        </p>
       </div>
     </div>
   );
