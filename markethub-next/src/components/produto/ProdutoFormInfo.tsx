@@ -127,11 +127,11 @@ export default function ProdutoFormInfo({
             Imagem
           </label>
 
-          <div className="mt-2 flex h-12 items-center rounded-lg border border-[#DDE3F0] px-4">
+          <div className="mt-2 flex h-12 items-center rounded-lg border border-[#DDE3F0] px-4 cursor-pointer">
             <input
               type="file"
               accept="image/*"
-              className="w-full text-sm text-[#68748F]"
+              className="w-full text-sm text-[#68748F] cursor-pointer"
               onChange={(e) => {
                 const file = e.target.files?.[0] || null;
                 onImageChange(file);
@@ -182,7 +182,7 @@ export default function ProdutoFormInfo({
           <button
             type="button"
             onClick={onToggleFeatured}
-            className={`relative h-7 w-12 rounded-full transition ${
+            className={`relative h-7 w-12 rounded-full transition cursor-pointer ${
               featured ? "bg-[#5F2CF2]" : "bg-[#D9DEE9]"
             }`}
           >
@@ -197,7 +197,7 @@ export default function ProdutoFormInfo({
         {/* SUBMIT */}
         <button
           type="submit"
-          className="flex h-[52px] w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] text-base font-bold text-white shadow-[0_14px_28px_rgba(80,70,230,0.22)]"
+          className="flex h-[52px] w-full items-center justify-center cursor-pointer gap-3 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] text-base font-bold text-white shadow-[0_14px_28px_rgba(80,70,230,0.22)]"
         >
           <FiSend className="h-5 w-5" />
           Publicar Produto
