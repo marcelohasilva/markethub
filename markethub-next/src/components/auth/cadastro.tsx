@@ -53,6 +53,14 @@ export default function Cadastro() {
 
   const [formError, setFormError] = useState("");
 
+  const passwordRules = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+  };
+
   const clearFieldError = (field: "email" | "password" | "confirmPassword" | "name") => {
     setFieldErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
   };
@@ -104,6 +112,8 @@ export default function Cadastro() {
       nextErrors.password = "A senha deve conter pelo menos uma letra minuscula";
     } else if (!/[0-9]/.test(password)) {
       nextErrors.password = "A senha deve conter pelo menos um numero";
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      nextErrors.password = "A senha deve conter pelo menos um caractere especial";
     }
 
     if (!confirmPassword) {
@@ -300,6 +310,38 @@ export default function Cadastro() {
                     <EyeIcon className="h-[22px] w-[22px]" />
                   )}
                 </button>
+              </div>
+              <div className="mt-3 space-y-1 text-xs">
+                <p className={passwordRules.length ? "text-[#16A34A]" : "text-[#6B7280]"}>
+                  <span className="mr-2" aria-hidden="true">
+                    {passwordRules.length ? "✔" : "○"}
+                  </span>
+                  Pelo menos 8 caracteres
+                </p>
+                <p className={passwordRules.uppercase ? "text-[#16A34A]" : "text-[#6B7280]"}>
+                  <span className="mr-2" aria-hidden="true">
+                    {passwordRules.uppercase ? "✔" : "○"}
+                  </span>
+                  Pelo menos uma letra maiúscula
+                </p>
+                <p className={passwordRules.lowercase ? "text-[#16A34A]" : "text-[#6B7280]"}>
+                  <span className="mr-2" aria-hidden="true">
+                    {passwordRules.lowercase ? "✔" : "○"}
+                  </span>
+                  Pelo menos uma letra minúscula
+                </p>
+                <p className={passwordRules.number ? "text-[#16A34A]" : "text-[#6B7280]"}>
+                  <span className="mr-2" aria-hidden="true">
+                    {passwordRules.number ? "✔" : "○"}
+                  </span>
+                  Pelo menos um número
+                </p>
+                <p className={passwordRules.special ? "text-[#16A34A]" : "text-[#6B7280]"}>
+                  <span className="mr-2" aria-hidden="true">
+                    {passwordRules.special ? "✔" : "○"}
+                  </span>
+                  Pelo menos um caractere especial (!@#$%^&*(),.?&quot;:{'{}'}|&lt;&gt;)
+                </p>
               </div>
               {fieldErrors.password ? (
                 <p className="mt-1 text-xs text-red-600">{fieldErrors.password}</p>
