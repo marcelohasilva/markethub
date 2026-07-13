@@ -32,7 +32,7 @@ export const FormCadLoja = () => {
         const token = localStorage.getItem("api_token");
 
         if (!token) {
-            alert("Sessão expirada ou utilizador não logado. Por favor, faça login.");
+            alert("Sessão expirada ou usuário não logado. Por favor, faça login.");
             router.push("/login");
             return;
         }
@@ -90,7 +90,7 @@ export const FormCadLoja = () => {
         const token = localStorage.getItem("api_token");
 
         if (!token) {
-            alert("Sessao expirada. Por favor, faca login.");
+            alert("Sessão expirada. Por favor, faça login.");
             router.push("/login");
             return;
         }
@@ -101,7 +101,7 @@ export const FormCadLoja = () => {
             router.push("/loja");
         } catch (error: unknown) {
             if (error instanceof ApiRequestError && error.status === 404) {
-                alert("Voce ainda nao possui uma loja cadastrada.");
+                alert("Você ainda não possui uma loja cadastrada.");
                 return;
             }
 
@@ -149,7 +149,7 @@ export const FormCadLoja = () => {
                     </div>
                     <input 
                         type="text" 
-                        placeholder="Nome da Loja" 
+                        placeholder="Nome da loja" 
                         value={nameStore}
                         onChange={(e) => setNameStore(e.target.value)}
                         className="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400" 
@@ -164,7 +164,7 @@ export const FormCadLoja = () => {
                     </div>
                     <input 
                         type="text" 
-                        placeholder="Descrição da Loja"
+                        placeholder="Descrição da loja"
                         value={describeStore}
                         onChange={(e) => setDescribeStore(e.target.value)}
                         className="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400" 
@@ -179,7 +179,7 @@ export const FormCadLoja = () => {
                 </label>
 
                 <button type="submit" className="w-full cursor-pointer bg-indigo-600 py-4 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4 transition-all active:scale-[0.98]">
-                    Criar Minha Loja
+                    Criar minha loja
                 </button>
 
                 <div className='border-t border-gray-200 text-center pt-4'>

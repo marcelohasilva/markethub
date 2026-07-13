@@ -30,14 +30,14 @@ export default function UserList() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // O ID é extraído do token no Back-end
+          "Authorization": `Bearer ${token}`, // O ID é extraído do token no back-end
         },
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Erro ao carregar utilizadores");
+        throw new Error(result.message || "Erro ao carregar usuários");
       }
 
       setUsers(result.data);
@@ -56,7 +56,7 @@ export default function UserList() {
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">Utilizadores do Sistema</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Usuários do sistema</h1>
         <button
           onClick={fetchUsers}
           className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
@@ -78,8 +78,8 @@ export default function UserList() {
             <tr>
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de Registo</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">E-mail</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de registro</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -88,7 +88,7 @@ export default function UserList() {
                 <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
                   <div className="flex justify-center items-center gap-2">
                     <div className="w-5 h-5 border-t-2 border-indigo-600 border-solid rounded-full animate-spin"></div>
-                    A carregar dados...
+                    Carregando dados...
                   </div>
                 </td>
               </tr>
@@ -106,7 +106,7 @@ export default function UserList() {
             ) : (
               <tr>
                 <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
-                  Nenhum utilizador encontrado no sistema.
+                  Nenhum usuário encontrado no sistema.
                 </td>
               </tr>
             )}

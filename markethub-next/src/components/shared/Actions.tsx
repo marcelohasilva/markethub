@@ -45,7 +45,7 @@ function decodeTokenUserId(token: string) {
 }
 
 function getInitials(user: HeaderUser | null) {
-  const label = user?.name || user?.email || "Usuario";
+  const label = user?.name || user?.email || "Usuário";
   const parts = label.trim().split(/\s+/).filter(Boolean);
 
   if (parts.length === 0) {
@@ -145,9 +145,9 @@ export default function Actions({ variant = "full" }: ActionsProps) {
     { label: "Meu perfil", href: "/users", icon: FiUser },
     { label: "Minha loja", href: "/cadastrarloja", icon: HiOutlineBuildingStorefront },
     { label: "Meus pedidos", href: "/pedidos", icon: FiBox },
-    { label: "Enderecos", href: "/clientes", icon: FiMapPin },
+    { label: "Endereços", href: "/clientes", icon: FiMapPin },
     { label: "Formas de pagamento", href: "/financeiro", icon: FiCreditCard },
-    { label: "Configuracoes", href: "/configuracoes", icon: FiSettings },
+    { label: "Configurações", href: "/configuracoes", icon: FiSettings },
   ];
   const displayName = user?.name || user?.email || "Minha conta";
 

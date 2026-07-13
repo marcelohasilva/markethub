@@ -76,7 +76,7 @@ export default function ProductCreateForm() {
       const data = await resposta.json();
 
       if (!resposta.ok) {
-        throw new Error(data.message || "Erro ao salvar produto");
+        throw new Error(data.message || "Erro ao salvar o produto");
       }
 
       router.push("/loja");
@@ -96,7 +96,7 @@ export default function ProductCreateForm() {
             <FiTag className="h-7 w-7" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Cadastrar Produto</h1>
+            <h1 className="text-2xl font-bold">Cadastrar produto</h1>
             <p className="mt-2 text-sm font-medium text-white/95">
               Cole o link do produto e importamos todas as informações para você
             </p>
@@ -114,7 +114,7 @@ export default function ProductCreateForm() {
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B2FFF] to-[#0B78F6] text-sm font-bold text-white">
                 1
               </span>
-              <h2 className="text-lg font-bold text-[#4D22F2]">Link do produto</h2>
+                <h2 className="text-lg font-bold text-[#4D22F2]">Link do produto</h2>
             </div>
             <label className="text-sm font-semibold text-[#2B3552]">
               Cole o link do produto de qualquer loja (Shopee, Amazon, etc.)
@@ -156,7 +156,7 @@ export default function ProductCreateForm() {
 
             <div className="space-y-5">
               <div>
-                <label className="text-sm font-bold text-[#1B2744]">Nome do Produto</label>
+                <label className="text-sm font-bold text-[#1B2744]">Nome do produto</label>
                 <input
                   className="mt-2 h-12 w-full rounded-lg border border-[#DDE3F0] px-4 text-sm text-[#1B2744] outline-none transition focus:border-[#6B3DF2] focus:ring-2 focus:ring-[#6B3DF2]/10"
                   type="text"
@@ -237,7 +237,7 @@ export default function ProductCreateForm() {
                 className="flex h-[52px] w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] text-base font-bold text-white shadow-[0_14px_28px_rgba(80,70,230,0.22)]"
               >
                 <FiSend className="h-5 w-5" />
-                Publicar Produto
+                Publicar produto
               </button>
             </div>
           </section>

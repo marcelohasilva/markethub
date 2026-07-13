@@ -147,7 +147,7 @@ const Product = () => {
   const sizes = [38, 39, 40, 41, 42, 43, 44];
 
   const handleBuyNow = () => {
-    alert("Compra simulada no front. Backend ainda nao esta pronto.");
+    alert("Compra simulada no front. O backend ainda não está pronto.");
   };
 
   return (
@@ -157,7 +157,7 @@ const Product = () => {
       <main className="bg-[#F7F8FC]">
         <div className="mx-auto max-w-6xl px-4 py-6 lg:px-6 lg:py-8">
           <div className="text-xs text-gray-500 sm:text-sm">
-            Home / Calcados / Tenis / {product.name}
+            Home / Calçados / Tênis / {product.name}
           </div>
 
           <div className="mt-6 grid gap-6 md:grid-cols-[1fr_360px] lg:grid-cols-[90px_1fr_380px]">

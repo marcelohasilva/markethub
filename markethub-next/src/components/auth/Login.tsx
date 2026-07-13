@@ -66,9 +66,9 @@ const Login = () => {
     const nextErrors = { email: "", password: "" };
 
     if (!email) {
-      nextErrors.email = "Informe o email";
+      nextErrors.email = "Informe o e-mail";
     } else if (!emailRegex.test(email)) {
-      nextErrors.email = "Email invalido";
+      nextErrors.email = "E-mail inválido";
     }
 
     if (!password) {
@@ -201,7 +201,7 @@ const Login = () => {
                 <input
                   type="email"
                   id="login-email"
-                  placeholder="Digite seu email"
+                  placeholder="Digite seu e-mail"
                   value={email}
                   onChange={(e) => handleEmailChange(e.target.value)}
                   className="h-[53px] w-full rounded-[8px] border border-[#D7DEEA] bg-[#FBFCFE] pl-[54px] pr-4 text-[15px] font-normal text-[#111827] outline-none transition placeholder:text-[#8B98B0] focus:border-[#6D3FF2] focus:ring-2 focus:ring-[#6D3FF2]/15"

@@ -60,17 +60,17 @@ const LojasFilters = ({
       </label>
 
       <label className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[9px] md:font-semibold md:text-[#98a2b3] md:shadow-none">
-        Localizacao
+        Localização
         <select
           value={location}
           onChange={(e) => onLocationChange(e.target.value)}
           className="h-7 cursor-pointer appearance-none bg-transparent text-[18px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:appearance-auto md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[12px] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
         >
           <option value="Todas">Todas</option>
-          <option value="SP">Sao Paulo</option>
+          <option value="SP">São Paulo</option>
           <option value="RJ">Rio de Janeiro</option>
           <option value="MG">Minas Gerais</option>
-          <option value="PR">Parana</option>
+          <option value="PR">Paraná</option>
         </select>
       </label>
 

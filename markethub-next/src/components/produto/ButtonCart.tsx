@@ -13,7 +13,7 @@ const ButtonCart = ({ productId, userId, storeId, className, label }: ButtonCart
   const handleAddToCart = async () => {
     try {
       if (!userId) {
-        alert("Faca login para adicionar ao carrinho.");
+        alert("Faça login para adicionar ao carrinho.");
         return;
       }
 

@@ -16,20 +16,20 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
     { label: "Início", to: "/", icon: FiHome },
     { label: "Categorias", to: "#", icon: FiGrid },
     { label: "Ofertas do Dia", to: "/ofertas", icon: FiTag },
-    { label: "Colecoes", to: "/colecoes", icon: FiLayers },
-    { label: "Mais Vendidos", to: "/maisvendidos", icon: FiStar },
+    { label: "Coleções", to: "/colecoes", icon: FiLayers },
+    { label: "Mais vendidos", to: "/maisvendidos", icon: FiStar },
     { label: "Lojas", to: "/lojas", icon: HiOutlineBuildingStorefront },
   ];
   const categories = [
     {
       id: 1,
-      title: "Eletronicos",
+      title: "Eletrônicos",
       image: "/assets/image.png",
       columns: [
         {
           id: 1,
           title: "Celulares",
-          items: ["Android", "iPhone", "Acessorios", "Capas", "Peliculas"],
+          items: ["Android", "iPhone", "Acessórios", "Capas", "Películas"],
         },
         {
           id: 2,
@@ -38,7 +38,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         },
         {
           id: 3,
-          title: "Audio",
+          title: "Áudio",
           items: ["Fones", "Caixas", "Soundbar", "Microfones", "Cabos"],
         },
       ],
@@ -51,17 +51,17 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 1,
           title: "Feminino",
-          items: ["Vestidos", "Blusas", "Calcas", "Saias", "Acessorios"],
+          items: ["Vestidos", "Blusas", "Calças", "Saias", "Acessórios"],
         },
         {
           id: 2,
           title: "Masculino",
-          items: ["Camisetas", "Calcas", "Bermudas", "Jaquetas", "Tenis"],
+          items: ["Camisetas", "Calças", "Bermudas", "Jaquetas", "Tênis"],
         },
         {
           id: 3,
           title: "Infantil",
-          items: ["Conjuntos", "Bodys", "Calcados", "Pijamas", "Acessorios"],
+          items: ["Conjuntos", "Bodys", "Calçados", "Pijamas", "Acessórios"],
         },
       ],
     },
@@ -73,7 +73,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 1,
           title: "Treino",
-          items: ["Halteres", "Tapetes", "Elastico", "Roupas", "Squeezes"],
+          items: ["Halteres", "Tapetes", "Elástico", "Roupas", "Squeezes"],
         },
         {
           id: 2,
@@ -83,7 +83,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 3,
           title: "Bolas",
-          items: ["Futebol", "Basquete", "Volei", "Tenis", "Handebol"],
+          items: ["Futebol", "Basquete", "Vôlei", "Tênis", "Handebol"],
         },
       ],
     },
@@ -99,8 +99,8 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         },
         {
           id: 2,
-          title: "Decoracao",
-          items: ["Quadros", "Almofadas", "Tapetes", "Cortinas", "Luminarias"],
+          title: "Decoração",
+          items: ["Quadros", "Almofadas", "Tapetes", "Cortinas", "Luminárias"],
         },
         {
           id: 3,
@@ -117,17 +117,17 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 1,
           title: "Cabelos",
-          items: ["Shampoo", "Condicionador", "Mascara", "Finalizadores", "Tinturas"],
+          items: ["Shampoo", "Condicionador", "Máscara", "Finalizadores", "Tinturas"],
         },
         {
           id: 2,
           title: "Pele",
-          items: ["Hidratantes", "Limpeza", "Protetor", "Seruns", "Sabonetes"],
+          items: ["Hidratantes", "Limpeza", "Protetor", "Séruns", "Sabonetes"],
         },
         {
           id: 3,
           title: "Maquiagem",
-          items: ["Bases", "Batom", "Mascara", "Paletas", "Pinceis"],
+          items: ["Bases", "Batom", "Máscara", "Paletas", "Pincéis"],
         },
       ],
     },
@@ -139,7 +139,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 1,
           title: "Consoles",
-          items: ["PlayStation", "Xbox", "Nintendo", "Portateis", "Acessorios"],
+          items: ["PlayStation", "Xbox", "Nintendo", "Portáteis", "Acessórios"],
         },
         {
           id: 2,
@@ -149,7 +149,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 3,
           title: "PC Gamer",
-          items: ["Placas", "Perifericos", "Cadeiras", "Monitores", "Headsets"],
+          items: ["Placas", "Periféricos", "Cadeiras", "Monitores", "Headsets"],
         },
       ],
     },
@@ -161,17 +161,17 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
         {
           id: 1,
           title: "Carros",
-          items: ["Som", "Acessorios", "Pneus", "Limpadores", "GPS"],
+          items: ["Som", "Acessórios", "Pneus", "Limpadores", "GPS"],
         },
         {
           id: 2,
           title: "Motos",
-          items: ["Capacetes", "Luvas", "Jaquetas", "Pecas", "Acessorios"],
+          items: ["Capacetes", "Luvas", "Jaquetas", "Peças", "Acessórios"],
         },
         {
           id: 3,
           title: "Cuidados",
-          items: ["Lavagem", "Cera", "Aromatizantes", "Paninhos", "Protecao"],
+          items: ["Lavagem", "Cera", "Aromatizantes", "Paninhos", "Proteção"],
         },
       ],
     },
@@ -182,40 +182,40 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
       columns: [
         {
           id: 1,
-          title: "Ficcao",
+          title: "Ficção",
           items: ["Romance", "Fantasia", "Suspense", "Sci-Fi", "Contos"],
         },
         {
           id: 2,
-          title: "Nao Ficcao",
-          items: ["Negocios", "Autoajuda", "Biografias", "Historia", "Ciencia"],
+          title: "Não ficção",
+          items: ["Negócios", "Autoajuda", "Biografias", "História", "Ciência"],
         },
         {
           id: 3,
           title: "Infantil",
-          items: ["Ilustrados", "Educativos", "Historias", "Colorir", "Aprender"],
+          items: ["Ilustrados", "Educativos", "Histórias", "Colorir", "Aprender"],
         },
       ],
     },
     {
       id: 9,
-      title: "Saude",
+      title: "Saúde",
       image: "/assets/image.png",
       columns: [
         {
           id: 1,
           title: "Bem-estar",
-          items: ["Vitaminas", "Suplementos", "Chas", "Aparelhos", "Mediacao"],
+          items: ["Vitaminas", "Suplementos", "Chás", "Aparelhos", "Medição"],
         },
         {
           id: 2,
           title: "Fitness",
-          items: ["Proteinas", "Pre-treino", "Creatina", "Barras", "Acessorios"],
+          items: ["Proteínas", "Pré-treino", "Creatina", "Barras", "Acessórios"],
         },
         {
           id: 3,
           title: "Cuidados",
-          items: ["Higiene", "Curativos", "Termometros", "Mascaras", "Gel"],
+          items: ["Higiene", "Curativos", "Termômetros", "Máscaras", "Gel"],
         },
       ],
     },

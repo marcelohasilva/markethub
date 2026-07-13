@@ -29,13 +29,13 @@ export default function Lojas() {
     "/assets/mercado_livre.png",
   ];
   const defaultTags = [
-    ["Esportes", "Tenis", "Roupas"],
-    ["Eletronicos", "Acessorios"],
+    ["Esportes", "Tênis", "Roupas"],
+    ["Eletrônicos", "Acessórios"],
     ["Beleza", "Skincare", "Maquiagem"],
     ["Casa", "Decoracao"],
   ];
   const defaultLocations = [
-    { location: "Sao Paulo", state: "SP" },
+    { location: "São Paulo", state: "SP" },
     { location: "Curitiba", state: "PR" },
     { location: "Rio de Janeiro", state: "RJ" },
     { location: "Belo Horizonte", state: "MG" },
@@ -82,7 +82,7 @@ export default function Lojas() {
       <div className="mx-auto max-w-[1690px] px-4 pb-24 pt-7 md:px-7 md:pb-10 md:pt-11 lg:px-[60px]">
         <div className="space-y-5 md:space-y-8 lg:space-y-9">
           <LojasHeader
-            title="Todas as Lojas"
+            title="Todas as lojas"
             subtitle="Encontre as melhores lojas da plataforma e descubra produtos incríveis."
           />
 

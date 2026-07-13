@@ -48,7 +48,7 @@ export default function Configuracoes() {
           return;
         }
 
-        setErrorMessage(error instanceof Error ? error.message : "Erro ao carregar dados da loja.");
+        setErrorMessage(error instanceof Error ? error.message : "Erro ao carregar os dados da loja.");
       } finally {
         if (isMounted) {
           setIsLoading(false);
@@ -99,7 +99,7 @@ export default function Configuracoes() {
         return;
       }
 
-      setErrorMessage(error instanceof Error ? error.message : "Erro ao atualizar loja.");
+      setErrorMessage(error instanceof Error ? error.message : "Erro ao atualizar a loja.");
     } finally {
       setIsSaving(false);
     }
@@ -172,8 +172,8 @@ export default function Configuracoes() {
             <FiSettings className="h-6 w-6" />
           </span>
           <div>
-            <h1 className="text-2xl font-bold text-[#1A1C27]">Configuracoes da Loja</h1>
-            <p className="mt-1 text-sm text-gray-600">Atualize o nome e a descricao exibidos no perfil da sua loja.</p>
+            <h1 className="text-2xl font-bold text-[#1A1C27]">Configurações da loja</h1>
+            <p className="mt-1 text-sm text-gray-600">Atualize o nome e a descrição exibidos no perfil da sua loja.</p>
           </div>
         </section>
 
@@ -225,7 +225,7 @@ export default function Configuracoes() {
                   className="flex h-12 cursor-pointer items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-[#7B2FFF] to-[#0B78F6] px-6 text-sm font-bold text-white shadow-[0_14px_28px_rgba(80,70,230,0.22)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <FiSave className="h-5 w-5" />
-                  {isSaving ? "Salvando..." : "Salvar alteracoes"}
+                  {isSaving ? "Salvando..." : "Salvar alterações"}
                 </button>
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function Configuracoes() {
               <div>
                 <h2 className="text-lg font-bold text-[#1A1C27]">Excluir loja permanentemente</h2>
                 <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
-                  Esta acao remove a loja e todos os dados vinculados a ela. Depois de confirmar, nao sera possivel
+                  Esta ação remove a loja e todos os dados vinculados a ela. Depois de confirmar, não será possível
                   desfazer.
                 </p>
               </div>
@@ -278,7 +278,7 @@ export default function Configuracoes() {
                     Excluir loja permanentemente?
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-gray-600">
-                    Todos os produtos, pedidos, colecoes e dados vinculados a loja serao removidos.
+                    Todos os produtos, pedidos, coleções e dados vinculados à loja serão removidos.
                   </p>
                 </div>
               </div>

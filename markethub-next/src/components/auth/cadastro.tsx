@@ -93,9 +93,9 @@ export default function Cadastro() {
     const nextErrors = { email: "", password: "", confirmPassword: "", name: "" };
 
     if (!email) {
-      nextErrors.email = "Informe o email";
+      nextErrors.email = "Informe o e-mail";
     } else if (!emailRegex.test(email)) {
-      nextErrors.email = "Email invalido";
+      nextErrors.email = "E-mail inválido";
     }
 
     if (!name) {
@@ -105,13 +105,13 @@ export default function Cadastro() {
     if (!password) {
       nextErrors.password = "Informe a senha";
     } else if (password.length < 8) {
-      nextErrors.password = "A senha deve ter pelo menos 8 digitos";
+      nextErrors.password = "A senha deve ter pelo menos 8 dígitos";
     } else if (!/[A-Z]/.test(password)) {
-      nextErrors.password = "A senha deve conter pelo menos uma letra maiuscula";
+      nextErrors.password = "A senha deve conter pelo menos uma letra maiúscula";
     } else if (!/[a-z]/.test(password)) {
-      nextErrors.password = "A senha deve conter pelo menos uma letra minuscula";
+      nextErrors.password = "A senha deve conter pelo menos uma letra minúscula";
     } else if (!/[0-9]/.test(password)) {
-      nextErrors.password = "A senha deve conter pelo menos um numero";
+      nextErrors.password = "A senha deve conter pelo menos um número";
     } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       nextErrors.password = "A senha deve conter pelo menos um caractere especial";
     }
@@ -119,7 +119,7 @@ export default function Cadastro() {
     if (!confirmPassword) {
       nextErrors.confirmPassword = "Confirme a senha";
     } else if (confirmPassword !== password) {
-      nextErrors.confirmPassword = "As senhas nao coincidem";
+      nextErrors.confirmPassword = "As senhas não coincidem";
     }
 
     return nextErrors;
@@ -264,14 +264,14 @@ export default function Cadastro() {
 
             <div>
               <label htmlFor="email" className="text-[13px] font-bold leading-none text-[#2F3747]">
-                Email
+                E-mail
               </label>
               <div className="relative mt-[9px]">
                 <EnvelopeIcon className="absolute left-[18px] top-1/2 h-[22px] w-[22px] -translate-y-1/2 stroke-[1.8] text-[#8B98B0]" />
                 <input
                   type="email"
                   id="email"
-                  placeholder="Digite seu email"
+                  placeholder="Digite seu e-mail"
                   value={email}
                   onChange={(e) => handleEmailChange(e.target.value)}
                   className="h-[53px] w-full rounded-[8px] border border-[#D7DEEA] bg-[#FBFCFE] pl-[54px] pr-4 text-[15px] font-normal text-[#111827] outline-none transition placeholder:text-[#8B98B0] focus:border-[#6D3FF2] focus:ring-2 focus:ring-[#6D3FF2]/15"

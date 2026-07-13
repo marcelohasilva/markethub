@@ -82,9 +82,9 @@ function normalizeStoreProfile(store: StoreProfileApi): StoreProfile {
 async function readErrorMessage(response: Response) {
   try {
     const data = await response.json();
-    return data?.message || "Erro ao buscar loja";
+    return data?.message || "Erro ao buscar a loja";
   } catch {
-    return "Erro ao buscar loja";
+    return "Erro ao buscar a loja";
   }
 }
 
