@@ -1,10 +1,10 @@
-import RequireActiveStore from "../../components/shared/RequireActiveStore";
-import Dashboard from "../../views/Dashboard";
+import RequireActiveStore from "@/components/layout/guards/RequireActiveStore";
+import DashboardPage from "@/features/admin/pages/DashboardPage";
 
 export default function Page() {
   return (
     <RequireActiveStore>
-      <Dashboard />
+      <DashboardPage />
     </RequireActiveStore>
   );
 }

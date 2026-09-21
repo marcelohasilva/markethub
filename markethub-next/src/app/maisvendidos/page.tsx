@@ -1,5 +1,5 @@
-import MaisVendidos from "../../views/MaisVendidos";
+import BestSellersPage from "@/features/admin/pages/BestSellersPage";
 
 export default function Page() {
-  return <MaisVendidos />;
+  return <BestSellersPage />;
 }

@@ -1,10 +1,10 @@
-import RequireActiveStore from "../../components/shared/RequireActiveStore";
-import CadastroProduto from "../../views/CadastroProduto";
+import RequireActiveStore from "@/components/layout/guards/RequireActiveStore";
+import ProductCreatePage from "@/features/products/ProductCreatePage";
 
 export default function Page() {
   return (
     <RequireActiveStore>
-      <CadastroProduto />
+      <ProductCreatePage />
     </RequireActiveStore>
   );
 }

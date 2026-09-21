@@ -1,5 +1,5 @@
-import Carrinho from "../../views/Carrinho";
+import CartPage from "@/features/cart/CartPage";
 
 export default function Page() {
-  return <Carrinho />;
+  return <CartPage />;
 }

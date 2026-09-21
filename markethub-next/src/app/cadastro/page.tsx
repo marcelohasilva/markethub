@@ -1,6 +1,6 @@
-import TelaCadastro from "../../views/Tela-Cadastro";
+import RegisterPage from "@/features/auth/RegisterPage";
 
 export default function Page() {
-  return <TelaCadastro />;
+  return <RegisterPage />;
 }
  

@@ -1,10 +1,10 @@
-import RequireActiveStore from "../../components/shared/RequireActiveStore";
-import Financeiro from "../../views/Financeiro";
+import RequireActiveStore from "@/components/layout/guards/RequireActiveStore";
+import FinancePage from "@/features/admin/pages/FinancePage";
 
 export default function Page() {
   return (
     <RequireActiveStore>
-      <Financeiro />
+      <FinancePage />
     </RequireActiveStore>
   );
 }

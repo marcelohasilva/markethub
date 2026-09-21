@@ -1,5 +1,5 @@
-import DashbordUser from "../../views/DashbordUser";
+import UsersPage from "@/features/admin/pages/UsersPage";
 
 export default function Page() {
-  return <DashbordUser />;
+  return <UsersPage />;
 }

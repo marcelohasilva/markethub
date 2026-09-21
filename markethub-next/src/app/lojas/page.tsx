@@ -1,8 +1,11 @@
-import Lojas from "../../views/Lojas";
-import HeaderMain from "../../components/shared/HeaderMain";
+import HeaderMain from "@/components/layout/HeaderMain";
+import StoresPage from "@/features/stores/StoresPage";
 
 export default function Page() {
   return (
-   <><HeaderMain /><Lojas /></> 
-    );
+    <>
+      <HeaderMain />
+      <StoresPage />
+    </>
+  );
 }

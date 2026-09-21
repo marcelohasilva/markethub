@@ -1,5 +1,5 @@
-import Product from "../../../views/Product";
+import ProductPage from "@/features/product/ProductPage";
 
 export default function Page() {
-  return <Product />;
+  return <ProductPage />;
 }

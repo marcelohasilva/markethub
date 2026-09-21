@@ -1,5 +1,5 @@
-import Ofertas from "../../views/Ofertas";
+import OffersPage from "@/features/admin/pages/OffersPage";
 
 export default function Page() {
-  return <Ofertas />;
+  return <OffersPage />;
 }

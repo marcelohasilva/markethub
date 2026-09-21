@@ -1,0 +1,195 @@
+"use client";
+import { useState, useEffect, type FormEvent } from "react"
+import { useRouter } from "next/navigation"
+import { API_BASE_URL, ApiRequestError, fetchCurrentStore } from "@/lib/stores";
+
+type ApiErrorBody = {
+    message?: string;
+};
+
+export const CreateStoreForm = () => {
+    const [nameStore, setNameStore] = useState<string>("")
+    const [describeStore, setDescribeStore] = useState<string>("")
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true)
+    const [isCheckingStore, setIsCheckingStore] = useState<boolean>(false)
+    const router = useRouter();
+
+    useEffect(() => {
+        const token = localStorage.getItem("api_token");
+        if (!token) {
+            setIsLoggedIn(false);
+            router.push("/login");
+        }
+    }, [router]);
+
+    async function handleCreateStore(e: FormEvent) {
+        e.preventDefault();
+
+        if (!nameStore) {
+          
+            return;
+        }
+
+        const token = localStorage.getItem("api_token");
+
+        if (!token) {
+            alert("Sessão expirada ou usuário não logado. Por favor, faça login.");
+            router.push("/login");
+            return;
+        }
+
+        try {
+            const payload = {
+                name: nameStore.trim(),
+                description: describeStore.trim(),
+            };
+
+            const response = await fetch(`${API_BASE_URL}/v1/stores`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify(payload),
+            });
+
+            let data: ApiErrorBody | null = null;
+
+            try {
+                data = await response.json() as ApiErrorBody;
+            } catch {
+                data = null;
+            }
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new ApiRequestError(401, data?.message || "Sessão expirada. Faça login novamente.");
+                }
+
+                throw new Error(data?.message || "Erro ao criar loja");
+            }
+
+        
+            setNameStore("");
+            setDescribeStore("");
+            router.push("/loja");
+
+        } catch (error: unknown) {
+            if (error instanceof ApiRequestError && error.status === 401) {
+                localStorage.removeItem("api_token");
+                alert(error.message);
+                router.push("/login");
+                return;
+            }
+
+            console.error("Erro na requisição:", error);
+            const message = error instanceof Error ? error.message : "Erro ao criar loja";
+            alert(message);
+        }
+    }
+
+    async function handleEnterStore() {
+        const token = localStorage.getItem("api_token");
+
+        if (!token) {
+            alert("Sessão expirada. Por favor, faça login.");
+            router.push("/login");
+            return;
+        }
+
+        try {
+            setIsCheckingStore(true);
+            await fetchCurrentStore(token);
+            router.push("/loja");
+        } catch (error: unknown) {
+            if (error instanceof ApiRequestError && error.status === 404) {
+                alert("Você ainda não possui uma loja cadastrada.");
+                return;
+            }
+
+            if (error instanceof ApiRequestError && error.status === 401) {
+                localStorage.removeItem("api_token");
+                alert("Sessão expirada. Faça login novamente.");
+                router.push("/login");
+                return;
+            }
+
+            console.error("Erro ao verificar loja:", error);
+            const message = error instanceof Error ? error.message : "Erro ao verificar loja";
+            alert(message);
+        } finally {
+            setIsCheckingStore(false);
+        }
+    }
+
+    if (!isLoggedIn) {
+        return (
+            <div className="w-full max-w-[480px] bg-white ml-[95px] mt-[30px] shadow-xl p-10 rounded-[2rem] text-center">
+                <h2 className="text-red-600 font-bold mb-4">Acesso Restrito</h2>
+                <p className="text-gray-600 mb-6">Você precisa estar logado para criar uma loja.</p>
+                <button 
+                    onClick={() => router.push("/login")}
+                    className="bg-indigo-600 text-white px-6 py-2 rounded-xl"
+                >
+                    Ir para Login
+                </button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="w-full max-w-[480px] bg-white ml-[95px] mt-[30px] shadow-xl shadow-gray-200/50 rounded-[2rem] border border-gray-100 p-10">
+            <h2 className='font-bold text-xl text-gray-800'>
+                Crie sua loja gratuitamente
+            </h2>
+            <form onSubmit={handleCreateStore} className='space-y-6 mt-6'>
+                <div className="flex items-stretch border border-gray-200 rounded-xl overflow-hidden group focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-50 transition-all">
+                    <div className="flex items-center justify-center w-16 bg-white border-r border-gray-100">
+                        <svg className="w-6 h-6 text-indigo-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Nome da loja" 
+                        value={nameStore}
+                        onChange={(e) => setNameStore(e.target.value)}
+                        className="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400" 
+                    />
+                </div>
+
+                <div className="flex items-stretch border border-gray-200 rounded-xl overflow-hidden group focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-50 transition-all">
+                    <div className="flex items-center justify-center w-16 bg-white border-r border-gray-100">
+                        <svg className="w-6 h-6 text-indigo-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Descrição da loja"
+                        value={describeStore}
+                        onChange={(e) => setDescribeStore(e.target.value)}
+                        className="flex-1 p-4 outline-none text-gray-700 placeholder-gray-400" 
+                    />
+                </div>
+
+                <label className="flex items-center gap-3 group">
+                    <input type="checkbox" required className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                    <span className="text-sm text-gray-600">
+                        Eu concordo com os <span className="text-indigo-600 font-medium group-hover:underline cursor-pointer">termos de uso</span>
+                    </span>
+                </label>
+
+                <button type="submit" className="w-full cursor-pointer bg-indigo-600 py-4 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] shadow-xl shadow-blue-200 hover:opacity-90 mt-4 transition-all active:scale-[0.98]">
+                    Criar minha loja
+                </button>
+
+                <div className='border-t border-gray-200 text-center pt-4'>
+                    <p className='text-sm text-gray-500'>
+                        Já tem uma loja? <button type="button" onClick={handleEnterStore} disabled={isCheckingStore} className="cursor-pointer text-indigo-700 font-bold hover:underline disabled:opacity-60 disabled:cursor-not-allowed">Entrar</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    )
+}

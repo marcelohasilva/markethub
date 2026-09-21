@@ -1,6 +1,6 @@
-import TelaLogin from "../../views/Tela-Login";
+import LoginPage from "@/features/auth/LoginPage";
 
 export default function Page() {
-  return <TelaLogin />;
+  return <LoginPage />;
 }
  

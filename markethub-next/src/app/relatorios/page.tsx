@@ -1,10 +1,10 @@
-import RequireActiveStore from "../../components/shared/RequireActiveStore";
-import Relatorios from "../../views/Relatorios";
+import RequireActiveStore from "@/components/layout/guards/RequireActiveStore";
+import ReportsPage from "@/features/admin/pages/ReportsPage";
 
 export default function Page() {
   return (
     <RequireActiveStore>
-      <Relatorios />
+      <ReportsPage />
     </RequireActiveStore>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import RequireActiveStore from "../../components/shared/RequireActiveStore";
-import Loja from "../../views/Loja";
+import { Suspense, useEffect, useState } from "react";
+import RequireActiveStore from "@/components/layout/guards/RequireActiveStore";
+import StorePage from "@/features/store/StorePage";
 import { fetchCurrentStore, fetchStoreByIdOrFromList, StoreProfile } from "@/lib/stores";
 
-export default function Page() {
+function StoreRouteContent() {
   const searchParams = useSearchParams();
   const storeId = searchParams.get("id") ?? undefined;
   const [store, setStore] = useState<StoreProfile | null>(null);
@@ -47,7 +47,15 @@ export default function Page() {
 
   return (
     <RequireActiveStore>
-      <Loja storeData={store} canManageStore={canManageStore} />
+      <StorePage storeData={store} canManageStore={canManageStore} />
     </RequireActiveStore>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <StoreRouteContent />
+    </Suspense>
   );
 }
