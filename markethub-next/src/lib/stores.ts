@@ -53,6 +53,7 @@ type StoreProfileApi = {
 };
 
 function normalizeStoreProfile(store: StoreProfileApi): StoreProfile {
+  // Compatibiliza diferenças de casing e campos opcionais retornados pela API.
   return {
     id: store.id,
     userId: store.userId,
@@ -190,6 +191,7 @@ export async function fetchStoreByIdOrFromList(token: string | undefined, storeI
       throw error;
     }
 
+    // Usa a listagem como fallback quando a consulta individual responde 404.
     const stores = await fetchAllStores(token);
     const store = stores.find((item) => String(item.id) === String(storeId));
 

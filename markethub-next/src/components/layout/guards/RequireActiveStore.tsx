@@ -21,6 +21,7 @@ export default function RequireActiveStore({ children }: PropsWithChildren) {
       }
 
       try {
+        // O status da API define se o usuário deve fazer login, criar uma loja ou acessar o painel.
         await fetchCurrentStore(token);
 
         if (isMounted) {

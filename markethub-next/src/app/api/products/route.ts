@@ -7,6 +7,7 @@ export async function GET() {
     const url = `${baseUrl.replace(/\/$/, "")}/products`;
 
     try {
+        // Centraliza a consulta de produtos no servidor e repassa o status original da API.
         const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) {
             const text = await response.text();

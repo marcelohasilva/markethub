@@ -90,6 +90,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+      // Mantém a grafia do endpoint conforme o contrato atual da API de autenticação.
       const resposta = await fetch(`${API_BASE_URL}/v1/auth/singin`, {
         method: "POST",
         headers: {
@@ -113,6 +114,7 @@ const Login = () => {
       }
 
       if (lerResposta.token) {
+        // O token é mantido para autenticar as requisições feitas após o login.
         localStorage.setItem("api_token", lerResposta.token);
       }
 

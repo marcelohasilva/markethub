@@ -10,6 +10,7 @@ const FAVORITES_KEY = "favorites";
 
 const readFavorites = (): FavoriteProduct[] => {
     try {
+        // Este storage mantém favoritos locais para os fluxos que não dependem da API.
         const raw = localStorage.getItem(FAVORITES_KEY);
         if (!raw) return [];
         const parsed = JSON.parse(raw);

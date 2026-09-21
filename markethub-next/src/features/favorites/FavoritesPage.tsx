@@ -22,6 +22,7 @@ export default function Favoritos() {
   const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
+    // O ID salvo localmente inicia a consulta; a API continua sendo a fonte dos favoritos.
     const user = JSON.parse(localStorage.getItem("user") || "null");
     setUserId(user?.id ?? null);
   }, []);
@@ -47,6 +48,7 @@ export default function Favoritos() {
         }
 
         const list: FavoriteApiItem[] = Array.isArray(result?.data) ? result.data : [];
+        // Adapta nomes de campos e valores numéricos do contrato de favoritos ao modelo dos cards.
         const normalized = list.map((item) => ({
           id: Number(item.product_id ?? item.id),
           name: String(item.name ?? ""),

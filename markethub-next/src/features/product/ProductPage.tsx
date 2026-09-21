@@ -54,6 +54,7 @@ const Product = () => {
         setLoading(true);
         setError(null);
 
+        // O catálogo usa o proxy do Next; as operações de favoritos continuam no serviço de favoritos.
         const response = await fetch("/api/products", { cache: "no-store" });
         const data = await response.json();
 

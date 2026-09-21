@@ -89,6 +89,7 @@ export default function Actions({ variant = "full" }: ActionsProps) {
       }
 
       try {
+        // O token identifica a conta; os dados exibidos no cabeçalho vêm do perfil mais recente.
         const response = await fetch(`${API_BASE_URL}/v1/users/${userId}`);
 
         if (!response.ok) {

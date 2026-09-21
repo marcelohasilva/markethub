@@ -65,6 +65,7 @@ const Loja = ({ storeData, canManageStore }: LojaProps) => {
                     (product) => product.images && product.images.length > 0
                 );
 
+                // Evita renderizar produtos incompletos quando a resposta da loja não traz imagens.
                 if (storeProducts.length > 0 && hasImages) {
                     if (isMounted) {
                         setProducts(storeProducts);
@@ -89,6 +90,7 @@ const Loja = ({ storeData, canManageStore }: LojaProps) => {
 
                 const filtered = list.filter(
                     (product: ProductApiItem) => {
+                        // Aceita nomes de campos antigos e relaciona o produto à loja ou ao usuário dono.
                         const productStoreId =
                             product.storeId ??
                             product.StoreId ??

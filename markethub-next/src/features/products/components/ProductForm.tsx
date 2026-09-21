@@ -77,6 +77,7 @@ export default function ProductForm() {
     const uploadedImagesUrls: string[] = [];
 
     if (image) {
+      // O backend recebe URLs públicas; o arquivo é convertido em URL antes da criação do produto.
       const imgbbFormData = new FormData();
       imgbbFormData.append("image", image);
 

@@ -21,6 +21,7 @@ const ProtectedCreateStore = () => {
       }
 
       try {
+        // A rota permite iniciar o cadastro, mas impede criar uma segunda loja para o mesmo usuário.
         await fetchCurrentStore(token);
         setHasStore(true);
       } catch (error) {

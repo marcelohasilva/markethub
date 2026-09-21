@@ -135,6 +135,7 @@ export default function Cadastro() {
     }
 
     try {
+      // Endpoint preservado com a grafia definida pelo backend atual.
       const resposta = await fetch(`${API_BASE_URL}/v1/auth/singup`, {
         method: "POST",
         headers: {
@@ -162,6 +163,7 @@ export default function Cadastro() {
       }
 
       if (data?.token) {
+        // A sessão começa imediatamente após o cadastro bem-sucedido.
         localStorage.setItem("api_token", data.token);
       }
 
