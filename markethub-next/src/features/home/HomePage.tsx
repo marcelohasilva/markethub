@@ -7,6 +7,7 @@ import HomeCarousel from "./components/HomeCarousel";
 import HomeMarketplaces from "./components/HomeMarketplaces";
 import HomeCategories from "./components/HomeCategories";
 import HomeFooter from "./components/HomeFooter";
+import { API_BASE_URL } from "@/lib/stores";
 
     const Home = () => {
         const[products, setProducts] = useState<Product[]>([])
@@ -14,15 +15,16 @@ import HomeFooter from "./components/HomeFooter";
        useEffect(() => {
   async function loadProducts() {
     try {
-      const token = localStorage.getItem("api_token") ?? undefined;
+      const token = localStorage.getItem("api_token");
+      const headers: HeadersInit = token
+        ? { Authorization: `Bearer ${token}` }
+        : {};
 
       const response = await fetch(
-        "http://localhost:3000/v1/products",
+        `${API_BASE_URL}/v1/products`,
         {
           cache: "no-store",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
         }
       );
 
