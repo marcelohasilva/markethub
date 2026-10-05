@@ -11,34 +11,53 @@ const ProtectedCreateStore = () => {
   const [hasStore, setHasStore] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkStore = async () => {
       const token = localStorage.getItem("api_token");
 
       if (!token) {
-        setLoading(false);
-        setHasStore(false);
+        router.replace("/login");
         return;
       }
 
       try {
         // A rota permite iniciar o cadastro, mas impede criar uma segunda loja para o mesmo usuário.
         await fetchCurrentStore(token);
-        setHasStore(true);
+        if (isMounted) {
+          setHasStore(true);
+        }
       } catch (error) {
         if (error instanceof ApiRequestError && error.status === 404) {
-          setHasStore(false);
+          if (isMounted) {
+            setHasStore(false);
+          }
+          return;
+        }
+
+        if (error instanceof ApiRequestError && error.status === 401) {
+          localStorage.removeItem("api_token");
+          router.replace("/login");
           return;
         }
 
         console.error("Erro ao verificar loja", error);
-        setHasStore(false);
+        if (isMounted) {
+          setHasStore(false);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     checkStore();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [router]);
 
   useEffect(() => {
     if (hasStore) router.replace("/loja");
