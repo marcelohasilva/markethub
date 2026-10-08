@@ -32,7 +32,7 @@ export default function SearchBar({ onMenuClick, variant = "full" }: SearchBarPr
           </button>
           <img
             onClick={() => router.push("/")}
-            src="/assets/logo.png"
+            src="/assets/logo-nobg.png"
             alt="Logo"
             className="h-10 w-fit cursor-pointer"
           />
