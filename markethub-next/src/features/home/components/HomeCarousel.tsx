@@ -30,7 +30,7 @@ const HomeCarousel = () => {
         title: "NOVIDADES\nQUENTINHAS",
         subtitle: "CONFIRA OS LANÇAMENTOS",
         cta: "CONFIRA AGORA",
-        image: "/assets/iconlogo.png",
+        image: "/assets/only-logo.png",
         bgFrom: "#6F5AF5",
         bgTo: "#1A7FF0",
       },
