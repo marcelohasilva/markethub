@@ -1,46 +1,67 @@
+
 export interface FavoriteProduct {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
-  description?: string; 
+  description?: string;
 }
 
 const FAVORITES_KEY = "favorites";
 
+// Mantido para compatibilidade com partes antigas do front-end.
+// A fonte oficial dos favoritos agora é a API NestJS.
 const readFavorites = (): FavoriteProduct[] => {
-    try {
-        // Este storage mantém favoritos locais para os fluxos que não dependem da API.
-        const raw = localStorage.getItem(FAVORITES_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
-    } catch {
-        return [];
-    }
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    if (!raw) return [];
+
+    const parsed: unknown = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed as FavoriteProduct[];
+  } catch {
+    return [];
+  }
 };
 
 const writeFavorites = (items: FavoriteProduct[]) => {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(items));
+  if (typeof window === "undefined") return;
+
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(items));
 };
 
-export const getFavorites = () => readFavorites();
-
-export const isFavorite = (id: number) => {
-    return readFavorites().some(item => item.id === id);
+export const getFavorites = (): FavoriteProduct[] => {
+  return readFavorites();
 };
 
-export const toggleFavorite = (product: FavoriteProduct) => {
-    const current = readFavorites();
-    const exists = current.some(item => item.id === product.id);
-    const next = exists ? current.filter(item => item.id !== product.id) : [...current, product];
-    writeFavorites(next);
-    return !exists;
+export const isFavorite = (id: string): boolean => {
+  return readFavorites().some((item) => item.id === id);
 };
 
-export const removeFavorite = (id: number) => {
-    const current = readFavorites();
-    const next = current.filter(item => item.id !== id);
-    writeFavorites(next);
-    return next;
+export const toggleFavorite = (product: FavoriteProduct): boolean => {
+  const current = readFavorites();
+
+  const exists = current.some((item) => item.id === product.id);
+
+  const next = exists
+    ? current.filter((item) => item.id !== product.id)
+    : [...current, product];
+
+  writeFavorites(next);
+
+  return !exists;
+};
+
+export const removeFavorite = (id: string): FavoriteProduct[] => {
+  const current = readFavorites();
+
+  const next = current.filter((item) => item.id !== id);
+
+  writeFavorites(next);
+
+  return next;
 };
