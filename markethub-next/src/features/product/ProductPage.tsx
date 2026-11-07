@@ -37,9 +37,11 @@ type FavoriteApiItem = {
 type ProductPageItem = Omit<FavoriteProduct, "id"> & {
   id: string;
   productUrl?: string;
+  images?: ProductApiItem["images"];
 };
 
 const API_URL = "http://localhost:3000/v1";
+const FALLBACK_IMAGE = "/assets/baixados.webp";
 
 const Product = () => {
   const params = useParams();
@@ -89,15 +91,20 @@ const Product = () => {
           return;
         }
 
+        const images = selected.images ?? [];
+        const mainImage = images[0]?.imageUrl || FALLBACK_IMAGE;
+
         const normalized: ProductPageItem = {
           id: String(selected.id),
           name: String(selected.name ?? ""),
           price: Number(selected.price ?? 0),
-          image: "/assets/baixados.webp",
+          image: mainImage,
+          images,
           description: String(selected.description ?? ""),
           productUrl: selected.productUrl ?? undefined,
         };
 
+        setSelectedImageIndex(0);
         setProduct(normalized);
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
@@ -249,10 +256,10 @@ const Product = () => {
     ? product.price / (1 - discountPercent / 100)
     : 0;
 
-  const galleryImages = Array.from(
-    { length: 4 },
-    () => product.image
-  );
+  const galleryImages =
+    product.images && product.images.length > 0
+      ? product.images.map((image) => image.imageUrl)
+      : [product.image || FALLBACK_IMAGE];
 
   const colors = [
     { name: "Preto", className: "bg-black" },
@@ -262,14 +269,14 @@ const Product = () => {
 
   const sizes = [38, 39, 40, 41, 42, 43, 44];
 
- const handleBuyNow = () => {
-  if (!product.productUrl) {
-    alert("Link de compra não disponível para este produto.");
-    return;
-  }
+  const handleBuyNow = () => {
+    if (!product.productUrl) {
+      alert("Link de compra não disponível para este produto.");
+      return;
+    }
 
-  window.open(product.productUrl, "_blank", "noopener,noreferrer");
-};
+    window.open(product.productUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <>
@@ -330,7 +337,7 @@ const Product = () => {
               <div className="flex items-center justify-center">
                 <img
                   className="h-64 w-full object-contain sm:h-80 md:h-96"
-                  src={galleryImages[selectedImageIndex]}
+                  src={galleryImages[selectedImageIndex] || FALLBACK_IMAGE}
                   alt={`Foto do produto ${product.name}`}
                 />
               </div>
@@ -574,7 +581,7 @@ const Product = () => {
             </button>
 
             <img
-              src={galleryImages[selectedImageIndex]}
+              src={galleryImages[selectedImageIndex] || FALLBACK_IMAGE}
               alt={`Foto ampliada do produto ${product.name}`}
               className="max-h-[80vh] w-full object-contain"
             />
