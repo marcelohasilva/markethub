@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
@@ -21,31 +22,42 @@ type ProductApiItem = {
   name?: string;
   price?: string | number;
   description?: string | null;
+  productUrl?: string | null;
+  images?: {
+    id: string;
+    imageUrl: string;
+  }[];
 };
 
 type FavoriteApiItem = {
-  id?: string | number;
-  product_id?: string | number;
+  id: string;
+  productId: string;
 };
+
+type ProductPageItem = Omit<FavoriteProduct, "id"> & {
+  id: string;
+  productUrl?: string;
+};
+
+const API_URL = "http://localhost:3000/v1";
 
 const Product = () => {
   const params = useParams();
   const idParam = params?.id;
   const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
-  const [product, setProduct] = useState<FavoriteProduct | null>(null);
+  const [product, setProduct] = useState<ProductPageItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favorite, setFavorite] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState("Preto");
   const [selectedSize, setSelectedSize] = useState(42);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageOpen, setIsImageOpen] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-    setUserId(user?.id ?? null);
+    setToken(localStorage.getItem("api_token"));
   }, []);
 
   useEffect(() => {
@@ -54,23 +66,36 @@ const Product = () => {
         setLoading(true);
         setError(null);
 
-        // O catálogo usa o proxy do Next; as operações de favoritos continuam no serviço de favoritos.
-        const response = await fetch("/api/products", { cache: "no-store" });
+        const response = await fetch("/api/products", {
+          cache: "no-store",
+        });
+
         const data = await response.json();
 
-        const list: ProductApiItem[] = Array.isArray(data) ? data : (data?.data ?? []);
-        const selected = id ? list.find((item) => String(item.id) === String(id)) : list[0];
+        if (!response.ok) {
+          throw new Error(data?.message || "Erro ao carregar produtos");
+        }
+
+        const list: ProductApiItem[] = Array.isArray(data)
+          ? data
+          : (data?.data ?? []);
+
+        const selected = id
+          ? list.find((item) => String(item.id) === String(id))
+          : list[0];
+
         if (!selected) {
           setError("Produto não encontrado");
           return;
         }
 
-        const normalized: FavoriteProduct = {
-          id: Number(selected.id),
+        const normalized: ProductPageItem = {
+          id: String(selected.id),
           name: String(selected.name ?? ""),
           price: Number(selected.price ?? 0),
           image: "/assets/baixados.webp",
           description: String(selected.description ?? ""),
+          productUrl: selected.productUrl ?? undefined,
         };
 
         setProduct(normalized);
@@ -87,23 +112,32 @@ const Product = () => {
 
   useEffect(() => {
     const checkFavorite = async () => {
-      if (!userId || !product) {
+      if (!token || !product) {
         setFavorite(false);
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:8000/favorites/${userId}`);
+        const response = await fetch(`${API_URL}/favorites`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         const result = await response.json();
 
         if (!response.ok) {
           throw new Error(result?.message || "Erro ao carregar favoritos");
         }
 
-        const list: FavoriteApiItem[] = Array.isArray(result?.data) ? result.data : [];
-        const exists = list.some((item) =>
-          String(item.product_id ?? item.id) === String(product.id)
+        const list: FavoriteApiItem[] = Array.isArray(result)
+          ? result
+          : [];
+
+        const exists = list.some(
+          (item) => String(item.productId) === String(product.id)
         );
+
         setFavorite(exists);
       } catch (err) {
         console.error("Erro ao verificar favorito:", err);
@@ -112,56 +146,130 @@ const Product = () => {
     };
 
     checkFavorite();
-  }, [userId, product?.id]);
+  }, [token, product?.id]);
 
   const handleToggleFavorite = async () => {
     if (!product) return;
-    if (!userId) {
+
+    const currentToken = localStorage.getItem("api_token");
+
+    if (!currentToken) {
       alert("Faça login para adicionar aos favoritos.");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:8000/favorites", {
-        method: favorite ? "DELETE" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: userId,
-          product_id: product.id,
-        }),
-      });
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${currentToken}`,
+      };
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result?.message || "Erro ao atualizar favorito");
+      if (favorite) {
+        const favoritesResponse = await fetch(`${API_URL}/favorites`, {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          },
+        });
+
+        const favoritesResult = await favoritesResponse.json();
+
+        if (!favoritesResponse.ok) {
+          throw new Error(
+            favoritesResult?.message || "Erro ao consultar favoritos"
+          );
+        }
+
+        const favorites: FavoriteApiItem[] = Array.isArray(favoritesResult)
+          ? favoritesResult
+          : [];
+
+        const favoriteItem = favorites.find(
+          (item) => String(item.productId) === String(product.id)
+        );
+
+        if (!favoriteItem) {
+          setFavorite(false);
+          return;
+        }
+
+        const response = await fetch(
+          `${API_URL}/favorites/${favoriteItem.id}`,
+          {
+            method: "DELETE",
+            headers,
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || "Erro ao remover favorito");
+        }
+
+        setFavorite(false);
+      } else {
+        const response = await fetch(`${API_URL}/favorites`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            productId: product.id,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || "Erro ao adicionar favorito");
+        }
+
+        setFavorite(true);
       }
-
-      setFavorite(!favorite);
     } catch (err) {
       console.error("Erro ao atualizar favorito:", err);
-      alert("Erro ao atualizar favorito");
+      alert(
+        err instanceof Error
+          ? err.message
+          : "Erro ao atualizar favorito"
+      );
     }
   };
 
-  if (loading) return <p className="text-center mt-20">Carregando produto...</p>;
-  if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
+  if (loading) {
+    return <p className="text-center mt-20">Carregando produto...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center mt-20 text-red-500">{error}</p>;
+  }
+
   if (!product) return null;
 
   const discountPercent = 15;
   const originalPrice = product.price
     ? product.price / (1 - discountPercent / 100)
     : 0;
-  const galleryImages = Array.from({ length: 4 }, () => product.image);
+
+  const galleryImages = Array.from(
+    { length: 4 },
+    () => product.image
+  );
+
   const colors = [
     { name: "Preto", className: "bg-black" },
     { name: "Cinza", className: "bg-gray-300" },
     { name: "Branco", className: "bg-white" },
   ];
+
   const sizes = [38, 39, 40, 41, 42, 43, 44];
 
-  const handleBuyNow = () => {
-    alert("Compra simulada no front. O backend ainda não está pronto.");
-  };
+ const handleBuyNow = () => {
+  if (!product.productUrl) {
+    alert("Link de compra não disponível para este produto.");
+    return;
+  }
+
+  window.open(product.productUrl, "_blank", "noopener,noreferrer");
+};
 
   return (
     <>
@@ -214,9 +322,11 @@ const Product = () => {
               >
                 <FiMaximize2 className="h-4 w-4" />
               </button>
+
               <span className="absolute left-5 top-5 rounded-full bg-[#6B3DF2] px-3 py-1 text-xs font-semibold text-white">
                 -{discountPercent}%
               </span>
+
               <div className="flex items-center justify-center">
                 <img
                   className="h-64 w-full object-contain sm:h-80 md:h-96"
@@ -273,6 +383,7 @@ const Product = () => {
                 <h1 className="text-2xl font-bold text-[#1D1B21]">
                   {product.name}
                 </h1>
+
                 <button
                   type="button"
                   onClick={handleToggleFavorite}
@@ -303,9 +414,11 @@ const Product = () => {
                 <div className="text-3xl font-bold text-[#6B3DF2]">
                   R$ {product.price.toFixed(2)}
                 </div>
+
                 <div className="text-sm text-gray-400 line-through">
                   R$ {originalPrice.toFixed(2)}
                 </div>
+
                 <span className="rounded-full bg-[#EFE9FF] px-2 py-1 text-xs font-semibold text-[#6B3DF2]">
                   -{discountPercent}%
                 </span>
@@ -313,8 +426,12 @@ const Product = () => {
 
               <div className="mt-5">
                 <div className="text-sm font-semibold text-[#1D1B21]">
-                  Cor: <span className="font-normal text-gray-500">{selectedColor}</span>
+                  Cor:{" "}
+                  <span className="font-normal text-gray-500">
+                    {selectedColor}
+                  </span>
                 </div>
+
                 <div className="mt-2 flex items-center gap-3">
                   {colors.map((color) => (
                     <button
@@ -338,8 +455,12 @@ const Product = () => {
 
               <div className="mt-5">
                 <div className="text-sm font-semibold text-[#1D1B21]">
-                  Tamanho: <span className="font-normal text-gray-500">{selectedSize}</span>
+                  Tamanho:{" "}
+                  <span className="font-normal text-gray-500">
+                    {selectedSize}
+                  </span>
                 </div>
+
                 <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-7">
                   {sizes.map((size) => (
                     <button
@@ -360,7 +481,7 @@ const Product = () => {
 
               <AddToCartButton
                 productId={product.id}
-                userId={userId}
+                userId={null}
                 storeId={1}
                 className="mt-5 w-full rounded-2xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 hover:shadow-xl"
                 label="Adicionar ao carrinho"
@@ -368,11 +489,13 @@ const Product = () => {
 
               <div className="mt-4 flex items-center gap-2 rounded-2xl border border-gray-200 px-3 py-2">
                 <FiTag className="text-gray-400" />
+
                 <input
                   type="text"
                   placeholder="Cupom de desconto"
                   className="flex-1 bg-transparent text-sm text-gray-600 outline-none"
                 />
+
                 <button
                   type="button"
                   className="rounded-xl bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] px-4 py-2 text-sm font-semibold text-white"
@@ -394,21 +517,29 @@ const Product = () => {
                 <div className="flex items-start gap-2">
                   <FaTruck className="mt-0.5 text-[#6B3DF2]" />
                   <div>
-                    <p className="font-semibold text-[#1D1B21]">Entrega rapida</p>
+                    <p className="font-semibold text-[#1D1B21]">
+                      Entrega rapida
+                    </p>
                     <p>para todo o Brasil</p>
                   </div>
                 </div>
+
                 <div className="flex items-start gap-2">
                   <FaUndoAlt className="mt-0.5 text-[#6B3DF2]" />
                   <div>
-                    <p className="font-semibold text-[#1D1B21]">Devolucao gratis</p>
+                    <p className="font-semibold text-[#1D1B21]">
+                      Devolucao gratis
+                    </p>
                     <p>ate 7 dias</p>
                   </div>
                 </div>
+
                 <div className="flex items-start gap-2">
                   <FaShieldAlt className="mt-0.5 text-[#6B3DF2]" />
                   <div>
-                    <p className="font-semibold text-[#1D1B21]">Compra segura</p>
+                    <p className="font-semibold text-[#1D1B21]">
+                      Compra segura
+                    </p>
                     <p>seus dados protegidos</p>
                   </div>
                 </div>
@@ -441,6 +572,7 @@ const Product = () => {
             >
               Fechar
             </button>
+
             <img
               src={galleryImages[selectedImageIndex]}
               alt={`Foto ampliada do produto ${product.name}`}

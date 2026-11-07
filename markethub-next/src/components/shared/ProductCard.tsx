@@ -1,4 +1,6 @@
+
 "use client";
+
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +16,7 @@ export interface Product {
   name: string;
   price: number | string;
   description?: string;
-  productUrl?: string;
+  productUrl?: string | null;
   images?: ProductImage[];
 }
 
@@ -22,24 +24,19 @@ export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
 
   function handleNavigate() {
-    if (product.productUrl) {
-      window.location.href = product.productUrl;
-      return;
-    }
-
     router.push(`/produto/${product.id}`);
   }
 
-  const displayImage = product.images && product.images.length > 0
-    ? product.images[0].imageUrl
-    : "https://via.placeholder.com/150?text=Sem+Imagem";
+  const displayImage =
+    product.images && product.images.length > 0
+      ? product.images[0].imageUrl
+      : "https://via.placeholder.com/150?text=Sem+Imagem";
 
   const parsedPrice = Number(product.price) || 0;
 
   return (
     <div onClick={handleNavigate} className="cursor-pointer">
       <div className="w-full bg-white rounded-2xl shadow-lg p-3 md:max-w-[220px]">
-        
         <div className="relative bg-[#E0E0E0] rounded-xl h-[160px] md:h-[180px] flex items-center justify-center overflow-hidden">
           <img
             src={displayImage}
@@ -65,7 +62,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </p>
 
         <p className="text-xs text-gray-600">
-          ou 2x de R$ {(parsedPrice / 2).toFixed(2)} 
+          ou 2x de R$ {(parsedPrice / 2).toFixed(2)}
         </p>
       </div>
     </div>
