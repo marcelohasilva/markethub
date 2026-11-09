@@ -224,14 +224,14 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
   const activeCategory = categories.find((category) => category.id === activeCategoryId) ?? categories[0];
   return (
     <nav className="relative w-full bg-gradient-to-r from-[#8F5CFF] to-[#1A7FF0] text-white">
-      <ul className="flex items-center gap-6 overflow-x-auto py-3 px-4 md:px-6 lg:px-[97px]">
+      <ul className="flex items-center justify-between gap-0 overflow-x-auto py-3 px-4 md:px-6 lg:px-[97px]">
         {links.map((link) => {
           const isActive = pathname === link.to && link.to !== "#";
           const isCategorias = link.label === "Categorias";
           const Icon = link.icon;
 
           return (
-            <li key={link.label}>
+            <li key={link.label}className={ `px-20 ${link.label !== links[links.length - 1].label ? "border-r border-white/30" : ""}`} >
               {isCategorias ? (
                 <button
                   type="button"
