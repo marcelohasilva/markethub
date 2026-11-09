@@ -40,7 +40,7 @@ export default function SearchBar({ onMenuClick, variant = "full" }: SearchBarPr
       )}
 
       {showInput && (
-        <div className="flex w-full md:flex-1 md:max-w-[520px] md:mx-auto">
+        <div className="flex w-full md:flex-1 md:max-w-[520px] md:ml-118">
           <input
             type="text"
             placeholder="Pesquisar produtos..."
