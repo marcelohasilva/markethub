@@ -24,10 +24,10 @@ const StoresTabs = ({ activeTab, onChange }: StoresTabsProps) => {
               key={label}
               type="button"
               onClick={() => onChange(label)}
-              className={`flex h-[86px] min-w-[132px] cursor-pointer flex-col items-center justify-center gap-2 border-b-[3px] border-r border-[#eef0f6] px-3 text-center text-[13px] font-semibold transition last:border-r-0 md:h-[76px] md:min-w-0 md:flex-row md:gap-3 md:px-4 md:text-[15px] ${
+              className={`flex h-[86px] min-w-[132px] cursor-pointer flex-col items-center justify-center gap-2 border-b-[3px] border-r border-[#eef0f6] px-3 text-center text-[13px] font-semibold transition last:border-r-0 hover:-translate-y-1 hover:shadow-sm md:h-[76px] md:min-w-0 md:flex-row md:gap-3 md:px-4 md:text-[15px] ${
                 isActive
                   ? "border-b-[#7c3aed] bg-[#f4ebff] text-[#7c3aed] shadow-[0_2px_12px_rgba(124,58,237,0.1)] md:rounded-none md:bg-transparent md:shadow-none"
-                  : "border-b-transparent text-[#667085] hover:bg-[#f2f4f7]"
+                  : "border-b-transparent text-[#667085]"
               }`}
             >
               <span className={isActive ? "rounded-md bg-[#f1e9ff] p-2 md:bg-transparent md:p-0" : ""}>

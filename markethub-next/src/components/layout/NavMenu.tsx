@@ -304,7 +304,7 @@ export default function NavMenu({ onNavigate }: NavMenuProps) {
                                 <li key={item}>
                                   <button
                                     type="button"
-                                    className="cursor-pointer text-left hover:text-[#1A1C27]"
+                                    className="cursor-pointer text-left transition-colors hover:text-[#7c3aed]"
                                   >
                                     {item}
                                   </button>

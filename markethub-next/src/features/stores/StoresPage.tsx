@@ -78,7 +78,7 @@ export default function StoresPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#fbfcff]">
+    <div className="stores-page min-h-screen bg-[#fbfcff]">
       <div className="mx-auto max-w-[1690px] px-4 pb-24 pt-7 md:px-7 md:pb-10 md:pt-11 lg:px-[60px]">
         <div className="space-y-5 md:space-y-8 lg:space-y-9">
           <StoresHeader

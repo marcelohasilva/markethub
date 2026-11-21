@@ -1,1 +1,141 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #080808;
+  color: #f3f4f6;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3 {
+  color: #fff;
+}
+
+html.dark [class~="bg-white"],
+html.dark [class~="bg-[#f8f9fc]"] {
+  background-color: #111;
+}
+
+html.dark [class~="dark:bg-[#111]"] {
+  background-color: #111;
+  border-color: #fff;
+}
+
+html.dark .stores-page {
+  background-color: #080808;
+}
+
+html.dark .stores-page [class~="bg-white"] {
+  background-color: #111;
+}
+
+html.dark .stores-page [class~="md:bg-white"] {
+  background-color: #111;
+}
+
+html.dark .stores-page [class~="bg-gray-200"],
+html.dark .stores-page [class~="bg-[#f2f4f7]"],
+html.dark .stores-page [class~="bg-[#f4ebff]"],
+html.dark .stores-page [class~="bg-[#f1e9ff]"] {
+  background-color: #1b1b1b;
+}
+
+html.dark .stores-page [class~="text-[#171b2a]"],
+html.dark .stores-page [class~="text-[#101828]"],
+html.dark .stores-page [class~="text-[#344054]"],
+html.dark .stores-page [class~="text-[#667085]"],
+html.dark .stores-page [class~="text-[#98a2b3]"],
+html.dark .stores-page [class~="text-gray-500"] {
+  color: #f3f4f6;
+}
+
+html.dark .stores-page [class*="md:text-[#98a2b3]"],
+html.dark .stores-page [class*="md:text-[#344054]"],
+html.dark .stores-page [class*="md:text-[#101828]"] {
+  color: #f3f4f6;
+}
+
+html.dark .stores-page [class*="border-[#e"],
+html.dark .stores-page [class*="border-[#f"] {
+  border-color: #333;
+}
+
+html.dark .stores-page [class~="border-b-[#7c3aed]"] {
+  border-bottom-color: #a78bfa;
+  box-shadow: 0 5px 14px -7px #a78bfa;
+}
+
+.stores-page select:focus {
+  outline: 2px solid #7c3aed;
+  outline-offset: 1px;
+}
+
+.stores-page select option:hover,
+.stores-page select option:checked {
+  background-color: #7c3aed;
+  color: #fff;
+}
+
+html.dark [class~="bg-gray-50"],
+html.dark [class~="bg-gray-100"] {
+  background-color: #0d0d0d;
+}
+
+html.dark [class~="bg-[#F8F9FC]"],
+html.dark [class~="bg-[#F7F8FC]"],
+html.dark [class~="bg-[#F3F4F6]"],
+html.dark [class~="bg-[#FBFCFE]"],
+html.dark [class~="bg-[#F8FAFC]"],
+html.dark [class~="bg-[#F8FAFE]"],
+html.dark [class~="bg-[#E0E0E0]"] {
+  background-color: #0d0d0d;
+}
+
+html.dark [class~="bg-[#F4F0FF]"],
+html.dark [class~="bg-[#F5F0FF]"],
+html.dark [class~="bg-[#F1EEFF]"] {
+  background-color: #29213f;
+}
+
+html.dark [class~="text-gray-900"],
+html.dark [class~="text-gray-800"],
+html.dark [class~="text-gray-700"],
+html.dark [class~="text-[#1A1C27]"] {
+  color: #f3f4f6;
+}
+
+html.dark [class~="text-gray-600"],
+html.dark [class~="text-gray-500"],
+html.dark [class~="text-[#6B7280]"] {
+  color: #d1d5db;
+}
+
+html.dark [class~="text-[#282729]"],
+html.dark [class~="text-[#1A1C27]"],
+html.dark [class~="text-[#1E2340]"],
+html.dark [class~="text-[#121A33]"],
+html.dark [class~="text-[#17213D]"],
+html.dark [class~="text-[#24304D]"],
+html.dark [class~="text-[#25314E]"],
+html.dark [class~="text-[#202A44]"],
+html.dark [class~="text-[#2B3552]"],
+html.dark [class~="text-[#273244]"],
+html.dark [class~="text-[#475467]"],
+html.dark [class~="text-[#5B677C]"],
+html.dark [class~="text-[#5F677C]"],
+html.dark [class~="text-[#667085]"],
+html.dark [class~="text-[#68748F]"] {
+  color: #f3f4f6;
+}
+
+html.dark [class~="border-gray-100"],
+html.dark [class~="border-gray-200"],
+html.dark [class~="border-gray-300"] {
+  border-color: #374151;
+}
