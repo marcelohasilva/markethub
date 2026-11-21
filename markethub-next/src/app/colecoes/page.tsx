@@ -1,4 +1,4 @@
-import CollectionsPage from "@/features/admin/pages/CollectionsPage";
+import CollectionsPage from "@/features/collections/CollectionsPage";
 
 export default function Page() {
   return <CollectionsPage />;
