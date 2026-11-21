@@ -1,39 +1,85 @@
+
+"use client";
+
 import { useEffect, useState } from "react";
 import CartRemoveButton from "./CartRemoveButton";
 
+const API_URL = "http://localhost:3000/v1";
+
 interface CartItem {
-  cart_id: number;
-  name: string;
-  price: string;
+  id: string;
+  productId: string;
   quantity: number;
-  image_url: string | null;
+  product: {
+    id: string;
+    name: string;
+    price: number | string;
+    stock: number;
+    images: {
+      id: string;
+      imageUrl: string;
+    }[];
+  };
 }
 
 interface CartListProps {
-  userId: number;
+  onTotalChange: (total: number) => void;
 }
 
-const CartList = ({ userId }: CartListProps) => {
+const CartList = ({ onTotalChange }: CartListProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const loadCart = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/cart/${userId}`
+      setError(null);
+
+      const token = localStorage.getItem("api_token");
+
+      if (!token) {
+        setCartItems([]);
+        onTotalChange(0);
+        setError("Faça login para visualizar seu carrinho.");
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/carts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const responseText = await response.text();
+
+      console.log("Status HTTP:", response.status);
+      console.log("Resposta da API:", responseText);
+
+      if (!response.ok) {
+        throw new Error(
+          `Erro ${response.status}: ${responseText}`
+        );
+      }
+
+      const result: CartItem[] = JSON.parse(responseText);
+
+      setCartItems(result);
+
+      const totalCalculado = result.reduce(
+        (acc, item) =>
+          acc + Number(item.product.price) * item.quantity,
+        0
       );
 
-      const result = await response.json();
-
-      if (result.success) {
-        setCartItems(result.data);
-      } else {
-        setError(result.message || "Erro ao carregar carrinho");
-      }
+      onTotalChange(totalCalculado);
     } catch (err) {
-      console.error(err);
-      setError("Erro ao conectar com o servidor");
+      console.error("Erro ao carregar carrinho:", err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Erro ao conectar com o servidor."
+      );
     } finally {
       setLoading(false);
     }
@@ -41,7 +87,7 @@ const CartList = ({ userId }: CartListProps) => {
 
   useEffect(() => {
     loadCart();
-  }, [userId]);
+  }, []);
 
   if (loading) {
     return <p className="ml-[95px]">Carregando carrinho...</p>;
@@ -56,18 +102,21 @@ const CartList = ({ userId }: CartListProps) => {
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
           <div
-            key={item.cart_id}
+            key={item.id}
             className="flex p-4 rounded-lg shadow-sm bg-white items-center"
           >
             <img
-              src={item.image_url ?? "/placeholder.png"}
-              alt={item.name}
+              src={
+                item.product.images[0]?.imageUrl ??
+                "/placeholder.png"
+              }
+              alt={item.product.name}
               className="w-24 h-24 object-cover rounded"
             />
 
             <div className="ml-4 flex-1">
               <h3 className="text-lg font-bold text-gray-800">
-                {item.name}
+                {item.product.name}
               </h3>
 
               <p className="text-gray-500">
@@ -75,18 +124,23 @@ const CartList = ({ userId }: CartListProps) => {
               </p>
 
               <span className="text-blue-600 font-semibold">
-                R$ {(Number(item.price) * item.quantity).toFixed(2)}
+                R${" "}
+                {(
+                  Number(item.product.price) * item.quantity
+                ).toFixed(2)}
               </span>
 
               <CartRemoveButton
-                cartId={item.cart_id}
+                productId={item.productId}
                 loadCart={loadCart}
               />
             </div>
           </div>
         ))
       ) : (
-        <p className="text-gray-500">O carrinho esta vazio.</p>
+        <p className="text-gray-500">
+          O carrinho está vazio.
+        </p>
       )}
     </div>
   );

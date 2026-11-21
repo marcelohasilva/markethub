@@ -1,11 +1,14 @@
+
 "use client";
+
+import { useState } from "react";
 import HeaderMain from "@/components/layout/HeaderMain";
 import CartList from "./components/CartList";
 import CartSummary from "./components/CartSummary";
 import ContinueShoppingButton from "./components/ContinueShoppingButton";
 
 const Carrinho = () => {
-  const id = 1;
+  const [total, setTotal] = useState(0);
 
   return (
     <>
@@ -17,11 +20,11 @@ const Carrinho = () => {
 
       <div className="flex items-start">
         <div className="flex flex-col w-[60%]">
-          <CartList userId={id} />
+          <CartList onTotalChange={setTotal} />
         </div>
 
         <div className="sticky top-10">
-          <CartSummary />
+          <CartSummary total={total} />
         </div>
       </div>
 
