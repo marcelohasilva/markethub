@@ -1,16 +1,28 @@
+
 import { FaHeart, FaTrash, FaStar, FaRegStar } from "react-icons/fa";
 import type { FavoriteProduct } from "@/utils/favorites-storage";
 
+type FavoriteCardProduct = Omit<FavoriteProduct, "id"> & {
+  id: string;
+};
+
 interface CardFavoritoProps {
-  product: FavoriteProduct;
-  onRemove: (id: number) => void;
+  product: FavoriteCardProduct;
+  onRemove: (id: string) => void;
 }
 
-export default function CardFavorito({ product, onRemove }: CardFavoritoProps) {
+export default function CardFavorito({
+  product,
+  onRemove,
+}: CardFavoritoProps) {
   return (
     <div className="w-[220px] bg-white rounded-2xl shadow-lg p-3">
       <div className="relative bg-[#E0E0E0] rounded-xl h-[180px] flex items-center justify-center overflow-hidden">
-        <img src={product.image} alt="Produto" className="h-[140px] object-contain hover:scale-105 transition"/>
+        <img
+          src={product.image}
+          alt={product.name || "Produto"}
+          className="h-[140px] object-contain hover:scale-105 transition"
+        />
 
         <div className="absolute top-2 right-2 flex flex-col gap-2">
           <button
@@ -20,6 +32,7 @@ export default function CardFavorito({ product, onRemove }: CardFavoritoProps) {
           >
             <FaHeart className="text-red-500 text-base" />
           </button>
+
           <button
             type="button"
             onClick={() => onRemove(product.id)}
@@ -46,6 +59,7 @@ export default function CardFavorito({ product, onRemove }: CardFavoritoProps) {
       <p className="text-sm font-bold text-[#1A1C27]">
         {product.price} no Pix
       </p>
+
       <p className="text-xs text-gray-600">
         ou 2x de R$ 20,00
       </p>
@@ -55,4 +69,4 @@ export default function CardFavorito({ product, onRemove }: CardFavoritoProps) {
       </button>
     </div>
   );
-}  
+}
