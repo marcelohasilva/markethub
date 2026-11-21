@@ -1,50 +1,9 @@
-import { useEffect, useState } from "react";
 
-interface CartItem {
-  price: string;   // vem como string da API
-  quantity: number;
+interface CartSummaryProps {
+  total: number;
 }
 
-const CartSummary = () => {
-  const id = 1;
-
-  const [total, setTotal] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/cart/${id}`
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-          const items: CartItem[] = result.data;
-
-          const totalCalculado = items.reduce(
-            (acc, item) =>
-              acc + Number(item.price) * item.quantity,
-            0
-          );
-
-          setTotal(totalCalculado);
-        }
-      } catch (error) {
-        console.error("Erro ao calcular total do carrinho", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
-  if (loading) {
-    return <p className="ml-[80px] mt-[30px]">Calculando total...</p>;
-  }
-
+const CartSummary = ({ total }: CartSummaryProps) => {
   return (
     <div className="ml-[80px] mt-[30px]">
       <div className="bg-white w-[400px] ml-[20px] shadow-xl rounded-[1rem] border border-gray-100 p-10">

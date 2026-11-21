@@ -1,56 +1,56 @@
 
+"use client";
+
 interface ButtonCartProps {
   productId: string;
-  userId: string | null;
-  storeId: number;
+  userId?: string | null;
+  storeId?: number;
   className?: string;
   label?: string;
 }
 
 const ButtonCart = ({
   productId,
-  userId,
-  storeId,
   className,
   label,
 }: ButtonCartProps) => {
   const handleAddToCart = async () => {
     try {
-      if (!userId) {
+      const token = localStorage.getItem("api_token");
+
+      if (!token) {
         alert("Faça login para adicionar ao carrinho.");
         return;
       }
 
-      const token = localStorage.getItem("api_token");
+      const response = await fetch(
+        "http://localhost:3000/v1/carts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            productId,
+          }),
+        }
+      );
 
-      if (!token) {
-        alert("Sua sessão expirou. Faça login novamente.");
-        return;
-      }
-
-      const response = await fetch("http://localhost:8000/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          user_id: userId,
-          product_id: productId,
-          store_id: storeId,
-          quantity: 1,
-        }),
-      });
-
-      const result = await response.json();
+      const result =
+        response.status === 204
+          ? null
+          : await response.json();
 
       if (!response.ok) {
-        throw new Error(result?.message || "Erro ao adicionar ao carrinho.");
+        throw new Error(
+          result?.message || "Erro ao adicionar ao carrinho."
+        );
       }
 
       alert("Produto adicionado ao carrinho!");
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao adicionar produto:", error);
 
       alert(
         error instanceof Error
