@@ -35,7 +35,7 @@ const HomeMarketplaces = () => {
             key={item.name}
             type="button"
             aria-label={item.name}
-            className="flex cursor-pointer items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="flex cursor-pointer items-center justify-center rounded-xl border-2 border-gray-200 bg-white px-4 py-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-[#111] dark:border-white"
           >
             <img
               src={item.logo}

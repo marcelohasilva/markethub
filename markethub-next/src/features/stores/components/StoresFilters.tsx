@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import StoresSelect from "./StoresSelect";
 
 type StoresFiltersProps = {
   searchTerm: string;
@@ -44,35 +45,27 @@ const StoresFilters = ({
         </button>
       </div>
 
-      <label className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[9px] md:font-semibold md:text-[#98a2b3] md:shadow-none">
+      <div className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[9px] md:font-semibold md:text-[#98a2b3] md:shadow-none">
         Categoria
-        <select
+        <StoresSelect
+          label="Categoria"
           value={category}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          className="h-7 cursor-pointer appearance-none bg-transparent text-[18px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:appearance-auto md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[12px] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
-        >
-          <option value="Todas">Todas</option>
-          <option value="Eletronicos">Eletrônicos</option>
-          <option value="Esportes">Esportes</option>
-          <option value="Moda">Moda</option>
-          <option value="Casa">Casa</option>
-        </select>
-      </label>
+          onChange={onCategoryChange}
+          options={["Todas", "Eletrônicos", "Esportes", "Moda", "Casa"]}
+          className="h-7 bg-transparent text-[18px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[12px] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
+        />
+      </div>
 
-      <label className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[9px] md:font-semibold md:text-[#98a2b3] md:shadow-none">
+      <div className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[9px] md:font-semibold md:text-[#98a2b3] md:shadow-none">
         Localização
-        <select
+        <StoresSelect
+          label="Localização"
           value={location}
-          onChange={(e) => onLocationChange(e.target.value)}
-          className="h-7 cursor-pointer appearance-none bg-transparent text-[18px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:appearance-auto md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[12px] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
-        >
-          <option value="Todas">Todas</option>
-          <option value="SP">São Paulo</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PR">Paraná</option>
-        </select>
-      </label>
+          onChange={onLocationChange}
+          options={["Todas", "São Paulo", "Rio de Janeiro", "Minas Gerais", "Paraná"]}
+          className="h-7 bg-transparent text-[18px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[12px] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
+        />
+      </div>
 
       <label className="flex h-[66px] cursor-pointer items-center justify-between gap-2 rounded-lg border border-[#d9deea] bg-white px-4 text-[17px] font-medium text-[#344054] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-[38px] md:justify-start md:rounded-none md:border-0 md:bg-transparent md:px-0 md:text-[11px] md:shadow-none">
         <span className="md:hidden">Oficiais</span>
@@ -88,19 +81,16 @@ const StoresFilters = ({
           <span className="absolute left-1 h-4 w-4 rounded-full bg-white shadow-sm transition peer-checked:translate-x-6" />
         </span>
       </label>
-      <label className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:shadow-none">
+      <div className="flex h-[66px] cursor-pointer flex-col justify-center gap-1 rounded-lg border border-[#d9deea] bg-white px-4 text-[13px] font-medium text-[#667085] shadow-[0_2px_8px_rgba(16,24,40,0.04)] md:h-auto md:rounded-none md:border-0 md:bg-transparent md:px-0 md:shadow-none">
         <span className="md:hidden">Ordenar</span>
-        <select
+        <StoresSelect
+          label="Ordenar lojas"
           value={sortBy}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="h-7 cursor-pointer appearance-none bg-transparent text-[16px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:appearance-auto md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[11px] md:text-[#344054] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
-        >
-          <option>Mais relevantes</option>
-          <option>Maior rating</option>
-          <option>Mais vendidas</option>
-          <option>Mais recentes</option>
-        </select>
-      </label>
+          onChange={onSortChange}
+          options={["Mais relevantes", "Maior rating", "Mais vendidas", "Mais recentes"]}
+          className="h-7 bg-transparent text-[16px] font-semibold text-[#101828] focus:outline-none md:h-[38px] md:rounded-md md:border md:border-[#d9deea] md:bg-white md:px-3 md:text-[11px] md:text-[#344054] md:shadow-[0_2px_8px_rgba(16,24,40,0.04)]"
+        />
+      </div>
     </div>
   );
 };

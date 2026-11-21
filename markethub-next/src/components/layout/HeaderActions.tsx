@@ -8,8 +8,10 @@ import {
   FiHeart,
   FiLogOut,
   FiMapPin,
+  FiMoon,
   FiSettings,
   FiShoppingCart,
+  FiSun,
   FiUser,
 } from "react-icons/fi";
 import { HiOutlineBuildingStorefront } from "react-icons/hi2";
@@ -67,6 +69,21 @@ export default function Actions({ variant = "full" }: ActionsProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<HeaderUser | null>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    const darkMode = savedTheme === "dark";
+    setIsDarkMode(darkMode);
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, []);
+
+  function toggleTheme() {
+    const nextIsDarkMode = !isDarkMode;
+    setIsDarkMode(nextIsDarkMode);
+    document.documentElement.classList.toggle("dark", nextIsDarkMode);
+    localStorage.setItem("theme", nextIsDarkMode ? "dark" : "light");
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -154,6 +171,15 @@ export default function Actions({ variant = "full" }: ActionsProps) {
 
   return (
     <div className="flex items-center justify-between gap-4 md:gap-6 lg:justify-end flex-nowrap">
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-label={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+        title={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-700 transition hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white"
+      >
+        {isDarkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
+      </button>
       <button
         onClick={() => router.push("/favoritos")}
         className="flex items-center gap-2 text-gray-700 font-semibold transition hover:text-gray-900 cursor-pointer"
