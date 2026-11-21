@@ -1,3 +1,4 @@
+import CollectionsPage from "@/features/collections/CollectionsPage";
 
 "use client";
 
